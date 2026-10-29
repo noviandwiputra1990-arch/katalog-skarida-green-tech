@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Operator | Skarida Green Tech</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="big_logo_2.png" type="image/png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#1e3a8a',
+                        navylight: '#1e40af',
+                        nature: '#15803d',
+                        naturelight: '#22c55e',
+                        gold: '#eab308',
+                        slate50: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .page-transition { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 h-screen overflow-hidden flex text-slate-800">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-navy text-white flex flex-col hidden md:flex flex-shrink-0 shadow-xl z-20">
+        <!-- Logo Area -->
+        <div class="h-16 flex items-center px-6 border-b border-white/10 cursor-pointer" onclick="switchPage('dashboard')">
+            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-gold mr-3 overflow-hidden">
+                 <img src="https://placehold.co/100x100/ffffff/1e3a8a?text=SMK" alt="Logo SMAN 2 Tegalsari" class="w-full h-full object-contain p-0.5">
+            </div>
+            <div>
+                <h1 class="font-bold text-sm leading-tight tracking-wide">Skarida Green Tech</h1>
+                <p class="text-[10px] text-gold font-semibold">Panel Operator (Super Admin)</p>
+            </div>
+        </div>
+
+        <!-- Nav Links -->
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2" id="sidebar-menu">
+            <p class="px-2 text-xs font-semibold text-blue-300 uppercase tracking-wider mb-2 mt-4">Menu Tinjauan</p>
+            
+            <button onclick="switchPage('dashboard')" id="menu-dashboard" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
+                <i class="fas fa-chart-pie w-6 text-left"></i> Dashboard
+            </button>
+            
+            <button onclick="switchPage('validasi')" id="menu-validasi" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
+                <i class="fas fa-clipboard-check w-6 text-left"></i> Pusat Validasi
+                <span class="ml-auto bg-red-500 text-white py-0.5 px-2 rounded-full text-xs font-bold shadow-sm" id="badgeValidasi">0</span>
+            </button>
+            
+            <button onclick="switchPage('katalog')" id="menu-katalog" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
+                <i class="fas fa-leaf w-6 text-left"></i> Master Katalog
+            </button>
+            
+            <p class="px-2 text-xs font-semibold text-blue-300 uppercase tracking-wider mb-2 mt-6">Kewenangan Operator</p>
+            
+            <button onclick="switchPage('pengguna')" id="menu-pengguna" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg bg-nature text-white shadow-md transition">
+                <i class="fas fa-users-cog w-6 text-left"></i> Manajemen Akun
+            </button>
+            
+            <button onclick="switchPage('ekspor')" id="menu-ekspor" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
+                <i class="fas fa-file-export w-6 text-left"></i> Ekspor Laporan
+            </button>
+        </nav>
+
+        <!-- User Profile -->
+        <div class="p-4 border-t border-white/10 bg-slate-900/50">
+            <div class="flex items-center">
+                <div class="w-9 h-9 rounded-full bg-gold text-navy flex items-center justify-center font-bold text-sm border-2 border-white/20">
+                    OP
+                </div>
+                <div class="ml-3 text-left">
+                    <p class="text-sm font-medium text-white">Bpk. Budi Utama</p>
+                    <p class="text-[10px] text-blue-300">Kepala Lab / Operator</p>
+                </div>
+            </div>
+            <button onclick="window.location.href='index.html'" class="mt-4 w-full flex justify-center items-center px-4 py-2 text-sm font-medium rounded-lg border border-red-500/50 text-red-300 hover:bg-red-500 hover:text-white transition">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50 relative">
+        
+        <!-- Topbar -->
+        <header class="h-16 bg-white shadow-sm flex items-center justify-between px-6 z-10 flex-shrink-0">
+            <div class="flex items-center">
+                <button class="md:hidden text-slate-500 hover:text-navy focus:outline-none mr-4">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h2 id="topbar-title" class="text-xl font-bold text-navy">Manajemen Akun Pengguna</h2>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold border border-blue-100 hidden sm:flex items-center">
+                    <i class="fas fa-shield-alt mr-1"></i> Akses Operator Aktif
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 smooth-scroll relative">
+            
+            <!-- Loading Indicator Global -->
+            <div id="globalLoader" class="hidden absolute inset-0 z-50 bg-slate-50 flex flex-col items-center justify-center">
+                <i class="fas fa-circle-notch fa-spin text-4xl text-navy mb-4"></i>
+                <p class="text-slate-600 font-bold">Sinkronisasi Database...</p>
+            </div>
+
+            <!-- ================= PAGE: PENGGUNA ================= -->
+            <section id="page-pengguna" class="block page-transition">
+                <div class="mb-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">Manajemen Akses Sistem</h3>
+                        <p class="text-sm text-slate-500">Tambah, ubah, atau hapus akun Guru dan Kelompok Siswa (Kontributor).</p>
+                    </div>
+                    <button onclick="openUserModal()" class="bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-navylight transition shadow-md flex items-center gap-2">
+                        <i class="fas fa-user-plus"></i> Tambah Pengguna Baru
+                    </button>
+                </div>
+
+                <!-- Statistik Akun -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl"><i class="fas fa-users"></i></div>
+                        <div><p class="text-xs text-slate-500 font-bold uppercase">Total Akun</p><p class="text-2xl font-bold text-navy" id="totalAkunCard">0</p></div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-nature/10 text-nature flex items-center justify-center text-xl"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div><p class="text-xs text-slate-500 font-bold uppercase">Akun Guru</p><p class="text-2xl font-bold text-nature" id="totalGuruCard">0</p></div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-xl"><i class="fas fa-user-graduate"></i></div>
+                        <div><p class="text-xs text-slate-500 font-bold uppercase">Kelompok Siswa</p><p class="text-2xl font-bold text-amber-600" id="totalSiswaCard">0</p></div>
+                    </div>
+                </div>
+
+                <!-- Tabel Manajemen Akun -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50">
+                        <div class="flex space-x-1">
+                            <button class="px-4 py-1.5 bg-navy text-white text-xs font-bold rounded-md shadow-sm">Semua</button>
+                        </div>
+                        <div class="relative w-full sm:w-64">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="text" placeholder="Cari nama atau username..." class="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm w-full outline-none focus:border-navy focus:ring-1 focus:ring-navy">
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase">Profil Pengguna</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase">Role / Hak Akses</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase">Username / ID</th>
+                                    <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody" class="bg-white divide-y divide-slate-100">
+                                <!-- Data dimuat secara dinamis oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE: DASHBOARD ================= -->
+            <section id="page-dashboard" class="hidden page-transition">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-slate-800">Tinjauan Sistem Skarida Green Tech</h3>
+                    <p class="text-sm text-slate-500">Pantau aktivitas penginputan data, status validasi, dan pertumbuhan pengguna.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-gradient-to-br from-navy to-navylight rounded-2xl p-5 shadow-sm text-white flex flex-col hover:-translate-y-1 transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-medium text-white/80 uppercase">Total Pengguna</p>
+                            <i class="fas fa-users text-white/50"></i>
+                        </div>
+                        <h3 id="statTotalUsers" class="text-3xl font-bold">0</h3>
+                        <p class="text-[10px] text-blue-200 mt-2">Semua Role / Akses Sistem</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col hover:border-nature hover:shadow-md transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Tanaman Live</p>
+                            <i class="fas fa-leaf text-nature"></i>
+                        </div>
+                        <h3 id="statLive" class="text-3xl font-bold text-nature">0</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Berhasil Tayang di Publik</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col hover:border-amber-400 hover:shadow-md transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Menunggu Validasi</p>
+                            <i class="fas fa-clipboard-list text-amber-500"></i>
+                        </div>
+                        <h3 id="statPending" class="text-3xl font-bold text-amber-500">0</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Butuh Validasi Guru Mapel</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col hover:border-red-500 hover:shadow-md transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Data Revisi</p>
+                            <i class="fas fa-exclamation-triangle text-red-500"></i>
+                        </div>
+                        <h3 id="statRevisi" class="text-3xl font-bold text-red-500">0</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Harus Diperbaiki Siswa</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Progress Chart -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                            <h4 class="font-bold text-navy">Diagram Progres Input Data per Kelas</h4>
+                            <select id="sortProgress" onchange="renderProgressChart()" class="text-xs border border-slate-300 rounded-lg p-2 focus:border-navy focus:ring-1 focus:ring-navy outline-none bg-slate-50 cursor-pointer shadow-sm transition">
+                                <option value="agregat" selected>Tampilan: Agregat Total (Semua Kelas)</option>
+                                <option value="kelas">Urutkan: Nama Kelas (A-Z)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Legend Status -->
+                        <div class="flex flex-wrap items-center gap-4 mb-5 text-[10px] font-bold text-slate-500 uppercase">
+                            <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-nature rounded-sm"></div> Live (Approved)</span>
+                            <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-amber-400 rounded-sm"></div> Validasi (Pending)</span>
+                            <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-red-500 rounded-sm"></div> Revisi (Ditolak)</span>
+                        </div>
+
+                        <div id="progressChartContainer" class="space-y-5">
+                            <!-- Data akan dimuat secara dinamis oleh JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE: PUSAT VALIDASI ================= -->
+            <section id="page-validasi" class="hidden page-transition">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-amber-50/30">
+                        <div>
+                            <h3 class="text-lg font-bold text-navy">Antrean Validasi Guru Lintas Mapel</h3>
+                            <p class="text-xs text-slate-500">Sebagai Operator, Anda berhak memantau data yang menunggu review.</p>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Tanaman & Pengusul</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Status Validasi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="validasiTableBody" class="bg-white divide-y divide-slate-100">
+                                <!-- Data dimuat secara dinamis oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE: MASTER KATALOG ================= -->
+            <section id="page-katalog" class="hidden page-transition">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-green-50/30">
+                        <div>
+                            <h3 class="text-lg font-bold text-navy">Master Data Katalog (Live)</h3>
+                            <p class="text-xs text-slate-500">Daftar tanaman tayang di publik (Lolos validasi IPAS, B. Indo, dan MTK).</p>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Identitas Tanaman</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Pengelola</th>
+                                </tr>
+                            </thead>
+                            <tbody id="katalogTableBody" class="bg-white divide-y divide-slate-100">
+                                <!-- Data dimuat secara dinamis oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ================= PAGE: EKSPOR LAPORAN ================= -->
+            <section id="page-ekspor" class="hidden page-transition">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-navy mb-2">Eskpor Data & Laporan</h3>
+                    <p class="text-sm text-slate-500">Fitur ekspor laporan tersedia pada pembaruan mendatang.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL: TAMBAH / EDIT PENGGUNA -->
+    <div id="userModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg max-h-[90vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden relative">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0">
+                <h3 id="userModalTitle" class="text-lg font-bold text-navy">Form Pengguna Baru</h3>
+                <button onclick="closeUserModal()" class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto flex-1 space-y-4 bg-white">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Role / Hak Akses <span class="text-red-500">*</span></label>
+                    <select id="userRole" onchange="toggleAnggotaField()" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none bg-white">
+                        <option value="Operator">Operator (Superadmin)</option>
+                        <option value="Guru IPAS">Guru IPAS (Reviewer)</option>
+                        <option value="Guru B. Indonesia">Guru Bahasa Indonesia (Reviewer)</option>
+                        <option value="Guru Matematika">Guru Matematika (Reviewer)</option>
+                        <option value="Kelompok Siswa" selected>Kelompok Siswa (Kontributor)</option>
+                    </select>
+                </div>
+
+                <div class="pt-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Nama Lengkap / Nama Kelompok <span class="text-red-500">*</span></label>
+                    <input type="text" id="inputNama" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Misal: Bpk. Ahmad (Guru) atau Kelompok 1 (Siswa)">
+                </div>
+
+                <div id="anggotaKelompokDiv" class="block space-y-4">
+                    <div class="pt-4 border-t border-slate-100">
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Kelas / Jurusan <span class="text-red-500">*</span></label>
+                        <input type="text" id="inputKelas" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none bg-blue-50/30" placeholder="Contoh: X RPL 1, XI TKR 2...">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Detail Anggota Kelompok <span class="text-red-500">*</span></label>
+                        <textarea rows="2" id="inputAnggota" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Tuliskan nama lengkap seluruh anggota kelompok dipisah koma..."></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Username / NIS / NIP <span class="text-red-500">*</span></label>
+                    <input type="text" id="inputUsername" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Digunakan untuk login">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Password Sistem <span class="text-red-500">*</span></label>
+                    <input type="password" id="inputPassword" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Buat password baru">
+                </div>
+            </div>
+            
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 flex-shrink-0">
+                <button onclick="closeUserModal()" class="px-4 py-2 border border-slate-300 text-slate-600 font-bold rounded-lg hover:bg-white text-sm transition">Batal</button>
+                <button onclick="saveUser()" id="userModalBtn" class="px-5 py-2 bg-navy text-white font-bold rounded-lg shadow-md hover:bg-navylight text-sm transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan Akun</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIC NAVIGASI SPA & MODAL -->
+    <script>
+        const pages = ['pengguna', 'dashboard', 'validasi', 'katalog', 'ekspor'];
+        const titles = {
+            pengguna: 'Manajemen Akun Pengguna',
+            dashboard: 'Dashboard Utama',
+            validasi: 'Pusat Validasi Lintas Mapel',
+            katalog: 'Master Katalog TOGA',
+            ekspor: 'Ekspor Data Penilaian'
+        };
+
+        function switchPage(pageId) {
+            pages.forEach(p => {
+                document.getElementById('page-' + p).classList.add('hidden');
+                document.getElementById('page-' + p).classList.remove('block');
+            });
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+            document.getElementById('page-' + pageId).classList.add('block');
+            document.getElementById('topbar-title').innerText = titles[pageId];
+
+            pages.forEach(p => {
+                const btn = document.getElementById('menu-' + p);
+                if(btn) {
+                    if(p === pageId) {
+                        btn.classList.add('bg-nature', 'text-white', 'shadow-md');
+                        btn.classList.remove('text-blue-100', 'hover:bg-white/10');
+                    } else {
+                        btn.classList.remove('bg-nature', 'text-white', 'shadow-md');
+                        btn.classList.add('text-blue-100', 'hover:bg-white/10');
+                    }
+                }
+            });
+        }
+
+        function openUserModal() { 
+            document.getElementById('userModal').classList.remove('hidden'); 
+            toggleAnggotaField();
+        }
+        function closeUserModal() { document.getElementById('userModal').classList.add('hidden'); }
+        
+        function toggleAnggotaField() {
+            const role = document.getElementById('userRole').value;
+            const div = document.getElementById('anggotaKelompokDiv');
+            if(role === 'Kelompok Siswa') {
+                div.classList.remove('hidden');
+                div.classList.add('block');
+            } else {
+                div.classList.add('hidden');
+                div.classList.remove('block');
+            }
+        }
+
+        // ================= KONFIGURASI API & DATA DINAMIS =================
+        const API_URL = "https://script.google.com/macros/s/AKfycbxi6_oVqHFoIR1JiNyeKismyeJilacmo9gcpT3-YaTmgvqUvZ9AlMdFvARzWHk7khFO/exec"; 
+        
+        let dbUsers = [];
+        let dbPlants = [];
+        let classProgressData = [];
+
+        async function loadDatabase() {
+            try {
+                // Tampilkan loader
+                document.getElementById('globalLoader').classList.remove('hidden');
+                
+                // Mencegah error 'Failed to parse URL' jika API_URL masih berupa teks placeholder
+                if (!API_URL.startsWith("http")) {
+                    console.warn("URL API belum diganti. Menampilkan dashboard kosong.");
+                    alert("Peringatan: URL API belum dimasukkan! Silakan ganti teks 'URL_GOOGLE_APPS_SCRIPT_ANDA_DISINI' dengan URL Apps Script milik Anda.");
+                    dbUsers = [];
+                    dbPlants = [];
+                    renderDashboardData();
+                    return; // Hentikan eksekusi fetch
+                }
+
+                // Fetch dari API yang sudah dideploy
+                const response = await fetch(API_URL + "?action=operator"); 
+                const data = await response.json();
+                
+                dbUsers = data.users || [];
+                dbPlants = data.plants || [];
+                
+                renderDashboardData();
+            } catch (error) {
+                console.error("Gagal terhubung ke Database.", error);
+                alert("Gagal memuat data dari database. Pastikan URL API sudah Anda masukkan dengan benar di dalam kode HTML.");
+            } finally {
+                document.getElementById('globalLoader').classList.add('hidden');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadDatabase);
+
+        function renderDashboardData() {
+            renderUsersTable();
+            renderValidationTable();
+            renderCatalogTable();
+            updateStats();
+            calculateProgressData();
+            renderProgressChart();
+        }
+
+        function renderUsersTable() {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+            
+            dbUsers.forEach(u => {
+                let badgeClass = 'bg-slate-100 text-slate-800';
+                if(u.role === 'Operator') badgeClass = 'bg-slate-800 text-white';
+                else if(u.role && u.role.includes('IPAS')) badgeClass = 'bg-amber-100 text-amber-800 border border-amber-200';
+                else if(u.role && u.role.includes('B. Indonesia')) badgeClass = 'bg-blue-100 text-blue-800 border border-blue-200';
+                else if(u.role && u.role.includes('Matematika')) badgeClass = 'bg-purple-100 text-purple-800 border border-purple-200';
+                else if(u.role === 'Kelompok Siswa') badgeClass = 'bg-nature/10 text-nature border border-nature/20';
+                
+                let initial = u.role === 'Operator' ? 'OP' : (u.role === 'Kelompok Siswa' ? 'K' : (u.nama_lengkap ? u.nama_lengkap.charAt(0) : 'U'));
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm shadow-inner border border-slate-300">${initial}</div>
+                                <div class="ml-3">
+                                    <div class="text-sm font-bold text-slate-800">${u.nama_lengkap || '-'}</div>
+                                    <div class="text-xs text-slate-500 whitespace-normal max-w-[200px] leading-tight">${u.role === 'Kelompok Siswa' ? (u.anggota_kelompok || u.kelas_jurusan) : (u.kelas_jurusan || '-')}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold shadow-sm ${badgeClass}">${u.role || 'User'}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 font-mono">${u.username || '-'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+                            <button class="text-slate-400 hover:text-blue-600 px-2 py-1 rounded transition" title="Edit Akun"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderValidationTable() {
+            const tbody = document.getElementById('validasiTableBody');
+            tbody.innerHTML = '';
+            
+            const pendingPlants = dbPlants.filter(p => p.status_publikasi !== 'Live');
+            
+            if(document.getElementById('badgeValidasi')) {
+                document.getElementById('badgeValidasi').innerText = pendingPlants.length;
+            }
+            
+            pendingPlants.forEach(p => {
+                let statusHtml = '';
+                if(p.status_b_indo === 'Pending') statusHtml += `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800 w-max border border-amber-200 mb-1">B. Indo: Pending</span><br>`;
+                if(p.status_ipas === 'Pending') statusHtml += `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800 w-max border border-amber-200">IPAS: Pending</span>`;
+                
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-lg object-cover bg-slate-100 border border-slate-200 shadow-sm" src="${p.image}" onerror="this.src='https://placehold.co/150/15803d/ffffff?text=Tanaman'" alt="Img">
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-navy">${p.nama_lokal || 'Tanaman Baru'}</div>
+                                    <div class="text-xs text-slate-500">${p.pengelola || '-'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex flex-col gap-1">
+                                ${statusHtml || `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800 w-max border border-red-200 mb-1">Dalam Revisi</span>`}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderCatalogTable() {
+            const tbody = document.getElementById('katalogTableBody');
+            tbody.innerHTML = '';
+            
+            const livePlants = dbPlants.filter(p => p.status_publikasi === 'Live');
+            
+            livePlants.forEach(p => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-lg object-cover border border-slate-200 shadow-sm" src="${p.image}" onerror="this.src='https://placehold.co/150/15803d/ffffff?text=Tanaman'" alt="Img">
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-slate-800">${p.nama_lokal}</div>
+                                    <div class="text-xs text-slate-500 italic">${p.nama_latin}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${p.pengelola}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('statTotalUsers').innerText = dbUsers.length;
+            document.getElementById('statLive').innerText = dbPlants.filter(p => p.status_publikasi === 'Live').length;
+            document.getElementById('statPending').innerText = dbPlants.filter(p => p.status_publikasi === 'Pending').length;
+            document.getElementById('statRevisi').innerText = dbPlants.filter(p => p.status_publikasi === 'Revisi').length;
+            
+            if(document.getElementById('totalAkunCard')) {
+                document.getElementById('totalAkunCard').innerText = dbUsers.length;
+                document.getElementById('totalGuruCard').innerText = dbUsers.filter(u => u.role && u.role.includes('Guru')).length;
+                document.getElementById('totalSiswaCard').innerText = dbUsers.filter(u => u.role === 'Kelompok Siswa').length;
+            }
+        }
+
+        function calculateProgressData() {
+            const groups = {};
+            dbPlants.forEach(p => {
+                if(!p.kelas || p.kelas === '-') return;
+                
+                if(!groups[p.kelas]) {
+                    groups[p.kelas] = { className: p.kelas, total: 10, live: 0, val: 0, rev: 0 }; 
+                }
+                if(p.status_publikasi === 'Live') groups[p.kelas].live++;
+                else if(p.status_publikasi === 'Pending') groups[p.kelas].val++;
+                else if(p.status_publikasi === 'Revisi') groups[p.kelas].rev++;
+            });
+            classProgressData = Object.values(groups);
+        }
+
+        // ================= LOGIKA MENYIMPAN USER KE GOOGLE SHEET =================
+        async function saveUser() {
+            const btn = document.getElementById('userModalBtn');
+            const originalText = btn.innerHTML;
+            
+            // Peringatan jika URL belum diganti (Optional check)
+            if(!API_URL || API_URL === "URL_GOOGLE_APPS_SCRIPT_ANDA_DISINI" || API_URL.includes("URL_GOOGLE")) {
+                alert("Peringatan: URL API belum dimasukkan! Silakan edit file HTML dan masukkan URL Apps Script Anda pada baris konstanta API_URL.");
+                return;
+            }
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            const payload = {
+                role: document.getElementById('userRole').value,
+                nama_lengkap: document.getElementById('inputNama').value,
+                kelas_jurusan: document.getElementById('inputKelas').value,
+                anggota_kelompok: document.getElementById('inputAnggota').value,
+                username: document.getElementById('inputUsername').value,
+                password: document.getElementById('inputPassword').value
+            };
+
+            // Validasi Sederhana
+            if(!payload.nama_lengkap || !payload.username || !payload.password) {
+                alert("Harap lengkapi Nama, Username, dan Password!");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + "?action=addUser", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8", 
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if(result.success) {
+                    alert("✅ Akun berhasil disimpan ke Database!");
+                    closeUserModal();
+                    
+                    document.getElementById('inputNama').value = '';
+                    document.getElementById('inputKelas').value = '';
+                    document.getElementById('inputAnggota').value = '';
+                    document.getElementById('inputUsername').value = '';
+                    document.getElementById('inputPassword').value = '';
+                    
+                    loadDatabase(); 
+                } else {
+                    alert("❌ Gagal menyimpan: " + result.message);
+                }
+            } catch (error) {
+                console.error("Error API:", error);
+                alert("⚠️ Terjadi kesalahan jaringan. Pastikan URL API sudah benar.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        }
+
+        // ================= DIAGRAM PROGRES =================
+        function renderProgressChart() {
+            const container = document.getElementById('progressChartContainer');
+            if(!container) return;
+
+            const sortVal = document.getElementById('sortProgress') ? document.getElementById('sortProgress').value : 'agregat';
+            let htmlOutput = '';
+
+            const renderCard = (title, total, live, val, rev) => {
+                const submit = live + val + rev;
+                const submitPct = total > 0 ? Math.round((submit / total) * 100) : 0;
+                const wLive = Math.round((live / total) * 100) || 0;
+                const wVal = Math.round((val / total) * 100) || 0;
+                const wRev = Math.round((rev / total) * 100) || 0;
+
+                return `
+                    <div class="page-transition bg-white border border-slate-100 p-4 rounded-xl shadow-sm hover:border-blue-200 transition duration-300">
+                        <div class="flex justify-between items-center mb-4 border-b border-slate-50 pb-2">
+                            <span class="text-sm font-bold text-navy">${title} (${total} Kelompok)</span>
+                            <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-md shadow-inner">${submitPct}% Selesai</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-bold text-slate-500 w-14 uppercase tracking-wider">Live</span>
+                                <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                                    <div class="bg-nature h-full rounded-full transition-all duration-700 relative" style="width: ${wLive}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-nature w-24 text-right">${live} Kelompok</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-bold text-slate-500 w-14 uppercase tracking-wider">Validasi</span>
+                                <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                                    <div class="bg-amber-400 h-full rounded-full transition-all duration-700 relative" style="width: ${wVal}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-amber-500 w-24 text-right">${val} Kelompok</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-bold text-slate-500 w-14 uppercase tracking-wider">Revisi</span>
+                                <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                                    <div class="bg-red-500 h-full rounded-full transition-all duration-700 relative" style="width: ${wRev}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-red-500 w-24 text-right">${rev} Kelompok</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            if(classProgressData.length === 0) {
+                container.innerHTML = '<p class="text-sm text-slate-500 italic py-4">Belum ada data progres kelompok siswa dari database.</p>';
+                return;
+            }
+
+            if (sortVal === 'agregat') {
+                let total = 0, live = 0, val = 0, rev = 0;
+                classProgressData.forEach(item => {
+                    total += item.total; live += item.live; val += item.val; rev += item.rev;
+                });
+                htmlOutput = renderCard("Ringkasan Total (Seluruh Kelas)", total, live, val, rev);
+            } else {
+                let sortedData = [...classProgressData]; 
+                if(sortVal === 'kelas') sortedData.sort((a, b) => a.className.localeCompare(b.className));
+                
+                htmlOutput = sortedData.map(item => renderCard(item.className, item.total, item.live, item.val, item.rev)).join('');
+            }
+            container.innerHTML = htmlOutput;
+        }
+
+    </script>
+</body>
+</html>
