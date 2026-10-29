@@ -57,7 +57,6 @@
 
     <!-- SIDEBAR -->
     <aside class="w-64 bg-navy text-white flex flex-col hidden md:flex flex-shrink-0 shadow-xl z-20">
-        <!-- Logo Area -->
         <div class="h-16 flex items-center px-6 border-b border-white/10 cursor-pointer" onclick="switchPage('dashboard')">
             <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-gold mr-3 overflow-hidden">
                  <img src="big_logo_2.png" alt="Logo SMAN 2 Tegalsari" class="w-full h-full object-contain p-0.5">
@@ -68,7 +67,6 @@
             </div>
         </div>
 
-        <!-- Nav Links -->
         <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2" id="sidebar-menu">
             <p class="px-2 text-xs font-semibold text-blue-300 uppercase tracking-wider mb-2 mt-4">Menu Tinjauan</p>
             
@@ -96,7 +94,6 @@
             </button>
         </nav>
 
-        <!-- User Profile -->
         <div class="p-4 border-t border-white/10 bg-slate-900/50">
             <div class="flex items-center">
                 <div class="w-9 h-9 rounded-full bg-gold text-navy flex items-center justify-center font-bold text-sm border-2 border-white/20">
@@ -115,8 +112,6 @@
 
     <!-- MAIN CONTENT WRAPPER -->
     <div class="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50 relative">
-        
-        <!-- Topbar -->
         <header class="h-16 bg-white shadow-sm flex items-center justify-between px-6 z-10 flex-shrink-0">
             <div class="flex items-center">
                 <button class="md:hidden text-slate-500 hover:text-navy focus:outline-none mr-4">
@@ -131,16 +126,14 @@
             </div>
         </header>
 
-        <!-- Main Scrollable Area -->
         <main class="flex-1 overflow-y-auto p-4 md:p-6 smooth-scroll relative">
             
-            <!-- Loading Indicator Global -->
             <div id="globalLoader" class="hidden absolute inset-0 z-50 bg-slate-50 flex flex-col items-center justify-center">
                 <i class="fas fa-circle-notch fa-spin text-4xl text-navy mb-4"></i>
                 <p class="text-slate-600 font-bold">Sinkronisasi Database...</p>
             </div>
 
-            <!-- ================= PAGE: PENGGUNA ================= -->
+            <!-- PAGE: PENGGUNA -->
             <section id="page-pengguna" class="block page-transition">
                 <div class="mb-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
                     <div>
@@ -152,7 +145,6 @@
                     </button>
                 </div>
 
-                <!-- Statistik Akun -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-4">
                         <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl"><i class="fas fa-users"></i></div>
@@ -168,7 +160,6 @@
                     </div>
                 </div>
 
-                <!-- Tabel Manajemen Akun -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50">
                         <div class="flex space-x-1">
@@ -191,14 +182,13 @@
                                 </tr>
                             </thead>
                             <tbody id="usersTableBody" class="bg-white divide-y divide-slate-100">
-                                <!-- Data dimuat secara dinamis oleh JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= PAGE: DASHBOARD ================= -->
+            <!-- PAGE: DASHBOARD -->
             <section id="page-dashboard" class="hidden page-transition">
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-slate-800">Tinjauan Sistem Skarida Green Tech</h3>
@@ -241,7 +231,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Progress Chart -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                             <h4 class="font-bold text-navy">Diagram Progres Input Data per Kelas</h4>
@@ -251,7 +240,6 @@
                             </select>
                         </div>
                         
-                        <!-- Legend Status -->
                         <div class="flex flex-wrap items-center gap-4 mb-5 text-[10px] font-bold text-slate-500 uppercase">
                             <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-nature rounded-sm"></div> Live (Approved)</span>
                             <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-amber-400 rounded-sm"></div> Validasi (Pending)</span>
@@ -259,34 +247,12 @@
                         </div>
 
                         <div id="progressChartContainer" class="space-y-5">
-                            <!-- Data akan dimuat secara dinamis oleh JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- Aktivitas Sistem -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h4 class="font-bold text-navy mb-4">Aktivitas Sistem Terbaru</h4>
-                        <div class="space-y-4">
-                            <div class="flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center flex-shrink-0"><i class="fas fa-check"></i></div>
-                                <div>
-                                    <p class="text-sm font-medium text-slate-800">Guru B. Indo memvalidasi "Kumis Kucing"</p>
-                                    <p class="text-xs text-slate-500">2 jam yang lalu</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0"><i class="fas fa-file-alt"></i></div>
-                                <div>
-                                    <p class="text-sm font-medium text-slate-800">Kelompok 2 (X RPL) submit data baru "Sereh"</p>
-                                    <p class="text-xs text-slate-500">1 hari yang lalu</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= PAGE: PUSAT VALIDASI ================= -->
+            <!-- PAGE: PUSAT VALIDASI -->
             <section id="page-validasi" class="hidden page-transition">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-amber-50/30">
@@ -306,14 +272,13 @@
                                 </tr>
                             </thead>
                             <tbody id="validasiTableBody" class="bg-white divide-y divide-slate-100">
-                                <!-- Data dimuat secara dinamis oleh JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= PAGE: MASTER KATALOG ================= -->
+            <!-- PAGE: MASTER KATALOG -->
             <section id="page-katalog" class="hidden page-transition">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-green-50/30">
@@ -333,14 +298,13 @@
                                 </tr>
                             </thead>
                             <tbody id="katalogTableBody" class="bg-white divide-y divide-slate-100">
-                                <!-- Data dimuat secara dinamis oleh JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </section>
             
-            <!-- ================= PAGE: EKSPOR LAPORAN ================= -->
+            <!-- PAGE: EKSPOR LAPORAN -->
             <section id="page-ekspor" class="hidden page-transition">
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-navy mb-2">Eskpor Data & Laporan Penilaian</h3>
@@ -376,7 +340,6 @@
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
@@ -423,7 +386,7 @@
 
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-1">Password Sistem</label>
-                    <input type="password" id="inputPassword" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Isi untuk ubah password">
+                    <input type="password" id="inputPassword" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Isi untuk membuat/mengubah password">
                     <p class="text-[10px] text-slate-500 mt-1">*Kosongkan jika tidak ingin mengubah password saat mode Edit.</p>
                 </div>
             </div>
@@ -445,7 +408,7 @@
             <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin akan menghapus akun ini dari database? Pengguna tidak akan bisa login kembali. Tindakan ini permanen.</p>
             <div class="flex justify-center gap-3">
                 <button onclick="closeDeleteUserModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
-                <button onclick="executeDeleteUser()" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus Akun</button>
+                <button onclick="executeDeleteUser()" id="btnConfirmDeleteUser" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus Akun</button>
             </div>
         </div>
     </div>
@@ -472,7 +435,7 @@
                     
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-5 items-stretch mb-6 relative">
                         <div class="w-full md:w-2/5 flex-shrink-0">
-                            <img id="revImage" src="https://placehold.co/600x400/15803d/ffffff?text=Tanaman" class="w-full h-40 md:h-full object-cover rounded-xl shadow-inner border border-slate-100" alt="Preview">
+                            <img id="revImage" src="https://placehold.co/600x400/15803d/ffffff?text=Tanaman" onerror="this.src='https://placehold.co/600x400/15803d/ffffff?text=Tanaman'" class="w-full h-40 md:h-full object-cover rounded-xl shadow-inner border border-slate-100" alt="Preview">
                         </div>
                         <div class="flex flex-col justify-center flex-1">
                             <h2 class="text-2xl md:text-3xl font-bold text-navy mb-1" id="revNamaLokal">Nama Tanaman</h2>
@@ -562,10 +525,10 @@
                     </div>
 
                     <div class="p-6 border-t border-slate-200 bg-white grid grid-cols-2 gap-4">
-                        <button onclick="executeDemotePlant()" class="py-3 px-4 bg-white border-2 border-red-500 text-red-500 font-bold rounded-xl hover:bg-red-50 transition flex items-center justify-center gap-2 text-sm md:text-base">
-                            <i class="fas fa-undo"></i> Revisi
+                        <button onclick="executeDemotePlant()" id="btnRevReject" class="py-3 px-4 bg-white border-2 border-red-500 text-red-500 font-bold rounded-xl hover:bg-red-50 transition flex items-center justify-center gap-2 text-sm md:text-base">
+                            <i class="fas fa-undo"></i> Kembalikan (Revisi)
                         </button>
-                        <button onclick="executeApprovePlant()" class="py-3 px-4 bg-navy text-white font-bold rounded-xl hover:bg-navylight shadow-lg transition flex items-center justify-center gap-2 text-sm md:text-base">
+                        <button onclick="executeApprovePlant()" id="btnRevApprove" class="py-3 px-4 bg-navy text-white font-bold rounded-xl hover:bg-navylight shadow-lg transition flex items-center justify-center gap-2 text-sm md:text-base">
                             <i class="fas fa-check-double"></i> Validasi & Setujui
                         </button>
                     </div>
@@ -596,8 +559,8 @@
             </div>
 
             <div class="p-6 bg-slate-50 border-t flex gap-3">
-                <button onclick="executeDemotePlant()" class="flex-1 py-3 bg-white border border-red-500 text-red-500 font-bold rounded-lg hover:bg-red-50 transition">Revisi / Tolak</button>
-                <button onclick="executeApprovePlant()" class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md">Validasi & Approve (MTK)</button>
+                <button onclick="executeDemotePlant()" id="btnMtkReject" class="flex-1 py-3 bg-white border border-red-500 text-red-500 font-bold rounded-lg hover:bg-red-50 transition">Revisi / Tolak</button>
+                <button onclick="executeApprovePlant()" id="btnMtkApprove" class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md">Validasi & Approve (MTK)</button>
             </div>
         </div>
     </div>
@@ -618,18 +581,116 @@
     <!-- MODAL: EDIT DATA (Master Katalog) -->
     <div id="editPlantModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 md:p-6">
         <div class="bg-white w-full max-w-4xl max-h-[95vh] flex flex-col rounded-2xl shadow-2xl relative">
+            <!-- Header -->
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-2xl flex-shrink-0">
                 <div>
                     <h3 class="text-lg font-bold text-navy"><i class="fas fa-edit mr-2"></i> Edit Data Tanaman (Master)</h3>
+                    <p class="text-xs text-slate-500 mt-1">Perbarui seluruh informasi tanaman agar sinkron dengan database frontend.</p>
                 </div>
                 <button onclick="closeEditPlantModal()" class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
             </div>
-            <div class="p-6 overflow-y-auto flex-1 bg-white text-center">
-                <p class="text-slate-500 text-sm">Form Edit dimuat di sini.</p>
+            
+            <!-- Body (Scrollable) -->
+            <div class="p-6 overflow-y-auto flex-1 bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Kiri: Foto, Identitas, Morfologi -->
+                    <div class="space-y-5">
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm">1. Identitas & Foto</h4>
+                            <div class="flex items-center gap-4 mb-4">
+                                <img id="editFotoImg" src="https://placehold.co/150/15803d/ffffff?text=Tanaman" class="w-16 h-16 rounded-xl object-cover border border-slate-200" alt="Preview">
+                                <input type="file" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 transition cursor-pointer">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lokal</label>
+                                    <input type="text" id="editNamaLokal" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Latin</label>
+                                    <input type="text" id="editNamaLatin" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm italic focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Daerah</label>
+                                <input type="text" id="editNamaDaerah" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm flex items-center gap-2">
+                                <span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded">B. INDO</span> 2. Morfologi
+                            </h4>
+                            <textarea id="editMorfologi" rows="6" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none transition leading-relaxed"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Kanan: Perawatan, Khasiat -->
+                    <div class="space-y-5">
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded">IPAS</span> 3. Panduan Perawatan
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-tint"></i></div>
+                                    <div class="flex-1">
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Intensitas Air</label>
+                                        <input type="text" id="editAir" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none transition">
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-seedling"></i></div>
+                                    <div class="flex-1">
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Pemberian Pupuk</label>
+                                        <input type="text" id="editPupuk" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none transition">
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-bug"></i></div>
+                                    <div class="flex-1">
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Penanganan Hama</label>
+                                        <input type="text" id="editHama" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none transition">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded">IPAS</span> 4. Khasiat & Ramuan
+                                </div>
+                                <button onclick="addKhasiatRow()" class="text-xs bg-slate-100 px-2 py-1 rounded text-navy font-bold hover:bg-slate-200 transition"><i class="fas fa-plus"></i> Baris</button>
+                            </h4>
+                            <div id="khasiatContainer" class="space-y-3">
+                                <!-- Dinamis dimuat JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bawah: Section Linimasa -->
+                <div class="mt-8 pt-8 border-t border-slate-200">
+                    <h4 class="font-bold text-navy border-b pb-2 mb-4 text-sm flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded">MTK</span> 5. Manajemen Linimasa Pertumbuhan
+                        </div>
+                        <button onclick="addTimelineRow()" class="text-xs bg-slate-100 px-3 py-1.5 rounded-lg text-navy font-bold hover:bg-slate-200 transition shadow-sm"><i class="fas fa-plus mr-1"></i> Tambah Fase Baru</button>
+                    </h4>
+                    
+                    <div id="timelineEditContainer" class="space-y-4">
+                        <!-- Dinamis dimuat JS -->
+                    </div>
+                </div>
+
             </div>
+            
+            <!-- Footer Actions -->
             <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end gap-3 flex-shrink-0">
                 <button onclick="closeEditPlantModal()" class="px-5 py-2.5 border border-slate-300 text-slate-600 font-bold rounded-lg text-sm hover:bg-white transition">Batal</button>
-                <button onclick="closeEditPlantModal()" class="px-5 py-2.5 bg-navy text-white font-bold rounded-lg text-sm shadow-md hover:bg-navylight transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                <button onclick="alert('Fitur simpan ke database Google Sheet akan tersedia di update Backend berikutnya!'); closeEditPlantModal();" class="px-5 py-2.5 bg-navy text-white font-bold rounded-lg text-sm shadow-md hover:bg-navylight transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan Perubahan</button>
             </div>
         </div>
     </div>
@@ -644,7 +705,7 @@
             <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin akan menghapus seluruh data tanaman ini dari <b>Database</b> secara permanen? Data tidak dapat dipulihkan.</p>
             <div class="flex justify-center gap-3">
                 <button onclick="closeDeleteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
-                <button onclick="executeDeletePlant()" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus</button>
+                <button onclick="executeDeletePlant()" id="btnConfirmDeletePlant" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus</button>
             </div>
         </div>
     </div>
@@ -659,7 +720,7 @@
             <p class="text-sm text-slate-500 mb-6">Tanaman ini akan ditarik dari tayangan publik (Katalog Live) dan dikembalikan ke antrean <b>Pusat Validasi</b>.</p>
             <div class="flex justify-center gap-3">
                 <button onclick="closeDemoteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
-                <button onclick="executeDemotePlant()" class="flex-1 px-4 py-2.5 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-md">Iya, Kembalikan</button>
+                <button onclick="executeDemotePlant()" id="btnConfirmDemotePlant" class="flex-1 px-4 py-2.5 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-md">Iya, Kembalikan</button>
             </div>
         </div>
     </div>
@@ -667,7 +728,7 @@
     <!-- LOGIC NAVIGASI SPA, MODAL, DAN API -->
     <script>
         let selectedUserId = null;
-        let selectedEditUserId = null; // Menampung ID saat dalam mode edit akun
+        let selectedEditUserId = null; 
         let selectedPlantId = null;
 
         const pages = ['pengguna', 'dashboard', 'validasi', 'katalog', 'ekspor'];
@@ -702,7 +763,7 @@
             });
         }
 
-        // ================= MODAL HELPERS =================
+        // ================= MODAL HELPERS (PENGGUNA) =================
         function openUserModal(isEdit = false, id = null) { 
             const title = document.getElementById('userModalTitle');
             const btn = document.getElementById('userModalBtn');
@@ -713,7 +774,6 @@
                 title.innerHTML = '<i class="fas fa-user-edit mr-2"></i>Edit Data Akun Pengguna';
                 btn.innerHTML = '<i class="fas fa-save"></i> Simpan Perubahan';
                 
-                // Cari data akun untuk diisikan ke form
                 const user = dbUsers.find(u => (u.user_id || u.id_user) == id);
                 if(user) {
                     document.getElementById('userRole').value = user.role || 'Kelompok Siswa';
@@ -721,13 +781,12 @@
                     document.getElementById('inputKelas').value = user.kelas_jurusan || '';
                     document.getElementById('inputAnggota').value = user.anggota_kelompok || '';
                     document.getElementById('inputUsername').value = user.username || '';
-                    document.getElementById('inputPassword').value = ''; // Kosongkan agar aman
+                    document.getElementById('inputPassword').value = ''; 
                 }
             } else {
                 title.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Form Pengguna Baru';
                 btn.innerHTML = '<i class="fas fa-save"></i> Buat Akun';
                 
-                // Bersihkan form
                 document.getElementById('userRole').value = 'Kelompok Siswa';
                 document.getElementById('inputNama').value = '';
                 document.getElementById('inputKelas').value = '';
@@ -753,12 +812,20 @@
             document.getElementById('deleteUserConfirmModal').classList.add('hidden'); 
         }
 
+        // ================= MODAL HELPERS (TANAMAN) =================
         function calculateDays(startDateStr, endDateStr) {
             const start = new Date(startDateStr);
             const end = new Date(endDateStr);
             if(isNaN(start) || isNaN(end)) return "Beberapa hari";
             const diffDays = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24)); 
             return diffDays;
+        }
+
+        function formatDateJS(dateStr) {
+            if (!dateStr) return "-";
+            const date = new Date(dateStr);
+            if(isNaN(date)) return dateStr;
+            return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
         }
 
         function openReviewModal(id) { 
@@ -773,11 +840,9 @@
                 document.getElementById('revDaerah').innerText = plant.nama_daerah || '-';
                 document.getElementById('revMorfologi').innerText = plant.morfologi || 'Belum ada deskripsi morfologi.';
                 
-                // Ceklis Validasi
                 document.getElementById('checkBIndo').checked = (plant.status_b_indo === 'Approved');
                 document.getElementById('checkIpas').checked = (plant.status_ipas === 'Approved');
 
-                // Dynamic Khasiat
                 let khasiatHtml = '';
                 if(plant.khasiatDetail && plant.khasiatDetail.length > 0) {
                     khasiatHtml = plant.khasiatDetail.map((k, index) => `
@@ -796,7 +861,6 @@
                 }
                 document.getElementById('revKhasiatContainer').innerHTML = khasiatHtml;
 
-                // Dynamic Perawatan
                 document.getElementById('revAir').innerText = (plant.perawatan && plant.perawatan.air) ? plant.perawatan.air : '-';
                 document.getElementById('revPupuk').innerText = (plant.perawatan && plant.perawatan.pupuk) ? plant.perawatan.pupuk : '-';
                 document.getElementById('revHama').innerText = (plant.perawatan && plant.perawatan.hama) ? plant.perawatan.hama : '-';
@@ -809,15 +873,6 @@
             document.getElementById('reviewModal').classList.add('hidden'); 
         }
         
-        // Helper Formatting Tanggal
-        function formatDateJS(dateStr) {
-            if (!dateStr) return "-";
-            const date = new Date(dateStr);
-            if(isNaN(date)) return dateStr;
-            return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-        }
-
-        // Modals for Timeline
         function openTimelineReviewModal(id) { 
             selectedPlantId = id;
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
@@ -862,7 +917,7 @@
             document.getElementById('timelineReviewModal').classList.add('hidden'); 
         }
 
-        // Modal Profil Lengkap (Master Katalog)
+        // ================= MODAL MASTER KATALOG =================
         function openViewProfileModal(id) { 
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
             if(plant) {
@@ -972,7 +1027,67 @@
         function closeViewProfileModal() { document.getElementById('viewProfileModal').classList.add('hidden'); }
         
         function openEditPlantModal(id) { 
-            // Fungsi edit (bisa dikembangkan nanti)
+            const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
+            if(plant) {
+                document.getElementById('editFotoImg').src = plant.image || 'https://placehold.co/150/15803d/ffffff?text=Tanaman';
+                document.getElementById('editNamaLokal').value = plant.nama_lokal || '';
+                document.getElementById('editNamaLatin').value = plant.nama_latin || '';
+                document.getElementById('editNamaDaerah').value = plant.nama_daerah || '';
+                document.getElementById('editMorfologi').value = plant.morfologi || '';
+                document.getElementById('editAir').value = plant.perawatan?.air || '';
+                document.getElementById('editPupuk').value = plant.perawatan?.pupuk || '';
+                document.getElementById('editHama').value = plant.perawatan?.hama || '';
+
+                let khasiatHtml = '';
+                if(plant.khasiatDetail && plant.khasiatDetail.length > 0) {
+                    plant.khasiatDetail.forEach(k => {
+                        khasiatHtml += `
+                            <div class="border border-slate-200 rounded-xl p-3 bg-slate-50 relative group transition hover:border-blue-300">
+                                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Baris"><i class="fas fa-trash text-xs"></i></button>
+                                <input type="text" value="${k.nama_penyakit || k.nama || ''}" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 focus:border-navy outline-none pr-8">
+                                <textarea rows="2" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none">${k.cara_meramu || k.ramuan || ''}</textarea>
+                            </div>
+                        `;
+                    });
+                } else khasiatHtml = '<p class="text-xs text-slate-400 italic">Belum ada khasiat, silakan tambah.</p>';
+                document.getElementById('khasiatContainer').innerHTML = khasiatHtml;
+
+                let timelineHtml = '';
+                if(plant.timeline && plant.timeline.length > 0) {
+                    plant.timeline.forEach(node => {
+                        let rawDate = node.tgl_observasi || node.tglAsli || node.tanggal_observasi || '';
+                        let formattedDateInput = rawDate;
+                        if(rawDate && rawDate.includes("T")) {
+                            formattedDateInput = rawDate.split("T")[0]; 
+                        }
+                        
+                        timelineHtml += `
+                            <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 relative group transition hover:border-blue-300 flex flex-col sm:flex-row gap-4 items-start shadow-sm">
+                                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-7 h-7 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Fase"><i class="fas fa-trash text-xs"></i></button>
+                                <div class="w-full sm:w-32 flex-shrink-0">
+                                    <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/150/d1d5db/6b7280?text=Fase'" class="w-full h-24 object-cover rounded-lg border border-slate-200 mb-2 shadow-inner">
+                                    <input type="file" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:font-bold file:bg-blue-50 file:text-blue-600 cursor-pointer">
+                                </div>
+                                <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Tanggal Observasi</label>
+                                        <input type="date" value="${formattedDateInput}" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Nama Fase</label>
+                                        <input type="text" value="${node.nama_fase || node.fase || ''}" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold focus:border-navy outline-none pr-8">
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Catatan Pertumbuhan</label>
+                                        <textarea rows="1" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none">${node.catatan_pertumbuhan || node.catatan || ''}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else timelineHtml = '<p class="text-xs text-slate-400 italic">Belum ada linimasa, silakan tambah.</p>';
+                document.getElementById('timelineEditContainer').innerHTML = timelineHtml;
+            }
             document.getElementById('editPlantModal').classList.remove('hidden'); 
         }
         function closeEditPlantModal() { document.getElementById('editPlantModal').classList.add('hidden'); }
@@ -1002,6 +1117,58 @@
             else { div.classList.add('hidden'); div.classList.remove('block'); }
         }
 
+        function addKhasiatRow() {
+            const container = document.getElementById('khasiatContainer');
+            if(container.innerHTML.includes('Belum ada')) container.innerHTML = '';
+            
+            const newRow = document.createElement('div');
+            newRow.className = 'border border-slate-200 rounded-xl p-3 bg-slate-50 relative group transition hover:border-blue-300';
+            
+            newRow.innerHTML = `
+                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Baris"><i class="fas fa-trash text-xs"></i></button>
+                <input type="text" placeholder="Nama Khasiat (Misal: Pereda Nyeri)" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 focus:border-navy focus:ring-1 focus:ring-navy outline-none transition pr-8">
+                <textarea rows="2" placeholder="Cara meramu/menggunakan tanaman ini..." class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy focus:ring-1 focus:ring-navy outline-none transition"></textarea>
+            `;
+            
+            container.appendChild(newRow);
+        }
+
+        function addTimelineRow() {
+            const container = document.getElementById('timelineEditContainer');
+            if(container.innerHTML.includes('Belum ada')) container.innerHTML = '';
+            
+            const newRow = document.createElement('div');
+            newRow.className = 'border border-slate-200 rounded-xl p-4 bg-slate-50 relative group transition hover:border-blue-300 flex flex-col sm:flex-row gap-4 items-start shadow-sm';
+            
+            newRow.innerHTML = `
+                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-7 h-7 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Fase"><i class="fas fa-trash text-xs"></i></button>
+                
+                <div class="w-full sm:w-32 flex-shrink-0">
+                    <div class="w-full h-24 bg-slate-200 flex items-center justify-center rounded-lg border border-slate-300 mb-2 text-slate-400 shadow-inner">
+                        <i class="fas fa-image text-2xl"></i>
+                    </div>
+                    <input type="file" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:font-bold file:bg-blue-50 file:text-blue-600 cursor-pointer hover:file:bg-blue-100">
+                </div>
+                
+                <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Tanggal Observasi</label>
+                        <input type="date" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Nama Fase</label>
+                        <input type="text" placeholder="Misal: Berdaun" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold focus:border-navy focus:ring-1 focus:ring-navy outline-none transition pr-8">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Catatan Pertumbuhan</label>
+                        <textarea rows="1" placeholder="Jelaskan progres fisik tanaman..." class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy focus:ring-1 focus:ring-navy outline-none transition"></textarea>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(newRow);
+        }
+
         // Close on background click
         window.addEventListener('click', (e) => {
             const modals = ['userModal', 'deleteUserConfirmModal', 'reviewModal', 'timelineReviewModal', 'viewProfileModal', 'editPlantModal', 'deleteConfirmModal', 'demoteConfirmModal'];
@@ -1023,9 +1190,9 @@
                 const loader = document.getElementById('globalLoader');
                 if (loader) loader.classList.remove('hidden');
                 
-                if (!API_URL || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
+                if (!API_URL.startsWith("http")) {
                     console.warn("Memuat Dummy Data (Mode Interaktif Offline).");
-                    if(dbPlants.length === 0 && dbUsers.length === 0) {
+                    if(dbPlants.length === 0 && dbUsers.length === 0) { 
                         const data = getDummyData();
                         dbUsers = data.users;
                         dbPlants = data.plants;
@@ -1073,7 +1240,7 @@
                 else if(u.role === 'Kelompok Siswa') badgeClass = 'bg-nature/10 text-nature border border-nature/20';
                 
                 let initial = u.role === 'Operator' ? 'OP' : (u.role === 'Kelompok Siswa' ? 'K' : (u.nama_lengkap ? u.nama_lengkap.charAt(0) : 'U'));
-                const userId = u.user_id || u.id_user;
+                const userId = u.user_id || u.id_user; 
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 transition">
@@ -1252,9 +1419,10 @@
 
         async function executeDemotePlant() {
             if(!selectedPlantId) return;
+            // Targetkan semua tombol yang memanggil fungsi ini (agar status loading aktif di tombol yg ditekan)
             const btn1 = document.querySelector('#demoteConfirmModal button.bg-amber-500');
-            const btn2 = document.querySelector('#reviewModal button.border-red-500'); 
-            const btn3 = document.querySelector('#timelineReviewModal button.border-red-500');
+            const btn2 = document.getElementById('btnRevReject'); 
+            const btn3 = document.getElementById('btnMtkReject');
             const activeBtn = btn1 || btn2 || btn3;
             const originalText = activeBtn ? activeBtn.innerHTML : '';
             if(activeBtn) { activeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; activeBtn.disabled = true; }
@@ -1282,8 +1450,8 @@
 
         async function executeApprovePlant() {
             if(!selectedPlantId) return;
-            const btn1 = document.querySelector('#reviewModal button.bg-navy');
-            const btn2 = document.querySelector('#timelineReviewModal button.bg-blue-600');
+            const btn1 = document.getElementById('btnRevApprove');
+            const btn2 = document.getElementById('btnMtkApprove');
             const activeBtn = btn1 || btn2;
             const originalText = activeBtn ? activeBtn.innerHTML : '';
             if(activeBtn) { activeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; activeBtn.disabled = true; }
@@ -1437,6 +1605,8 @@
                     {
                         tanaman_id: 3, nama_lokal: 'Kumis Kucing', nama_latin: 'Orthosiphon aristatus', nama_daerah: 'Remujung', morfologi: 'Batang tegak, bunga seperti kumis kucing.',
                         status_b_indo: 'Approved', status_ipas: 'Approved', status_publikasi: 'Live',
+                        perawatan: { air: "Disiram 1x sehari", pupuk: "Pupuk Kompos", hama: "Kutu" },
+                        khasiatDetail: [{nama_penyakit: "Luka Bakar", cara_meramu: "Kupas dan oleskan"}],
                         pengelola: 'Kelompok 3 (X TKJ 1)', kelas: 'Kelas X TKJ 1',
                         image: 'https://placehold.co/600x400/15803d/ffffff?text=Kumis+Kucing',
                         timeline: []
