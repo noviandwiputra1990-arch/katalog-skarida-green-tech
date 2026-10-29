@@ -5,32 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Operator | Skarida Green Tech</title>
     
+    <!-- Favicon -->
     <link rel="icon" href="big_logo_2.png" type="image/png">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { navy: '#1e3a8a', navylight: '#1e40af', nature: '#15803d', naturelight: '#22c55e', gold: '#eab308', slate50: '#f8fafc' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                    colors: {
+                        navy: '#1e3a8a',
+                        navylight: '#1e40af',
+                        nature: '#15803d',
+                        naturelight: '#22c55e',
+                        gold: '#eab308',
+                        slate50: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
                 }
             }
         }
     </script>
+    
+    <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         body { font-family: 'Inter', sans-serif; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .page-transition { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .timeline-line::before { content: ''; position: absolute; top: 0; bottom: 0; left: 1.2rem; width: 2px; background-color: #e5e7eb; }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 1.2rem;
+            width: 2px;
+            background-color: #e5e7eb;
+        }
     </style>
 </head>
 <body class="bg-slate-50 h-screen overflow-hidden flex text-slate-800">
 
+    <!-- SIDEBAR -->
     <aside class="w-64 bg-navy text-white flex flex-col hidden md:flex flex-shrink-0 shadow-xl z-20">
+        <!-- Logo Area -->
         <div class="h-16 flex items-center px-6 border-b border-white/10 cursor-pointer" onclick="switchPage('dashboard')">
             <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-gold mr-3 overflow-hidden">
                  <img src="big_logo_2.png" alt="Logo SMAN 2 Tegalsari" class="w-full h-full object-contain p-0.5">
@@ -41,31 +68,40 @@
             </div>
         </div>
 
+        <!-- Nav Links -->
         <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2" id="sidebar-menu">
             <p class="px-2 text-xs font-semibold text-blue-300 uppercase tracking-wider mb-2 mt-4">Menu Tinjauan</p>
+            
             <button onclick="switchPage('dashboard')" id="menu-dashboard" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
                 <i class="fas fa-chart-pie w-6 text-left"></i> Dashboard
             </button>
+            
             <button onclick="switchPage('validasi')" id="menu-validasi" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
                 <i class="fas fa-clipboard-check w-6 text-left"></i> Pusat Validasi
                 <span class="ml-auto bg-red-500 text-white py-0.5 px-2 rounded-full text-xs font-bold shadow-sm" id="badgeValidasi">0</span>
             </button>
+            
             <button onclick="switchPage('katalog')" id="menu-katalog" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
                 <i class="fas fa-leaf w-6 text-left"></i> Master Katalog
             </button>
             
             <p class="px-2 text-xs font-semibold text-blue-300 uppercase tracking-wider mb-2 mt-6">Kewenangan Operator</p>
+            
             <button onclick="switchPage('pengguna')" id="menu-pengguna" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg bg-nature text-white shadow-md transition">
                 <i class="fas fa-users-cog w-6 text-left"></i> Manajemen Akun
             </button>
+            
             <button onclick="switchPage('ekspor')" id="menu-ekspor" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition">
                 <i class="fas fa-file-export w-6 text-left"></i> Ekspor Laporan
             </button>
         </nav>
 
+        <!-- User Profile -->
         <div class="p-4 border-t border-white/10 bg-slate-900/50">
             <div class="flex items-center">
-                <div class="w-9 h-9 rounded-full bg-gold text-navy flex items-center justify-center font-bold text-sm border-2 border-white/20">OP</div>
+                <div class="w-9 h-9 rounded-full bg-gold text-navy flex items-center justify-center font-bold text-sm border-2 border-white/20">
+                    OP
+                </div>
                 <div class="ml-3 text-left">
                     <p class="text-sm font-medium text-white">Bpk. Budi Utama</p>
                     <p class="text-[10px] text-blue-300">Kepala Lab / Operator</p>
@@ -77,7 +113,10 @@
         </div>
     </aside>
 
+    <!-- MAIN CONTENT WRAPPER -->
     <div class="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50 relative">
+        
+        <!-- Topbar -->
         <header class="h-16 bg-white shadow-sm flex items-center justify-between px-6 z-10 flex-shrink-0">
             <div class="flex items-center">
                 <button class="md:hidden text-slate-500 hover:text-navy focus:outline-none mr-4">
@@ -85,26 +124,35 @@
                 </button>
                 <h2 id="topbar-title" class="text-xl font-bold text-navy">Manajemen Akun Pengguna</h2>
             </div>
+            <div class="flex items-center space-x-4">
+                <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold border border-blue-100 hidden sm:flex items-center">
+                    <i class="fas fa-shield-alt mr-1"></i> Akses Operator Aktif
+                </div>
+            </div>
         </header>
 
+        <!-- Main Scrollable Area -->
         <main class="flex-1 overflow-y-auto p-4 md:p-6 smooth-scroll relative">
+            
+            <!-- Loading Indicator Global -->
             <div id="globalLoader" class="hidden absolute inset-0 z-50 bg-slate-50 flex flex-col items-center justify-center">
                 <i class="fas fa-circle-notch fa-spin text-4xl text-navy mb-4"></i>
                 <p class="text-slate-600 font-bold">Sinkronisasi Database...</p>
             </div>
 
-            <!-- PAGE: PENGGUNA -->
+            <!-- ================= PAGE: PENGGUNA ================= -->
             <section id="page-pengguna" class="block page-transition">
                 <div class="mb-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
                     <div>
                         <h3 class="text-2xl font-bold text-slate-800">Manajemen Akses Sistem</h3>
-                        <p class="text-sm text-slate-500">Tambah, ubah, atau hapus akun Guru dan Kelompok Siswa.</p>
+                        <p class="text-sm text-slate-500">Tambah, ubah, atau hapus akun Guru dan Kelompok Siswa (Kontributor).</p>
                     </div>
                     <button onclick="openUserModal()" class="bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-navylight transition shadow-md flex items-center gap-2">
                         <i class="fas fa-user-plus"></i> Tambah Pengguna Baru
                     </button>
                 </div>
 
+                <!-- Statistik Akun -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-4">
                         <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xl"><i class="fas fa-users"></i></div>
@@ -120,7 +168,18 @@
                     </div>
                 </div>
 
+                <!-- Tabel Manajemen Akun -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50">
+                        <div class="flex space-x-1">
+                            <button class="px-4 py-1.5 bg-navy text-white text-xs font-bold rounded-md shadow-sm">Semua</button>
+                        </div>
+                        <div class="relative w-full sm:w-64">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="text" placeholder="Cari nama atau username..." class="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm w-full outline-none focus:border-navy focus:ring-1 focus:ring-navy">
+                        </div>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-200">
                             <thead class="bg-slate-50">
@@ -131,47 +190,91 @@
                                     <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="usersTableBody" class="bg-white divide-y divide-slate-100"></tbody>
+                            <tbody id="usersTableBody" class="bg-white divide-y divide-slate-100">
+                                <!-- Data dimuat secara dinamis oleh JavaScript -->
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- PAGE: DASHBOARD -->
+            <!-- ================= PAGE: DASHBOARD ================= -->
             <section id="page-dashboard" class="hidden page-transition">
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-slate-800">Tinjauan Sistem Skarida Green Tech</h3>
+                    <p class="text-sm text-slate-500">Pantau aktivitas penginputan data, status validasi, dan pertumbuhan pengguna.</p>
                 </div>
+                
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-gradient-to-br from-navy to-navylight rounded-2xl p-5 shadow-sm text-white flex flex-col hover:-translate-y-1 transition duration-300">
-                        <p class="text-xs font-medium text-white/80 uppercase mb-2">Total Pengguna</p>
+                    <div class="bg-gradient-to-br from-navy to-navylight rounded-2xl p-5 shadow-sm text-white flex flex-col hover:-translate-y-1 transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-medium text-white/80 uppercase">Total Pengguna</p>
+                            <i class="fas fa-users text-white/50"></i>
+                        </div>
                         <h3 id="statTotalUsers" class="text-3xl font-bold">0</h3>
+                        <p class="text-[10px] text-blue-200 mt-2">Semua Role / Akses Sistem</p>
                     </div>
-                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col">
-                        <p class="text-xs font-bold text-slate-500 uppercase mb-2">Tanaman Live</p>
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col hover:border-nature hover:shadow-md transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Tanaman Live</p>
+                            <i class="fas fa-leaf text-nature"></i>
+                        </div>
                         <h3 id="statLive" class="text-3xl font-bold text-nature">0</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Berhasil Tayang di Publik</p>
                     </div>
-                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col">
-                        <p class="text-xs font-bold text-slate-500 uppercase mb-2">Menunggu Validasi</p>
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col hover:border-amber-400 hover:shadow-md transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Menunggu Validasi</p>
+                            <i class="fas fa-clipboard-list text-amber-500"></i>
+                        </div>
                         <h3 id="statPending" class="text-3xl font-bold text-amber-500">0</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Butuh Validasi Guru Mapel</p>
                     </div>
-                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col">
-                        <p class="text-xs font-bold text-slate-500 uppercase mb-2">Data Revisi</p>
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col hover:border-red-500 hover:shadow-md transition duration-300 cursor-default">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Data Revisi</p>
+                            <i class="fas fa-exclamation-triangle text-red-500"></i>
+                        </div>
                         <h3 id="statRevisi" class="text-3xl font-bold text-red-500">0</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Harus Diperbaiki Siswa</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 gap-6">
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Progress Chart -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h4 class="font-bold text-navy mb-4">Diagram Progres Input Data per Kelas</h4>
-                        <div id="progressChartContainer" class="space-y-5"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                            <h4 class="font-bold text-navy">Diagram Progres Input Data per Kelas</h4>
+                            <select id="sortProgress" onchange="renderProgressChart()" class="text-xs border border-slate-300 rounded-lg p-2 focus:border-navy focus:ring-1 focus:ring-navy outline-none bg-slate-50 cursor-pointer shadow-sm transition">
+                                <option value="agregat" selected>Tampilan: Agregat Total (Semua Kelas)</option>
+                                <option value="kelas">Urutkan: Nama Kelas (A-Z)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Legend Status -->
+                        <div class="flex flex-wrap items-center gap-4 mb-5 text-[10px] font-bold text-slate-500 uppercase">
+                            <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-nature rounded-sm"></div> Live (Approved)</span>
+                            <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-amber-400 rounded-sm"></div> Validasi (Pending)</span>
+                            <span class="flex items-center gap-1.5"><div class="w-3 h-3 bg-red-500 rounded-sm"></div> Revisi (Ditolak)</span>
+                        </div>
+
+                        <div id="progressChartContainer" class="space-y-5">
+                            <!-- Data akan dimuat secara dinamis oleh JavaScript -->
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- PAGE: PUSAT VALIDASI -->
+            <!-- ================= PAGE: PUSAT VALIDASI ================= -->
             <section id="page-validasi" class="hidden page-transition">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="p-6 border-b border-slate-100"><h3 class="text-lg font-bold text-navy">Antrean Validasi</h3></div>
+                    <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-amber-50/30">
+                        <div>
+                            <h3 class="text-lg font-bold text-navy">Antrean Validasi Guru Lintas Mapel</h3>
+                            <p class="text-xs text-slate-500">Sebagai Operator, Anda berhak memantau atau mem-bypass proses review data.</p>
+                        </div>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-200">
                             <thead class="bg-slate-50">
@@ -181,16 +284,24 @@
                                     <th class="px-6 py-4 text-right text-xs font-semibold text-slate-500 uppercase">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="validasiTableBody" class="bg-white divide-y divide-slate-100"></tbody>
+                            <tbody id="validasiTableBody" class="bg-white divide-y divide-slate-100">
+                                <!-- Data dimuat secara dinamis oleh JavaScript -->
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- PAGE: MASTER KATALOG -->
+            <!-- ================= PAGE: MASTER KATALOG ================= -->
             <section id="page-katalog" class="hidden page-transition">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="p-6 border-b border-slate-100"><h3 class="text-lg font-bold text-navy">Master Data Katalog (Live)</h3></div>
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-green-50/30">
+                        <div>
+                            <h3 class="text-lg font-bold text-navy">Master Data Katalog (Live)</h3>
+                            <p class="text-xs text-slate-500">Daftar tanaman tayang di publik (Lolos validasi IPAS, B. Indo, dan MTK).</p>
+                        </div>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-200">
                             <thead class="bg-slate-50">
@@ -200,45 +311,66 @@
                                     <th class="px-6 py-4 text-right text-xs font-semibold text-slate-500 uppercase">Aksi Manajemen</th>
                                 </tr>
                             </thead>
-                            <tbody id="katalogTableBody" class="bg-white divide-y divide-slate-100"></tbody>
+                            <tbody id="katalogTableBody" class="bg-white divide-y divide-slate-100">
+                                <!-- Data dimuat secara dinamis oleh JavaScript -->
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </section>
             
-            <!-- PAGE: EKSPOR LAPORAN -->
+            <!-- ================= PAGE: EKSPOR LAPORAN ================= -->
             <section id="page-ekspor" class="hidden page-transition">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-navy mb-2">Eskpor Data & Laporan Penilaian</h3>
+                    <p class="text-sm text-slate-500">Gunakan fitur ini untuk merekap nilai PBL atau mengunduh aset fisik (Kartu & QR Code) untuk dipasang di taman.</p>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex items-start gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-2xl flex-shrink-0 mt-1"><i class="fas fa-file-excel"></i></div>
+                    <!-- Export Rekap Nilai -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex items-start gap-4 hover:border-blue-400 transition">
+                        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-2xl flex-shrink-0 mt-1">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
                         <div>
-                            <h4 class="font-bold text-slate-800 text-lg mb-1">Rekap Nilai PBL Siswa (CSV)</h4>
-                            <button onclick="exportToCSV()" class="mt-2 bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2"><i class="fas fa-download"></i> Unduh</button>
+                            <h4 class="font-bold text-slate-800 text-lg mb-1">Rekap Nilai PBL Siswa (Excel/CSV)</h4>
+                            <p class="text-sm text-slate-500 mb-3">Unduh laporan otomatis rekapitulasi nilai berdasarkan kelengkapan pengisian data tiap kelompok.</p>
+                            <button onclick="exportToCSV()" class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-700 transition shadow-md flex items-center gap-2">
+                                <i class="fas fa-download"></i> Unduh Rekap (.csv)
+                            </button>
                         </div>
                     </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex items-start gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0 mt-1"><i class="fas fa-qrcode"></i></div>
+                    
+                    <!-- Export Batch Kartu A5 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex items-start gap-4 hover:border-gold transition">
+                        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0 mt-1">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
                         <div>
                             <h4 class="font-bold text-slate-800 text-lg mb-1">Batch Kartu Tanaman (PDF A5)</h4>
-                            <button onclick="exportToPDF()" class="mt-2 bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2"><i class="fas fa-print"></i> Generate PDF</button>
+                            <p class="text-sm text-slate-500 mb-3">Generate kartu informasi tanaman siap cetak berorientasi <b class="text-navy">Landscape (A5)</b>.</p>
+                            <button onclick="exportToPDF()" class="bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-navylight transition shadow-md flex items-center gap-2">
+                                <i class="fas fa-print"></i> Generate PDF Kartu
+                            </button>
                         </div>
                     </div>
                 </div>
             </section>
+
         </main>
     </div>
 
     <!-- MODAL: TAMBAH / EDIT PENGGUNA -->
     <div id="userModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-lg max-h-[90vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden relative">
-            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0">
                 <h3 id="userModalTitle" class="text-lg font-bold text-navy">Form Pengguna Baru</h3>
-                <button onclick="closeUserModal()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+                <button onclick="closeUserModal()" class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
             </div>
+            
             <div class="p-6 overflow-y-auto flex-1 space-y-4 bg-white">
                 <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Role / Hak Akses</label>
-                    <select id="userRole" onchange="toggleAnggotaField()" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy outline-none">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Role / Hak Akses <span class="text-red-500">*</span></label>
+                    <select id="userRole" onchange="toggleAnggotaField()" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none bg-white">
                         <option value="Operator">Operator (Superadmin)</option>
                         <option value="Guru IPAS">Guru IPAS (Reviewer)</option>
                         <option value="Guru B. Indonesia">Guru Bahasa Indonesia (Reviewer)</option>
@@ -246,68 +378,176 @@
                         <option value="Kelompok Siswa" selected>Kelompok Siswa (Kontributor)</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Nama Lengkap / Nama Kelompok</label>
-                    <input type="text" id="inputNama" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm outline-none">
+
+                <div class="pt-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Nama Lengkap / Nama Kelompok <span class="text-red-500">*</span></label>
+                    <input type="text" id="inputNama" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Misal: Bpk. Ahmad (Guru) atau Kelompok 1 (Siswa)">
                 </div>
+
                 <div id="anggotaKelompokDiv" class="block space-y-4">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">Kelas / Jurusan</label>
-                        <input type="text" id="inputKelas" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm outline-none bg-blue-50/30">
+                    <div class="pt-4 border-t border-slate-100">
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Kelas / Jurusan <span class="text-red-500">*</span></label>
+                        <input type="text" id="inputKelas" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none bg-blue-50/30" placeholder="Contoh: X RPL 1, XI TKR 2...">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">Detail Anggota Kelompok</label>
-                        <textarea rows="2" id="inputAnggota" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm outline-none"></textarea>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Detail Anggota Kelompok <span class="text-red-500">*</span></label>
+                        <textarea rows="2" id="inputAnggota" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Tuliskan nama lengkap seluruh anggota kelompok dipisah koma..."></textarea>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Username / NIS / NIP</label>
-                    <input type="text" id="inputUsername" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm outline-none">
+
+                <div class="pt-4 border-t border-slate-100">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Username / NIS / NIP <span class="text-red-500">*</span></label>
+                    <input type="text" id="inputUsername" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Digunakan untuk login">
                 </div>
+
                 <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Password Sistem</label>
-                    <input type="password" id="inputPassword" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm outline-none">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Password Sistem <span class="text-red-500">*</span></label>
+                    <input type="password" id="inputPassword" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none" placeholder="Buat password baru">
                 </div>
             </div>
-            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-                <button onclick="closeUserModal()" class="px-4 py-2 border border-slate-300 text-slate-600 font-bold rounded-lg text-sm">Batal</button>
-                <button onclick="saveUser()" id="userModalBtn" class="px-5 py-2 bg-navy text-white font-bold rounded-lg text-sm flex items-center gap-2"><i class="fas fa-save"></i> Simpan Akun</button>
+            
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 flex-shrink-0">
+                <button onclick="closeUserModal()" class="px-4 py-2 border border-slate-300 text-slate-600 font-bold rounded-lg hover:bg-white text-sm transition">Batal</button>
+                <button onclick="saveUser()" id="userModalBtn" class="px-5 py-2 bg-navy text-white font-bold rounded-lg shadow-md hover:bg-navylight text-sm transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan Akun</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL: KONFIRMASI HAPUS AKUN -->
     <div id="deleteUserConfirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden text-center p-6 transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                <i class="fas fa-user-minus"></i>
+            </div>
             <h3 class="text-xl font-bold text-slate-800 mb-2">Hapus Akun Pengguna?</h3>
-            <p class="text-sm text-slate-500 mb-6">Tindakan ini permanen.</p>
+            <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin akan menghapus akun ini dari database? Pengguna tidak akan bisa login kembali. Tindakan ini permanen.</p>
             <div class="flex justify-center gap-3">
-                <button onclick="closeDeleteUserModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl">Batal</button>
-                <button onclick="executeDeleteUser()" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl">Iya, Hapus</button>
+                <button onclick="closeDeleteUserModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
+                <button onclick="executeDeleteUser()" id="btnConfirmDeleteUser" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus Akun</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: REVIEW -->
+    <!-- MODAL: REVIEW LINTAS MAPEL (Data Baru) -->
     <div id="reviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative">
+        <div class="bg-white w-full max-w-7xl h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <div>
                     <h3 class="text-xl font-bold text-navy" id="revTitle">Review Data Baru</h3>
                     <p class="text-sm text-slate-500" id="revSubtitle">Oleh: -</p>
                 </div>
-                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-2xl"></i></button>
+                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-red-500 transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
             </div>
-            <div class="flex-1 overflow-y-auto p-6">
-                <img id="revImage" src="" class="w-full h-48 object-cover rounded-xl shadow-sm mb-4">
-                <h2 class="text-2xl font-bold text-navy" id="revNamaLokal">Nama</h2>
-                <p class="text-sm italic text-slate-500 mb-4" id="revNamaLatin">Latin</p>
-                <p class="text-sm text-slate-700 mb-4" id="revMorfologi">-</p>
-                <div id="revKhasiatContainer" class="mb-4"></div>
-            </div>
-            <div class="p-6 border-t border-slate-200 bg-slate-50 grid grid-cols-2 gap-4">
-                <button onclick="executeDemotePlant()" class="py-3 px-4 bg-white border-2 border-red-500 text-red-500 font-bold rounded-xl"><i class="fas fa-undo"></i> Revisi</button>
-                <button onclick="executeApprovePlant()" class="py-3 px-4 bg-navy text-white font-bold rounded-xl"><i class="fas fa-check-double"></i> Setujui</button>
+
+            <div class="flex-1 overflow-hidden flex flex-col lg:flex-row">
+                <div class="w-full lg:w-3/5 p-6 overflow-y-auto border-r border-slate-200 hide-scrollbar pb-24 bg-slate-50/50">
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-200 pb-2">
+                        <h4 class="font-bold text-slate-700 uppercase text-sm tracking-wide">Pratinjau Data Lengkap</h4>
+                        <span class="text-xs text-slate-500 bg-slate-200 px-2 py-1 rounded font-semibold"><i class="fas fa-desktop mr-1"></i> Mode Publik</span>
+                    </div>
+                    
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-5 items-stretch mb-6 relative">
+                        <div class="w-full md:w-2/5 flex-shrink-0">
+                            <img id="revImage" src="https://placehold.co/600x400/15803d/ffffff?text=Tanaman" onerror="this.src='https://placehold.co/600x400/15803d/ffffff?text=Tanaman'" class="w-full h-40 md:h-full object-cover rounded-xl shadow-inner border border-slate-100" alt="Preview">
+                        </div>
+                        <div class="flex flex-col justify-center flex-1">
+                            <h2 class="text-2xl md:text-3xl font-bold text-navy mb-1" id="revNamaLokal">Nama Tanaman</h2>
+                            <p class="text-sm text-slate-500 italic mb-3 font-serif" id="revNamaLatin">Nama Latin</p>
+                            <div class="bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-map-marker-alt text-navy mt-1 text-xs"></i>
+                                    <div>
+                                        <span class="text-xs font-bold text-navy block mb-1">Nama Daerah:</span>
+                                        <p class="text-xs text-slate-600 leading-snug" id="revDaerah">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="bg-white p-5 rounded-2xl shadow-sm border border-blue-200 mb-6 relative">
+                        <div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl rounded-tr-xl uppercase shadow-sm">
+                            <i class="fas fa-spell-check mr-1"></i> Fokus Guru B. Indo
+                        </div>
+                        <div class="flex items-center gap-3 mb-3 text-navy mt-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                                <i class="fas fa-leaf text-sm text-navy"></i>
+                            </div>
+                            <h3 class="text-base font-bold">Deskripsi Morfologi</h3>
+                        </div>
+                        <p class="text-slate-700 leading-relaxed text-justify break-words text-sm border-l-4 border-blue-200 pl-3" id="revMorfologi">
+                            -
+                        </p>
+                    </section>
+
+                    <!-- Khasiat & Perawatan Dinamis -->
+                    <div class="grid sm:grid-cols-2 gap-5 mt-4">
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-amber-200 relative">
+                            <h3 class="text-sm font-bold text-navy mb-3 border-b border-slate-100 pb-2">Khasiat & Cara Meramu</h3>
+                            <div id="revKhasiatContainer" class="space-y-2">
+                                <!-- Khasiat dimuat dinamis -->
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-amber-200 relative">
+                            <h3 class="text-sm font-bold text-navy mb-3 border-b border-slate-100 pb-2">Panduan Perawatan</h3>
+                            <ul class="space-y-4 text-xs text-slate-600">
+                                <li class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-tint"></i></div>
+                                    <span class="break-words pt-1"><strong>Air:</strong> <br><span id="revAir">-</span></span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0"><i class="fas fa-seedling"></i></div>
+                                    <span class="break-words pt-1"><strong>Pupuk:</strong> <br><span id="revPupuk">-</span></span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-bug"></i></div>
+                                    <span class="break-words pt-1"><strong>Hama:</strong> <br><span id="revHama">-</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-2/5 flex flex-col bg-slate-50">
+                    <div class="p-6 flex-1 overflow-y-auto">
+                        <h4 class="font-bold text-slate-700 mb-4 uppercase text-sm tracking-wide border-b pb-2">Panel Validasi Mapel</h4>
+                        
+                        <div class="space-y-4 mb-6">
+                            <label class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-blue-400 transition shadow-sm">
+                                <div>
+                                    <p class="font-bold text-sm text-navy">Validasi B. Indonesia</p>
+                                    <p class="text-xs text-slate-500">Tata bahasa dan ejaan sesuai.</p>
+                                </div>
+                                <div class="relative">
+                                    <input type="checkbox" id="checkBIndo" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-nature"></div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-amber-400 transition shadow-sm">
+                                <div>
+                                    <p class="font-bold text-sm text-navy">Validasi IPAS</p>
+                                    <p class="text-xs text-slate-500">Kebenaran biologi & tata cara tanam valid.</p>
+                                </div>
+                                <div class="relative">
+                                    <input type="checkbox" id="checkIpas" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-nature"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="p-6 border-t border-slate-200 bg-white grid grid-cols-2 gap-4">
+                        <button onclick="executeDemotePlant()" id="btnRevReject" class="py-3 px-4 bg-white border-2 border-red-500 text-red-500 font-bold rounded-xl hover:bg-red-50 transition flex items-center justify-center gap-2 text-sm md:text-base">
+                            <i class="fas fa-undo"></i> Kembalikan (Revisi)
+                        </button>
+                        <button onclick="executeApprovePlant()" id="btnRevApprove" class="py-3 px-4 bg-navy text-white font-bold rounded-xl hover:bg-navylight shadow-lg transition flex items-center justify-center gap-2 text-sm md:text-base">
+                            <i class="fas fa-check-double"></i> Validasi & Setujui
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -316,138 +556,233 @@
     <div id="timelineReviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col overflow-hidden relative">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="text-xl font-bold text-navy" id="mtkTitle">Cek Log Pertumbuhan</h3>
-                <button onclick="closeTimelineReviewModal()" class="text-slate-400"><i class="fas fa-times text-xl"></i></button>
+                <div>
+                    <h3 class="text-xl font-bold text-navy" id="mtkTitle">Cek Log Pertumbuhan</h3>
+                    <p class="text-sm text-slate-500" id="mtkSubtitle">Oleh: -</p>
+                </div>
+                <button onclick="closeTimelineReviewModal()" class="text-slate-400 hover:text-red-500 transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
             </div>
-            <div class="p-6 overflow-y-auto max-h-[50vh]" id="timelineContainerAdmin"></div>
+            
+            <div class="flex flex-col p-6 overflow-y-auto" style="max-height: 50vh;">
+                <h4 class="font-bold text-slate-700 mb-4 uppercase text-sm border-b pb-2">Log Validasi Guru Matematika (Durasi)</h4>
+                
+                <div id="timelineContainerAdmin" class="space-y-4">
+                    <!-- Dinamis dimuat oleh JavaScript -->
+                </div>
+            </div>
+
             <div class="p-6 bg-slate-50 border-t flex gap-3">
-                <button onclick="executeDemotePlant()" class="flex-1 py-3 bg-white border border-red-500 text-red-500 font-bold rounded-lg">Revisi / Tolak</button>
-                <button onclick="executeApprovePlant()" class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-lg">Validasi (MTK)</button>
+                <button onclick="executeDemotePlant()" id="btnMtkReject" class="flex-1 py-3 bg-white border border-red-500 text-red-500 font-bold rounded-lg hover:bg-red-50 transition">Revisi / Tolak</button>
+                <button onclick="executeApprovePlant()" id="btnMtkApprove" class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md">Validasi & Approve (MTK)</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: LIHAT PROFIL -->
-    <div id="viewProfileModal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <!-- MODAL: LIHAT PROFIL (Master Katalog) -->
+    <div id="viewProfileModal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6 lg:p-8">
         <div class="bg-slate-50 w-full max-w-5xl max-h-[95vh] text-left rounded-3xl shadow-2xl overflow-hidden relative flex flex-col">
-            <button onclick="closeViewProfileModal()" class="absolute top-4 right-4 z-20 bg-white w-10 h-10 rounded-full"><i class="fas fa-times"></i></button>
-            <div id="modalContentProfile" class="overflow-y-auto flex-1 p-6"></div>
+            <!-- Close Button -->
+            <button onclick="closeViewProfileModal()" class="absolute top-4 right-4 z-20 bg-white/80 hover:bg-white text-slate-800 hover:text-red-600 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition backdrop-blur-sm">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div id="modalContentProfile" class="overflow-y-auto w-full flex-1 hide-scrollbar smooth-scroll p-6 md:p-8">
+                <!-- Dimuat Dinamis via JS -->
+            </div>
         </div>
     </div>
 
-    <!-- MODAL: EDIT DATA -->
-    <div id="editPlantModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-5xl max-h-[95vh] flex flex-col rounded-2xl shadow-2xl relative">
-            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="text-lg font-bold text-navy"><i class="fas fa-edit mr-2"></i> Edit Data Tanaman</h3>
-                <button onclick="closeEditPlantModal()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+    <!-- MODAL: EDIT DATA (Master Katalog) -->
+    <div id="editPlantModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 md:p-6">
+        <div class="bg-white w-full max-w-4xl max-h-[95vh] flex flex-col rounded-2xl shadow-2xl relative">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-2xl flex-shrink-0">
+                <div>
+                    <h3 class="text-lg font-bold text-navy"><i class="fas fa-edit mr-2"></i> Edit Data Tanaman (Master)</h3>
+                    <p class="text-xs text-slate-500 mt-1">Perbarui seluruh informasi tanaman agar sinkron dengan database frontend.</p>
+                </div>
+                <button onclick="closeEditPlantModal()" class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-6 overflow-y-auto flex-1 bg-white space-y-6">
+            <!-- Body (Scrollable) -->
+            <div class="p-6 overflow-y-auto flex-1 bg-white">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-4">
-                        <h4 class="font-bold text-navy border-b pb-2 text-sm">1. Identitas & Foto Utama</h4>
-                        <div class="flex items-center gap-4">
-                            <img id="editFotoImg" src="" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
-                            <!-- Input File dgn onchange compress image -->
-                            <input type="file" id="editFotoInput" onchange="processImage(event, 'editFotoImg')" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 cursor-pointer hover:file:bg-blue-100 transition" accept="image/*">
+                    
+                    <!-- Kiri: Foto, Identitas, Morfologi -->
+                    <div class="space-y-5">
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm">1. Identitas & Foto</h4>
+                            <div class="flex items-center gap-4 mb-4">
+                                <img id="editFotoImg" src="https://placehold.co/150/15803d/ffffff?text=Tanaman" class="w-16 h-16 rounded-xl object-cover border border-slate-200" alt="Preview">
+                                <input type="file" id="editFotoInput" onchange="processImage(event, 'editFotoImg')" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 cursor-pointer hover:file:bg-blue-100 transition" accept="image/*">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lokal</label>
+                                    <input type="text" id="editNamaLokal" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Latin</label>
+                                    <input type="text" id="editNamaLatin" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm italic focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Daerah</label>
+                                <input type="text" id="editNamaDaerah" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                            </div>
                         </div>
-                        <input type="text" id="editNamaLokal" placeholder="Nama Lokal" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy outline-none">
-                        <input type="text" id="editNamaLatin" placeholder="Nama Latin" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy outline-none italic">
-                        <input type="text" id="editNamaDaerah" placeholder="Nama Daerah" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:border-navy outline-none">
-                        <h4 class="font-bold text-navy border-b pb-2 text-sm mt-4">2. Morfologi</h4>
-                        <textarea id="editMorfologi" rows="4" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:border-navy outline-none"></textarea>
+
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm flex items-center gap-2">
+                                <span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded">B. INDO</span> 2. Morfologi
+                            </h4>
+                            <textarea id="editMorfologi" rows="6" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:border-navy focus:ring-1 focus:ring-navy outline-none transition leading-relaxed"></textarea>
+                        </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <h4 class="font-bold text-navy border-b pb-2 text-sm">3. Panduan Perawatan</h4>
-                        <input type="text" id="editAir" placeholder="Air" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none">
-                        <input type="text" id="editPupuk" placeholder="Pupuk" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none">
-                        <input type="text" id="editHama" placeholder="Hama" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none">
-                        
-                        <h4 class="font-bold text-navy border-b pb-2 text-sm mt-4 flex justify-between items-center">
-                            4. Khasiat <button onclick="addKhasiatRow()" class="text-xs bg-slate-100 px-2 py-1 rounded text-navy hover:bg-slate-200">+ Baris</button>
-                        </h4>
-                        <div id="khasiatContainer" class="space-y-3"></div>
+                    <!-- Kanan: Perawatan, Khasiat -->
+                    <div class="space-y-5">
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded">IPAS</span> 3. Panduan Perawatan
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-tint"></i></div>
+                                    <div class="flex-1">
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Intensitas Air</label>
+                                        <input type="text" id="editAir" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none transition">
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-seedling"></i></div>
+                                    <div class="flex-1">
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Pemberian Pupuk</label>
+                                        <input type="text" id="editPupuk" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none transition">
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-bug"></i></div>
+                                    <div class="flex-1">
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Penanganan Hama</label>
+                                        <input type="text" id="editHama" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-navy outline-none transition">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded">IPAS</span> 4. Khasiat & Ramuan
+                                </div>
+                                <button onclick="addKhasiatRow()" class="text-xs bg-slate-100 px-2 py-1 rounded text-navy font-bold hover:bg-slate-200 transition"><i class="fas fa-plus"></i> Baris</button>
+                            </h4>
+                            <div id="khasiatContainer" class="space-y-3">
+                                <!-- Dinamis dimuat JS -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="border-t border-slate-200 pt-6">
+                <!-- Bawah: Section Linimasa -->
+                <div class="mt-8 pt-8 border-t border-slate-200">
                     <h4 class="font-bold text-navy border-b pb-2 mb-4 text-sm flex justify-between items-center">
-                        5. Linimasa Pertumbuhan
-                        <button onclick="addTimelineRow()" class="text-xs bg-slate-100 px-3 py-1.5 rounded-lg text-navy hover:bg-slate-200">+ Fase Baru</button>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded">MTK</span> 5. Manajemen Linimasa Pertumbuhan
+                        </div>
+                        <button onclick="addTimelineRow()" class="text-xs bg-slate-100 px-3 py-1.5 rounded-lg text-navy font-bold hover:bg-slate-200 transition shadow-sm"><i class="fas fa-plus mr-1"></i> Tambah Fase Baru</button>
                     </h4>
-                    <div id="timelineEditContainer" class="space-y-4"></div>
+                    
+                    <div id="timelineEditContainer" class="space-y-4">
+                        <!-- Dinamis dimuat JS -->
+                    </div>
                 </div>
+
             </div>
             
-            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-                <button onclick="closeEditPlantModal()" class="px-5 py-2.5 border border-slate-300 text-slate-600 font-bold rounded-lg text-sm hover:bg-white">Batal</button>
-                <button onclick="saveEditPlant()" id="btnSaveEditPlant" class="px-5 py-2.5 bg-navy text-white font-bold rounded-lg text-sm shadow-md flex items-center gap-2"><i class="fas fa-save"></i> Simpan Perubahan</button>
+            <!-- Footer Actions -->
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end gap-3 flex-shrink-0">
+                <button onclick="closeEditPlantModal()" class="px-5 py-2.5 border border-slate-300 text-slate-600 font-bold rounded-lg text-sm hover:bg-white transition">Batal</button>
+                <button onclick="saveEditPlant()" id="btnSaveEditPlant" class="px-5 py-2.5 bg-navy text-white font-bold rounded-lg text-sm shadow-md hover:bg-navylight transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan Perubahan Database</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL: KONFIRMASI HAPUS (Master Katalog) -->
     <div id="deleteConfirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden text-center p-6 transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                <i class="fas fa-trash-alt"></i>
+            </div>
             <h3 class="text-xl font-bold text-slate-800 mb-2">Hapus Data Tanaman?</h3>
-            <div class="flex justify-center gap-3 mt-6">
-                <button onclick="closeDeleteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl">Batal</button>
-                <button onclick="executeDeletePlant()" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl">Iya, Hapus</button>
+            <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin akan menghapus seluruh data tanaman ini dari <b>Database</b> secara permanen? Data tidak dapat dipulihkan.</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeDeleteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
+                <button onclick="executeDeletePlant()" id="btnConfirmDeletePlant" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: KONFIRMASI TURUN STATUS -->
+    <!-- MODAL: KONFIRMASI TURUN STATUS / REVISI (Master Katalog) -->
     <div id="demoteConfirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden text-center p-6 transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                <i class="fas fa-undo"></i>
+            </div>
             <h3 class="text-xl font-bold text-slate-800 mb-2">Turunkan Status Data?</h3>
-            <div class="flex justify-center gap-3 mt-6">
-                <button onclick="closeDemoteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl">Batal</button>
-                <button onclick="executeDemotePlant()" class="flex-1 px-4 py-2.5 bg-amber-500 text-white font-bold rounded-xl">Iya, Kembalikan</button>
+            <p class="text-sm text-slate-500 mb-6">Tanaman ini akan ditarik dari tayangan publik (Katalog Live) dan dikembalikan ke antrean <b>Pusat Validasi</b>.</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeDemoteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
+                <button onclick="executeDemotePlant()" id="btnConfirmDemotePlant" class="flex-1 px-4 py-2.5 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-md">Iya, Kembalikan</button>
             </div>
         </div>
     </div>
 
+    <!-- LOGIC NAVIGASI SPA, MODAL, DAN API -->
     <script>
         let selectedUserId = null;
-        let selectedEditUserId = null;
         let selectedPlantId = null;
 
         const pages = ['pengguna', 'dashboard', 'validasi', 'katalog', 'ekspor'];
-        const titles = { pengguna: 'Manajemen Akun Pengguna', dashboard: 'Dashboard Utama', validasi: 'Pusat Validasi Lintas Mapel', katalog: 'Master Katalog TOGA', ekspor: 'Ekspor Data Penilaian' };
+        const titles = {
+            pengguna: 'Manajemen Akun Pengguna',
+            dashboard: 'Dashboard Utama',
+            validasi: 'Pusat Validasi Lintas Mapel',
+            katalog: 'Master Katalog TOGA',
+            ekspor: 'Ekspor Data Penilaian'
+        };
 
         function switchPage(pageId) {
             pages.forEach(p => {
                 document.getElementById('page-' + p).classList.add('hidden');
                 document.getElementById('page-' + p).classList.remove('block');
-                const btn = document.getElementById('menu-' + p);
-                if(btn) {
-                    if(p === pageId) { btn.classList.add('bg-nature', 'text-white', 'shadow-md'); btn.classList.remove('text-blue-100'); } 
-                    else { btn.classList.remove('bg-nature', 'text-white', 'shadow-md'); btn.classList.add('text-blue-100'); }
-                }
             });
             document.getElementById('page-' + pageId).classList.remove('hidden');
             document.getElementById('page-' + pageId).classList.add('block');
             document.getElementById('topbar-title').innerText = titles[pageId];
+
+            pages.forEach(p => {
+                const btn = document.getElementById('menu-' + p);
+                if(btn) {
+                    if(p === pageId) {
+                        btn.classList.add('bg-nature', 'text-white', 'shadow-md');
+                        btn.classList.remove('text-blue-100', 'hover:bg-white/10');
+                    } else {
+                        btn.classList.remove('bg-nature', 'text-white', 'shadow-md');
+                        btn.classList.add('text-blue-100', 'hover:bg-white/10');
+                    }
+                }
+            });
         }
 
-        // ================= IMAGE COMPRESSOR (Mencegah Google Sheet Error) =================
+        // ================= IMAGE COMPRESSOR =================
         function processImage(event, imgId) {
             const file = event.target.files[0];
             if(!file) return;
             compressAndPreview(file, function(base64Str) {
                 document.getElementById(imgId).src = base64Str;
-            });
-        }
-
-        function processTimelineImage(event, inputEl) {
-            const file = event.target.files[0];
-            if(!file) return;
-            compressAndPreview(file, function(base64Str) {
-                // img ada tepat sebelum input form ini
-                inputEl.previousElementSibling.src = base64Str; 
             });
         }
 
@@ -457,7 +792,7 @@
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 400; // Resolusi kecil agar Base64 tidak melebihi 50.000 karakter di Sheet
+                    const MAX_WIDTH = 400;
                     const MAX_HEIGHT = 400;
                     let width = img.width;
                     let height = img.height;
@@ -469,9 +804,7 @@
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.6); // Kompresi kuat
-                    callback(dataUrl);
+                    callback(canvas.toDataURL('image/jpeg', 0.6));
                 };
                 img.src = e.target.result;
             };
@@ -480,9 +813,12 @@
 
         // ================= MODAL HELPERS =================
         function openUserModal(isEdit = false, id = null) { 
+            const title = document.getElementById('userModalTitle');
+            const btn = document.getElementById('userModalBtn');
             selectedEditUserId = id;
+
             if(isEdit && id) {
-                document.getElementById('userModalTitle').innerHTML = '<i class="fas fa-user-edit mr-2"></i>Edit Akun';
+                title.innerHTML = '<i class="fas fa-user-edit mr-2"></i>Edit Akun';
                 const u = dbUsers.find(x => (x.user_id || x.id_user) == id);
                 if(u) {
                     document.getElementById('userRole').value = u.role;
@@ -493,7 +829,7 @@
                     document.getElementById('inputPassword').value = ''; 
                 }
             } else {
-                document.getElementById('userModalTitle').innerHTML = '<i class="fas fa-user-plus mr-2"></i>Akun Baru';
+                title.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Akun Baru';
                 document.getElementById('inputNama').value = '';
                 document.getElementById('inputUsername').value = '';
                 document.getElementById('inputPassword').value = '';
@@ -506,12 +842,15 @@
         function openDeleteUserModal(id) { selectedUserId = id; document.getElementById('deleteUserConfirmModal').classList.remove('hidden'); }
         function closeDeleteUserModal() { selectedUserId = null; document.getElementById('deleteUserConfirmModal').classList.add('hidden'); }
 
-        function calculateDays(startStr, endStr) {
-            const start = new Date(startStr); const end = new Date(endStr);
+        function calculateDays(startDateStr, endDateStr) {
+            const start = new Date(startDateStr);
+            const end = new Date(endDateStr);
             if(isNaN(start) || isNaN(end)) return "Beberapa hari";
             return Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24)); 
         }
+
         function formatDateJS(dateStr) {
+            if (!dateStr) return "-";
             const date = new Date(dateStr);
             if(isNaN(date)) return dateStr;
             return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -521,63 +860,185 @@
             selectedPlantId = id;
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
             if(plant) {
-                document.getElementById('revTitle').innerText = `Review Data: ${plant.nama_lokal}`;
+                document.getElementById('revTitle').innerText = `Review Data Baru: ${plant.nama_lokal}`;
                 document.getElementById('revSubtitle').innerText = `Oleh: ${plant.pengelola}`;
                 document.getElementById('revImage').src = plant.image || 'https://placehold.co/600x400/15803d/ffffff?text=Tanaman';
                 document.getElementById('revNamaLokal').innerText = plant.nama_lokal;
                 document.getElementById('revNamaLatin').innerText = plant.nama_latin;
-                document.getElementById('revMorfologi').innerText = plant.morfologi || '-';
+                document.getElementById('revDaerah').innerText = plant.nama_daerah || '-';
+                document.getElementById('revMorfologi').innerText = plant.morfologi || 'Belum ada deskripsi morfologi.';
                 
+                document.getElementById('checkBIndo').checked = (plant.status_b_indo === 'Approved');
+                document.getElementById('checkIpas').checked = (plant.status_ipas === 'Approved');
+
                 let khasiatHtml = '';
                 if(plant.khasiatDetail && plant.khasiatDetail.length > 0) {
-                    plant.khasiatDetail.forEach(k => {
-                        khasiatHtml += `<p class="text-sm font-bold text-nature">${k.nama_penyakit || k.nama}</p><p class="text-xs text-slate-600 mb-2">${k.cara_meramu || k.ramuan}</p>`;
-                    });
+                    khasiatHtml = plant.khasiatDetail.map((k, index) => `
+                        <details class="group bg-slate-50 border border-slate-200 rounded-lg overflow-hidden cursor-pointer" ${index === 0 ? 'open' : ''}>
+                            <summary class="p-2.5 font-semibold text-nature text-xs flex justify-between items-center hover:bg-slate-100 group-open:bg-nature group-open:text-white transition-colors duration-200 outline-none">
+                                <span class="flex items-center gap-2"><i class="fas fa-plus-circle"></i> ${k.nama_penyakit || k.nama || 'Khasiat'}</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
+                            </summary>
+                            <div class="p-3 text-xs text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
+                                ${k.cara_meramu || k.ramuan || '-'}
+                            </div>
+                        </details>
+                    `).join('');
+                } else {
+                    khasiatHtml = '<p class="text-xs text-slate-500 italic">Belum ada data khasiat.</p>';
                 }
                 document.getElementById('revKhasiatContainer').innerHTML = khasiatHtml;
+
+                document.getElementById('revAir').innerText = (plant.perawatan && plant.perawatan.air) ? plant.perawatan.air : '-';
+                document.getElementById('revPupuk').innerText = (plant.perawatan && plant.perawatan.pupuk) ? plant.perawatan.pupuk : '-';
+                document.getElementById('revHama').innerText = (plant.perawatan && plant.perawatan.hama) ? plant.perawatan.hama : '-';
             }
             document.getElementById('reviewModal').classList.remove('hidden'); 
         }
-        function closeReviewModal() { document.getElementById('reviewModal').classList.add('hidden'); }
+        function closeReviewModal() { selectedPlantId = null; document.getElementById('reviewModal').classList.add('hidden'); }
         
         function openTimelineReviewModal(id) { 
             selectedPlantId = id;
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
             if(plant) {
+                document.getElementById('mtkTitle').innerText = `Cek Log Pertumbuhan: ${plant.nama_lokal}`;
+                document.getElementById('mtkSubtitle').innerText = `Oleh: ${plant.pengelola}`;
+                
                 const container = document.getElementById('timelineContainerAdmin');
-                if (plant.timeline && plant.timeline.length > 0) {
-                    let html = '';
+                if (container) {
+                    if (plant.timeline && plant.timeline.length > 0) {
+                        let html = '';
+                        plant.timeline.forEach((node, index) => {
+                            let rawDate = node.tgl_observasi || node.tglAsli || node.tanggal_observasi;
+                            let prevDate = index === 0 ? null : (plant.timeline[index-1].tgl_observasi || plant.timeline[index-1].tglAsli || plant.timeline[index-1].tanggal_observasi);
+                            let durasi = index === 0 ? 'Hari Pertama' : `+${calculateDays(prevDate, rawDate)} hari`;
+                            let displayDate = node.tglFormatted || formatDateJS(rawDate);
+
+                            html += `
+                                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col sm:flex-row gap-4 items-start">
+                                    <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/150/d1d5db/6b7280?text=Fase'" class="w-full sm:w-24 h-24 object-cover rounded-lg flex-shrink-0">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="font-bold text-navy">${node.nama_fase || node.fase}</span>
+                                            <span class="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${displayDate}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 mb-2">${node.catatan_pertumbuhan || node.catatan || 'Tanpa catatan'}</p>
+                                        <span class="text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-1 rounded"><i class="fas fa-calculator"></i> ${durasi}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        container.innerHTML = html;
+                    } else {
+                        container.innerHTML = `<p class="text-sm text-slate-500 italic text-center py-4">Belum ada log pertumbuhan untuk divalidasi.</p>`;
+                    }
+                }
+            }
+            document.getElementById('timelineReviewModal').classList.remove('hidden'); 
+        }
+        function closeTimelineReviewModal() { selectedPlantId = null; document.getElementById('timelineReviewModal').classList.add('hidden'); }
+
+        // ================= MODAL PROFIL (MASTER KATALOG) =================
+        function openViewProfileModal(id) { 
+            const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
+            if(plant) {
+                let timelineHTML = '';
+                if(plant.timeline && plant.timeline.length > 0) {
                     plant.timeline.forEach((node, index) => {
-                        let durasi = index === 0 ? 'Hari Pertama' : `+${calculateDays(plant.timeline[index-1].tglAsli || plant.timeline[index-1].tanggal_observasi, node.tglAsli || node.tanggal_observasi)} hari`;
-                        html += `
-                            <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col sm:flex-row gap-4 mb-2">
-                                <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" class="w-24 h-24 object-cover rounded-lg">
-                                <div>
-                                    <p class="font-bold text-navy">${node.nama_fase || node.fase}</p>
-                                    <p class="text-xs text-slate-500">${node.tglFormatted || node.tglAsli || node.tanggal_observasi}</p>
-                                    <p class="text-sm my-1">${node.catatan_pertumbuhan || node.catatan || '-'}</p>
-                                    <span class="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded border">${durasi}</span>
+                        let rawDate = node.tgl_observasi || node.tglAsli || node.tanggal_observasi;
+                        let prevDate = index === 0 ? null : (plant.timeline[index-1].tgl_observasi || plant.timeline[index-1].tglAsli || plant.timeline[index-1].tanggal_observasi);
+                        let durasi = index === 0 ? 'Hari Pertama' : `+${calculateDays(prevDate, rawDate)} hari`;
+                        let displayDate = node.tglFormatted || formatDateJS(rawDate);
+                        
+                        timelineHTML += `
+                            <div class="relative pl-8 py-4 timeline-line">
+                                <div class="absolute left-2.5 w-6 h-6 rounded-full bg-gold border-4 border-white shadow-sm flex items-center justify-center transform -translate-x-1/2 mt-1 z-10"></div>
+                                <div class="bg-white border border-slate-100 rounded-xl p-4 shadow-sm flex flex-col sm:flex-row gap-4 items-start">
+                                    <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/150/d1d5db/6b7280?text=Fase'" class="w-full sm:w-20 h-32 sm:h-20 object-cover rounded-lg bg-slate-100 flex-shrink-0" alt="Progres">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center flex-wrap gap-2 mb-1">
+                                            <span class="font-bold text-navy">${node.nama_fase || node.fase}</span>
+                                            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded ml-2">${displayDate}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 mb-2 break-words">${node.catatan_pertumbuhan || node.catatan || 'Tanpa catatan'}</p>
+                                        <span class="text-xs font-semibold text-nature bg-nature/10 px-2 py-1 rounded">
+                                            <i class="fas fa-calculator mr-1"></i> ${durasi}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         `;
                     });
-                    container.innerHTML = html;
-                } else container.innerHTML = `<p class="text-center text-slate-500">Belum ada linimasa.</p>`;
-            }
-            document.getElementById('timelineReviewModal').classList.remove('hidden'); 
-        }
-        function closeTimelineReviewModal() { document.getElementById('timelineReviewModal').classList.add('hidden'); }
+                } else {
+                    timelineHTML = `<p class="text-sm text-slate-500 italic">Belum ada progres pertumbuhan.</p>`;
+                }
 
-        function openViewProfileModal(id) { 
-            const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
-            if(plant) {
+                let khasiatHTML = '';
+                if(plant.khasiatDetail && plant.khasiatDetail.length > 0) {
+                    khasiatHTML = plant.khasiatDetail.map((k, index) => `
+                        <details class="group bg-slate-50 border border-slate-200 rounded-xl overflow-hidden cursor-pointer" ${index === 0 ? 'open' : ''}>
+                            <summary class="p-3 font-semibold text-nature flex justify-between items-center hover:bg-slate-100 group-open:bg-nature group-open:text-white transition-colors duration-200 outline-none">
+                                <span class="flex items-center gap-2"><i class="fas fa-plus-circle"></i> ${k.nama_penyakit || k.nama || '-'}</span>
+                                <i class="fas fa-chevron-down text-sm transition-transform duration-300 group-open:rotate-180"></i>
+                            </summary>
+                            <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
+                                ${k.cara_meramu || k.ramuan || '-'}
+                            </div>
+                        </details>
+                    `).join('');
+                } else {
+                    khasiatHTML = `<p class="text-sm text-slate-500">Data khasiat belum tersedia.</p>`;
+                }
+
                 document.getElementById('modalContentProfile').innerHTML = `
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6">
-                        <img src="${plant.image || 'https://placehold.co/600x400/15803d/ffffff?text=Tanaman'}" class="w-full md:w-1/3 h-48 md:h-full object-cover rounded-xl shadow-inner border border-slate-100">
-                        <div>
-                            <h2 class="text-3xl font-bold text-navy">${plant.nama_lokal}</h2>
-                            <p class="text-lg text-slate-500 italic mb-4">${plant.nama_latin}</p>
-                            <p class="text-sm text-slate-600 leading-snug"><b>Morfologi:</b> <br> ${plant.morfologi || '-'}</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+                        <div class="lg:col-span-2 space-y-6 md:space-y-8">
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6 items-stretch">
+                                <img src="${plant.image || 'https://placehold.co/600x400/15803d/ffffff?text=Tanaman'}" onerror="this.src='https://placehold.co/600x400/15803d/ffffff?text=Tanaman'" class="w-full md:w-1/3 h-48 md:h-full object-cover rounded-xl shadow-inner border border-slate-100">
+                                <div class="flex flex-col justify-center flex-1">
+                                    <h2 class="text-3xl font-bold text-navy mb-1">${plant.nama_lokal}</h2>
+                                    <p class="text-lg text-slate-500 italic mb-4">${plant.nama_latin}</p>
+                                    <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100/50 mb-4">
+                                        <span class="text-sm font-bold text-navy block mb-1">Nama Daerah:</span>
+                                        <p class="text-sm text-slate-600 leading-snug">${plant.nama_daerah || '-'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-xl font-bold text-navy mb-4"><i class="fas fa-leaf mr-2"></i> Deskripsi Morfologi</h3>
+                                <p class="text-slate-600 leading-relaxed text-justify break-words">${plant.morfologi || '-'}</p>
+                            </section>
+                            <div class="grid sm:grid-cols-2 gap-6">
+                                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                                    <h3 class="text-lg font-bold text-navy mb-4 border-b pb-2">Khasiat & Cara Meramu</h3>
+                                    <div class="space-y-3">${khasiatHTML}</div>
+                                </section>
+                                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                                    <h3 class="text-lg font-bold text-navy mb-4 border-b pb-2">Panduan Perawatan</h3>
+                                    <ul class="space-y-5 text-sm text-slate-600">
+                                        <li class="flex items-start gap-4">
+                                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-tint"></i></div>
+                                            <span><strong>Air:</strong> <br>${plant.perawatan?.air || '-'}</span>
+                                        </li>
+                                        <li class="flex items-start gap-4">
+                                            <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0"><i class="fas fa-seedling"></i></div>
+                                            <span><strong>Pupuk:</strong> <br>${plant.perawatan?.pupuk || '-'}</span>
+                                        </li>
+                                        <li class="flex items-start gap-4">
+                                            <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-bug"></i></div>
+                                            <span><strong>Hama:</strong> <br>${plant.perawatan?.hama || '-'}</span>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1">
+                            <div class="lg:sticky lg:top-8">
+                                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                                    <h3 class="text-lg font-bold text-navy mb-6"><i class="fas fa-chart-line text-gold mr-2"></i> Linimasa Pertumbuhan</h3>
+                                    <div class="space-y-0 relative">${timelineHTML}</div>
+                                </section>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -600,51 +1061,62 @@
                 document.getElementById('editHama').value = plant.perawatan?.hama || '';
 
                 let khasiatHtml = '';
-                if(plant.khasiatDetail) {
+                if(plant.khasiatDetail && plant.khasiatDetail.length > 0) {
                     plant.khasiatDetail.forEach(k => {
                         khasiatHtml += `
-                            <div class="border border-slate-200 rounded-xl p-3 bg-slate-50 relative group transition">
-                                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10"><i class="fas fa-trash text-xs"></i></button>
-                                <input type="text" value="${k.nama_penyakit || k.nama || ''}" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 focus:border-navy outline-none">
+                            <div class="border border-slate-200 rounded-xl p-3 bg-slate-50 relative group transition hover:border-blue-300">
+                                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Baris"><i class="fas fa-trash text-xs"></i></button>
+                                <input type="text" value="${k.nama_penyakit || k.nama || ''}" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 focus:border-navy outline-none pr-8">
                                 <textarea rows="2" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none">${k.cara_meramu || k.ramuan || ''}</textarea>
                             </div>
                         `;
                     });
-                }
+                } else khasiatHtml = '<p class="text-xs text-slate-400 italic">Belum ada khasiat, silakan tambah.</p>';
                 document.getElementById('khasiatContainer').innerHTML = khasiatHtml;
 
                 let timelineHtml = '';
-                if(plant.timeline) {
+                if(plant.timeline && plant.timeline.length > 0) {
                     plant.timeline.forEach(node => {
                         let rawDate = node.tgl_observasi || node.tglAsli || node.tanggal_observasi || '';
-                        let fDate = rawDate.includes("T") ? rawDate.split("T")[0] : rawDate;
+                        let formattedDateInput = rawDate;
+                        if(rawDate && rawDate.includes("T")) formattedDateInput = rawDate.split("T")[0];
+                        
                         timelineHtml += `
-                            <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 relative group flex gap-4">
-                                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-7 h-7 bg-red-100 text-red-500 rounded opacity-0 group-hover:opacity-100"><i class="fas fa-trash text-xs"></i></button>
-                                <div class="w-32 flex-shrink-0">
-                                    <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" class="w-full h-24 object-cover rounded-lg border border-slate-200 mb-2">
-                                    <input type="file" onchange="processTimelineImage(event, this)" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-50 file:text-blue-600 cursor-pointer" accept="image/*">
+                            <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 relative group transition hover:border-blue-300 flex flex-col sm:flex-row gap-4 items-start shadow-sm">
+                                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-7 h-7 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Fase"><i class="fas fa-trash text-xs"></i></button>
+                                <div class="w-full sm:w-32 flex-shrink-0">
+                                    <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/150/d1d5db/6b7280?text=Fase'" class="w-full h-24 object-cover rounded-lg border border-slate-200 mb-2 shadow-inner">
+                                    <input type="file" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:font-bold file:bg-blue-50 file:text-blue-600 cursor-pointer">
                                 </div>
-                                <div class="flex-1 grid grid-cols-2 gap-3">
-                                    <input type="date" value="${fDate}" class="w-full border border-slate-300 rounded-md p-2 text-xs outline-none">
-                                    <input type="text" value="${node.nama_fase || node.fase || ''}" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold outline-none">
-                                    <textarea rows="1" class="col-span-2 w-full border border-slate-300 rounded-md p-2 text-xs outline-none">${node.catatan_pertumbuhan || node.catatan || ''}</textarea>
+                                <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Tanggal Observasi</label>
+                                        <input type="date" value="${formattedDateInput}" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Nama Fase</label>
+                                        <input type="text" value="${node.nama_fase || node.fase || ''}" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold focus:border-navy outline-none pr-8">
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Catatan Pertumbuhan</label>
+                                        <textarea rows="1" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none">${node.catatan_pertumbuhan || node.catatan || ''}</textarea>
+                                    </div>
                                 </div>
                             </div>
                         `;
                     });
-                }
+                } else timelineHtml = '<p class="text-xs text-slate-400 italic">Belum ada linimasa, silakan tambah.</p>';
                 document.getElementById('timelineEditContainer').innerHTML = timelineHtml;
             }
             document.getElementById('editPlantModal').classList.remove('hidden'); 
         }
-        function closeEditPlantModal() { document.getElementById('editPlantModal').classList.add('hidden'); }
+        function closeEditPlantModal() { selectedPlantId = null; document.getElementById('editPlantModal').classList.add('hidden'); }
         
         function openDeleteConfirmModal(id) { selectedPlantId = id; document.getElementById('deleteConfirmModal').classList.remove('hidden'); }
-        function closeDeleteConfirmModal() { document.getElementById('deleteConfirmModal').classList.add('hidden'); }
+        function closeDeleteConfirmModal() { selectedPlantId = null; document.getElementById('deleteConfirmModal').classList.add('hidden'); }
         
         function openDemoteConfirmModal(id) { selectedPlantId = id; document.getElementById('demoteConfirmModal').classList.remove('hidden'); }
-        function closeDemoteConfirmModal() { document.getElementById('demoteConfirmModal').classList.add('hidden'); }
+        function closeDemoteConfirmModal() { selectedPlantId = null; document.getElementById('demoteConfirmModal').classList.add('hidden'); }
 
         function toggleAnggotaField() {
             const role = document.getElementById('userRole').value;
@@ -654,47 +1126,63 @@
         }
 
         function addKhasiatRow() {
-            const c = document.getElementById('khasiatContainer');
-            c.innerHTML += `
-                <div class="border border-slate-200 rounded-xl p-3 bg-slate-50 relative group transition">
-                    <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-500 rounded opacity-0 group-hover:opacity-100"><i class="fas fa-trash text-xs"></i></button>
-                    <input type="text" placeholder="Nama Khasiat" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 outline-none">
-                    <textarea rows="2" placeholder="Cara meramu..." class="w-full border border-slate-300 rounded-md p-2 text-xs outline-none"></textarea>
-                </div>
+            const container = document.getElementById('khasiatContainer');
+            if(container.innerHTML.includes('Belum ada')) container.innerHTML = '';
+            const newRow = document.createElement('div');
+            newRow.className = 'border border-slate-200 rounded-xl p-3 bg-slate-50 relative group transition hover:border-blue-300';
+            newRow.innerHTML = `
+                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Baris"><i class="fas fa-trash text-xs"></i></button>
+                <input type="text" placeholder="Nama Khasiat" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 focus:border-navy outline-none">
+                <textarea rows="2" placeholder="Cara meramu..." class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none"></textarea>
             `;
+            container.appendChild(newRow);
         }
 
         function addTimelineRow() {
-            const c = document.getElementById('timelineEditContainer');
-            c.innerHTML += `
-                <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 relative group flex gap-4">
-                    <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-7 h-7 bg-red-100 text-red-500 rounded opacity-0 group-hover:opacity-100"><i class="fas fa-trash text-xs"></i></button>
-                    <div class="w-32 flex-shrink-0">
-                        <img src="https://placehold.co/150/d1d5db/6b7280?text=Fase" class="w-full h-24 object-cover rounded-lg border border-slate-200 mb-2">
-                        <input type="file" onchange="processTimelineImage(event, this)" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-50 file:text-blue-600 cursor-pointer" accept="image/*">
-                    </div>
-                    <div class="flex-1 grid grid-cols-2 gap-3">
-                        <input type="date" class="w-full border border-slate-300 rounded-md p-2 text-xs outline-none">
-                        <input type="text" placeholder="Fase" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold outline-none">
-                        <textarea rows="1" placeholder="Catatan..." class="col-span-2 w-full border border-slate-300 rounded-md p-2 text-xs outline-none"></textarea>
-                    </div>
+            const container = document.getElementById('timelineEditContainer');
+            if(container.innerHTML.includes('Belum ada')) container.innerHTML = '';
+            const newRow = document.createElement('div');
+            newRow.className = 'border border-slate-200 rounded-xl p-4 bg-slate-50 relative group transition hover:border-blue-300 flex flex-col sm:flex-row gap-4 items-start shadow-sm';
+            newRow.innerHTML = `
+                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-7 h-7 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Fase"><i class="fas fa-trash text-xs"></i></button>
+                <div class="w-full sm:w-32 flex-shrink-0">
+                    <div class="w-full h-24 bg-slate-200 flex items-center justify-center rounded-lg border border-slate-300 mb-2 text-slate-400 shadow-inner"><i class="fas fa-image text-2xl"></i></div>
+                    <input type="file" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:font-bold file:bg-blue-50 file:text-blue-600 cursor-pointer">
+                </div>
+                <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                    <div><label class="block text-[10px] font-bold text-slate-700 mb-1">Tanggal</label><input type="date" class="w-full border border-slate-300 rounded-md p-2 text-xs outline-none"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-700 mb-1">Fase</label><input type="text" placeholder="Fase" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold outline-none"></div>
+                    <div class="sm:col-span-2"><label class="block text-[10px] font-bold text-slate-700 mb-1">Catatan</label><textarea rows="1" class="w-full border border-slate-300 rounded-md p-2 text-xs outline-none"></textarea></div>
                 </div>
             `;
+            container.appendChild(newRow);
         }
 
-        // ================= API CONFIG & FETCH =================
+        window.addEventListener('click', (e) => {
+            const modals = ['userModal', 'deleteUserConfirmModal', 'reviewModal', 'timelineReviewModal', 'viewProfileModal', 'editPlantModal', 'deleteConfirmModal', 'demoteConfirmModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (e.target === modal) modal.classList.add('hidden');
+            });
+        });
+
+        // ================= API CONFIG =================
         const API_URL = "https://script.google.com/macros/s/AKfycbxi6_oVqHFoIR1JiNyeKismyeJilacmo9gcpT3-YaTmgvqUvZ9AlMdFvARzWHk7khFO/exec"; 
-        
         let dbUsers = [];
         let dbPlants = [];
         let classProgressData = [];
 
         async function loadDatabase() {
             try {
-                if(document.getElementById('globalLoader')) document.getElementById('globalLoader').classList.remove('hidden');
+                const loader = document.getElementById('globalLoader');
+                if (loader) loader.classList.remove('hidden');
                 
                 if (!API_URL.startsWith("http")) {
-                    if(dbPlants.length === 0) { const data = getDummyData(); dbUsers = data.users; dbPlants = data.plants; }
+                    if(dbPlants.length === 0 && dbUsers.length === 0) {
+                        const data = getDummyData();
+                        dbUsers = data.users;
+                        dbPlants = data.plants;
+                    }
                     renderDashboardData();
                     return; 
                 }
@@ -705,16 +1193,21 @@
                 dbPlants = data.plants || [];
                 renderDashboardData();
             } catch (error) {
-                alert("Gagal memuat data dari database.");
+                console.error("Gagal terhubung ke Database.", error);
             } finally {
-                if(document.getElementById('globalLoader')) document.getElementById('globalLoader').classList.add('hidden');
+                const loader = document.getElementById('globalLoader');
+                if (loader) loader.classList.add('hidden');
             }
         }
         document.addEventListener("DOMContentLoaded", loadDatabase);
 
         function renderDashboardData() {
-            renderUsersTable(); renderValidationTable(); renderCatalogTable();
-            updateStats(); calculateProgressData(); renderProgressChart();
+            renderUsersTable();
+            renderValidationTable();
+            renderCatalogTable();
+            updateStats();
+            calculateProgressData();
+            renderProgressChart();
         }
 
         function renderUsersTable() {
@@ -733,11 +1226,11 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm shadow-inner border">${initial}</div>
-                                <div class="ml-3"><div class="text-sm font-bold text-slate-800">${u.nama_lengkap}</div><div class="text-xs text-slate-500">${u.kelas_jurusan || '-'}</div></div>
+                                <div class="ml-3"><div class="text-sm font-bold text-slate-800">${u.nama_lengkap || '-'}</div><div class="text-xs text-slate-500">${u.kelas_jurusan || '-'}</div></div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${badgeClass}">${u.role}</span></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 font-mono">${u.username}</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${badgeClass}">${u.role || 'User'}</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 font-mono">${u.username || '-'}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                             <button onclick="openUserModal(true, '${userId}')" class="text-blue-600 hover:bg-blue-50 px-2 py-1 rounded transition"><i class="fas fa-edit"></i></button>
                             <button onclick="openDeleteUserModal('${userId}')" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded transition"><i class="fas fa-trash-alt"></i></button>
@@ -786,10 +1279,7 @@
                                 <div class="ml-4"><div class="text-sm font-bold text-slate-800">${p.nama_lokal}</div><div class="text-xs text-slate-500 italic">${p.nama_latin}</div></div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-slate-700">${p.pengelola}</div>
-                            <div class="text-xs text-slate-500">${p.kelas || '-'}</div>
-                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${p.pengelola}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <button onclick="openViewProfileModal('${plantId}')" class="text-slate-400 hover:text-navy p-2 mx-1"><i class="fas fa-eye"></i></button>
                             <button onclick="openEditPlantModal('${plantId}')" class="text-slate-400 hover:text-blue-500 p-2 mx-1"><i class="fas fa-edit"></i></button>
@@ -806,7 +1296,6 @@
             document.getElementById('statLive').innerText = dbPlants.filter(p => p.status_publikasi === 'Live').length;
             document.getElementById('statPending').innerText = dbPlants.filter(p => p.status_publikasi === 'Pending').length;
             document.getElementById('statRevisi').innerText = dbPlants.filter(p => p.status_publikasi === 'Revisi').length;
-            
             if(document.getElementById('totalAkunCard')) {
                 document.getElementById('totalAkunCard').innerText = dbUsers.length;
                 document.getElementById('totalGuruCard').innerText = dbUsers.filter(u => u.role && u.role.includes('Guru')).length;
@@ -826,15 +1315,14 @@
             classProgressData = Object.values(groups);
         }
 
-        // ================= API ACTION MENGHAPUS & UPDATE =================
         async function executeDeleteUser() {
             if(!selectedUserId) return;
             if(!API_URL.startsWith("http")) {
-                dbUsers = dbUsers.filter(u => u.id_user != selectedUserId && u.user_id != selectedUserId);
+                dbUsers = dbUsers.filter(u => (u.user_id || u.id_user) != selectedUserId);
                 closeDeleteUserModal(); renderDashboardData(); return;
             }
             try {
-                const res = await (await fetch(API_URL + "?action=deleteUser", { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({id_user: selectedUserId}) })).json();
+                const res = await (await fetch(API_URL + "?action=deleteUser", { method: "POST", body: JSON.stringify({id_user: selectedUserId}) })).json();
                 if(res.success) { closeDeleteUserModal(); loadDatabase(); }
             } catch(e) {}
         }
@@ -846,7 +1334,7 @@
                 closeDeleteConfirmModal(); renderDashboardData(); return;
             }
             try {
-                const res = await (await fetch(API_URL + "?action=deletePlant", { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({id_tanaman: selectedPlantId}) })).json();
+                const res = await (await fetch(API_URL + "?action=deletePlant", { method: "POST", body: JSON.stringify({id_tanaman: selectedPlantId}) })).json();
                 if(res.success) { closeDeleteConfirmModal(); loadDatabase(); }
             } catch(e) {}
         }
@@ -859,7 +1347,7 @@
                 closeDemoteConfirmModal(); closeReviewModal(); closeTimelineReviewModal(); renderDashboardData(); return;
             }
             try {
-                const res = await (await fetch(API_URL + "?action=updatePlantStatus", { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Revisi', status_b_indo: 'Revisi', status_ipas: 'Revisi'}) })).json();
+                const res = await (await fetch(API_URL + "?action=updatePlantStatus", { method: "POST", body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Revisi', status_b_indo: 'Revisi', status_ipas: 'Revisi'}) })).json();
                 if(res.success) { closeDemoteConfirmModal(); closeReviewModal(); closeTimelineReviewModal(); loadDatabase(); }
             } catch(e) {}
         }
@@ -872,16 +1360,12 @@
                 closeReviewModal(); closeTimelineReviewModal(); renderDashboardData(); return;
             }
             try {
-                const res = await (await fetch(API_URL + "?action=updatePlantStatus", { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Live', status_b_indo: 'Approved', status_ipas: 'Approved'}) })).json();
+                const res = await (await fetch(API_URL + "?action=updatePlantStatus", { method: "POST", body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Live', status_b_indo: 'Approved', status_ipas: 'Approved'}) })).json();
                 if(res.success) { closeReviewModal(); closeTimelineReviewModal(); loadDatabase(); }
             } catch(e) {}
         }
 
         async function saveUser() {
-            const btn = document.getElementById('userModalBtn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-            
             const payload = {
                 role: document.getElementById('userRole').value,
                 nama_lengkap: document.getElementById('inputNama').value,
@@ -890,37 +1374,27 @@
                 username: document.getElementById('inputUsername').value,
                 password: document.getElementById('inputPassword').value
             };
-            
             const isEdit = selectedEditUserId !== null;
             if(isEdit) payload.id_user = selectedEditUserId;
-            const apiAction = isEdit ? "editUser" : "addUser";
 
             if(!API_URL.startsWith("http")) {
-                setTimeout(() => {
-                    if(isEdit) {
-                        let uIdx = dbUsers.findIndex(u => (u.user_id || u.id_user) == selectedEditUserId);
-                        if(uIdx > -1) { if(payload.password === "") payload.password = dbUsers[uIdx].password; dbUsers[uIdx] = {...dbUsers[uIdx], ...payload}; }
-                    } else { payload.user_id = Math.floor(Math.random()*1000); dbUsers.push(payload); }
-                    closeUserModal(); renderDashboardData(); btn.innerHTML = originalText;
-                }, 500);
-                return;
+                if(isEdit) {
+                    let idx = dbUsers.findIndex(u => (u.user_id || u.id_user) == selectedEditUserId);
+                    if(idx > -1) dbUsers[idx] = {...dbUsers[idx], ...payload};
+                } else {
+                    payload.user_id = Math.floor(Math.random()*1000);
+                    dbUsers.push(payload);
+                }
+                closeUserModal(); renderDashboardData(); return;
             }
-
             try {
-                const response = await fetch(API_URL + "?action=" + apiAction, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
-                const result = await response.json();
-                if(result.success) { closeUserModal(); loadDatabase(); } else alert("Gagal menyimpan: " + result.message);
-            } catch (error) {} finally { btn.innerHTML = originalText; }
+                const res = await (await fetch(API_URL + "?action=" + (isEdit ? "editUser" : "addUser"), { method: "POST", body: JSON.stringify(payload) })).json();
+                if(res.success) { closeUserModal(); loadDatabase(); }
+            } catch(e) {}
         }
 
-        // SIMPAN EDIT TANAMAN DENGAN GAMBAR (BASE64)
         async function saveEditPlant() {
             if(!selectedPlantId) return;
-            const btn = document.getElementById('btnSaveEditPlant');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-            btn.disabled = true;
-
             const payload = {
                 id_tanaman: selectedPlantId,
                 image: document.getElementById('editFotoImg').src,
@@ -934,41 +1408,36 @@
             };
 
             document.querySelectorAll('#khasiatContainer > div').forEach(row => {
-                const inputs = row.querySelectorAll('input, textarea');
-                if(inputs.length === 2 && inputs[0].value.trim() !== '') {
-                    payload.khasiatDetail.push({ nama_penyakit: inputs[0].value, cara_meramu: inputs[1].value });
-                }
+                const ins = row.querySelectorAll('input, textarea');
+                if(ins.length === 2 && ins[0].value.trim() !== '') payload.khasiatDetail.push({ nama_penyakit: ins[0].value, cara_meramu: ins[1].value });
             });
 
             document.querySelectorAll('#timelineEditContainer > div').forEach(row => {
-                const inputs = row.querySelectorAll('input[type="date"], input[type="text"], textarea');
-                const imgEl = row.querySelector('img');
-                if(inputs.length >= 3 && inputs[1].value.trim() !== '') {
-                    payload.timeline.push({ tanggal_observasi: inputs[0].value, nama_fase: inputs[1].value, catatan_pertumbuhan: inputs[2].value, foto_fase: imgEl ? imgEl.src : "" });
-                }
+                const ins = row.querySelectorAll('input[type="date"], input[type="text"], textarea');
+                const img = row.querySelector('img');
+                if(ins.length >= 3 && ins[1].value.trim() !== '') payload.timeline.push({ tanggal_observasi: ins[0].value, nama_fase: ins[1].value, catatan_pertumbuhan: ins[2].value, foto_fase: img ? img.src : "" });
             });
 
             if(!API_URL.startsWith("http")) {
-                setTimeout(() => { closeEditPlantModal(); loadDatabase(); btn.innerHTML = originalText; btn.disabled = false; }, 500);
-                return;
+                closeEditPlantModal(); renderDashboardData(); return;
             }
-
             try {
-                const res = await (await fetch(API_URL + "?action=editPlantData", { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })).json();
-                if(res.success) { closeEditPlantModal(); loadDatabase(); } else alert("Gagal memperbarui: " + res.message);
-            } catch(e) {} finally { btn.innerHTML = originalText; btn.disabled = false; }
+                const res = await (await fetch(API_URL + "?action=editPlantData", { method: "POST", body: JSON.stringify(payload) })).json();
+                if(res.success) { closeEditPlantModal(); loadDatabase(); }
+            } catch(e) {}
         }
 
         function exportToCSV() {
-            if(dbPlants.length === 0) { alert("Belum ada data."); return; }
-            let csv = "ID,Nama Lokal,Nama Latin,Pengelola,Status B Indo,Status IPAS,Status Publikasi\n";
-            dbPlants.forEach(p => { csv += `${p.id_tanaman || p.tanaman_id},"${p.nama_lokal}","${p.nama_latin}","${p.pengelola}",${p.status_b_indo},${p.status_ipas},${p.status_publikasi}\n`; });
-            const url = window.URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-            const a = document.createElement('a'); a.setAttribute('href', url); a.setAttribute('download', 'Rekap.csv'); a.click();
+            if(dbPlants.length === 0) return;
+            let csv = "ID,Nama Lokal,Nama Latin,Pengelola,Status\n";
+            dbPlants.forEach(p => { csv += `${p.tanaman_id || p.id_tanaman},"${p.nama_lokal}","${p.nama_latin}","${p.pengelola}",${p.status_publikasi}\n`; });
+            const a = document.createElement('a');
+            a.href = window.URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+            a.download = 'Rekap.csv'; a.click();
         }
         function exportToPDF() { window.print(); }
         function getDummyData() { return { users: [], plants: [] }; }
-        function renderProgressChart() { }
+        function renderProgressChart() {}
     </script>
 </body>
 </html>
