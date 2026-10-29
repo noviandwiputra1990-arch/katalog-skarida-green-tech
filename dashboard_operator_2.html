@@ -294,26 +294,234 @@
         </div>
     </div>
 
-    <!-- MODAL: REVIEW -->
-    <div id="reviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative">
-            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <div>
-                    <h3 class="text-xl font-bold text-navy" id="revTitle">Review Data Baru</h3>
-                    <p class="text-sm text-slate-500" id="revSubtitle">Oleh: -</p>
+    <!-- MODAL: REVIEW LINTAS MAPEL (Data Baru) -->
+    <div id="reviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 md:p-5">
+        <div class="bg-white w-full max-w-7xl h-[92vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative border border-slate-200/80 page-transition">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-200/80 flex justify-between items-center bg-gradient-to-r from-navy via-navylight to-navy text-white flex-shrink-0">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center text-gold text-xl shadow-inner">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2.5 flex-wrap">
+                            <h3 class="text-lg md:text-xl font-bold tracking-tight text-white" id="revTitle">Review Data Baru</h3>
+                            <span id="revOverallBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-900 shadow-sm">Menunggu Validasi</span>
+                        </div>
+                        <p class="text-xs text-blue-100 mt-0.5" id="revSubtitle">Oleh: -</p>
+                    </div>
                 </div>
-                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-2xl"></i></button>
+                <button onclick="closeReviewModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-red-500 text-white flex items-center justify-center transition duration-200">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
             </div>
-            <div class="flex-1 overflow-y-auto p-6">
-                <img id="revImage" src="" class="w-full h-48 object-cover rounded-xl shadow-sm mb-4">
-                <h2 class="text-2xl font-bold text-navy" id="revNamaLokal">Nama</h2>
-                <p class="text-sm italic text-slate-500 mb-4" id="revNamaLatin">Latin</p>
-                <p class="text-sm text-slate-700 mb-4" id="revMorfologi">-</p>
-                <div id="revKhasiatContainer" class="mb-4"></div>
-            </div>
-            <div class="p-6 border-t border-slate-200 bg-slate-50 grid grid-cols-2 gap-4">
-                <button onclick="executeDemotePlant()" class="py-3 px-4 bg-white border-2 border-red-500 text-red-500 font-bold rounded-xl"><i class="fas fa-undo"></i> Revisi</button>
-                <button onclick="executeApprovePlant()" class="py-3 px-4 bg-navy text-white font-bold rounded-xl"><i class="fas fa-check-double"></i> Setujui</button>
+
+            <!-- Modal Body (Split Screen) -->
+            <div class="flex-1 overflow-hidden flex flex-col lg:flex-row">
+                
+                <!-- SISI KIRI: Pratinjau Input Siswa (Sesuai Layout Publik) -->
+                <div class="w-full lg:w-3/5 p-6 overflow-y-auto border-r border-slate-200 hide-scrollbar space-y-6 bg-slate-50/70">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-nature animate-pulse"></span>
+                            <h4 class="font-bold text-slate-700 uppercase text-xs tracking-wider">Pratinjau Data Lengkap Siswa</h4>
+                        </div>
+                        <span class="text-[11px] text-navy bg-blue-100/80 border border-blue-200 px-3 py-1 rounded-full font-semibold">
+                            <i class="fas fa-desktop mr-1"></i> Tampilan Katalog Publik
+                        </span>
+                    </div>
+                    
+                    <!-- Header Identitas Tanaman -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row gap-5 items-stretch relative overflow-hidden">
+                        <div class="w-full md:w-2/5 flex-shrink-0">
+                            <img id="revImage" src="https://placehold.co/600x400/15803d/ffffff?text=Tanaman" onerror="this.src='https://placehold.co/600x400/15803d/ffffff?text=Tanaman'" class="w-full h-48 md:h-full max-h-56 object-cover rounded-xl shadow-inner border border-slate-100" alt="Preview Tanaman">
+                        </div>
+                        <div class="flex flex-col justify-center flex-1">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-nature bg-nature/10 px-2.5 py-1 rounded-md w-max mb-2">Identitas Tanaman</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-navy mb-1" id="revNamaLokal">Nama Tanaman</h2>
+                            <p class="text-sm text-slate-500 italic mb-4 font-serif" id="revNamaLatin">Nama Latin</p>
+                            <div class="bg-blue-50/70 p-3.5 rounded-xl border border-blue-100 mt-auto">
+                                <div class="flex items-start gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-navy text-white flex items-center justify-center flex-shrink-0 text-xs mt-0.5">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-navy block mb-0.5">Nama Daerah / Sinonim:</span>
+                                        <p class="text-xs text-slate-600 leading-relaxed" id="revDaerah">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area B. Indonesia (Fokus Tata Bahasa) - Morfologi -->
+                    <section class="bg-white p-5 rounded-2xl shadow-sm border-2 border-blue-200/80 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                            <i class="fas fa-spell-check"></i> Fokus Guru B. Indonesia
+                        </div>
+                        <div class="flex items-center gap-3 mb-3 text-navy mt-1">
+                            <div class="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
+                                <i class="fas fa-leaf text-base text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-navy">Deskripsi Morfologi</h3>
+                                <p class="text-[11px] text-slate-400">Pemeriksaan struktur kalimat, ejaan PUEBI, dan kejelasan deskripsi fisik</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50/80 p-4 rounded-xl border-l-4 border-blue-500">
+                            <p class="text-slate-700 leading-relaxed text-justify break-words text-sm" id="revMorfologi">-</p>
+                        </div>
+                    </section>
+
+                    <!-- Area IPAS (Fokus Kebenaran Ilmiah) - Khasiat & Perawatan -->
+                    <section class="bg-white p-5 rounded-2xl shadow-sm border-2 border-amber-200/80 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-wider shadow-sm flex items-center gap-1.5 z-10">
+                            <i class="fas fa-microscope"></i> Fokus Guru IPAS
+                        </div>
+                        <div class="flex items-center gap-3 mb-4 text-navy mt-1">
+                            <div class="w-9 h-9 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center">
+                                <i class="fas fa-flask text-base text-amber-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-navy">Kandungan Khasiat & Panduan Perawatan</h3>
+                                <p class="text-[11px] text-slate-400">Pemeriksaan keakuratan ilmiah manfaat TOGA dan teknik budidaya</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid sm:grid-cols-2 gap-5 pt-2 border-t border-slate-100">
+                            <!-- Kiri: Daftar Khasiat & Cara Meramu -->
+                            <div>
+                                <h4 class="text-xs font-bold text-navy uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                    <i class="fas fa-mortar-pestle text-nature"></i> Khasiat & Cara Meramu
+                                </h4>
+                                <div id="revKhasiatContainer" class="space-y-2.5">
+                                    <!-- Khasiat dimuat dinamis -->
+                                </div>
+                            </div>
+
+                            <!-- Kanan: Panduan Perawatan -->
+                            <div>
+                                <h4 class="text-xs font-bold text-navy uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                    <i class="fas fa-hand-holding-water text-blue-500"></i> Panduan Perawatan
+                                </h4>
+                                <ul class="space-y-3 text-xs text-slate-600">
+                                    <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                        <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0"><i class="fas fa-tint"></i></div>
+                                        <div class="break-words"><strong class="text-slate-800 block mb-0.5">Intensitas Air:</strong> <span id="revAir">-</span></div>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                        <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0"><i class="fas fa-seedling"></i></div>
+                                        <div class="break-words"><strong class="text-slate-800 block mb-0.5">Pemupukan:</strong> <span id="revPupuk">-</span></div>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                        <div class="w-8 h-8 rounded-lg bg-red-100 text-red-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-bug"></i></div>
+                                        <div class="break-words"><strong class="text-slate-800 block mb-0.5">Kerawanan Hama:</strong> <span id="revHama">-</span></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- SISI KANAN: Panel Validasi Guru Lintas Mapel -->
+                <div class="w-full lg:w-2/5 flex flex-col bg-white">
+                    <div class="p-6 flex-1 overflow-y-auto space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                            <div>
+                                <h4 class="font-bold text-navy uppercase text-xs tracking-wider">Panel Validasi Guru Mapel</h4>
+                                <p class="text-[11px] text-slate-500 mt-0.5">Setujui masing-masing mata pelajaran atau lakukan validasi penuh.</p>
+                            </div>
+                            <span class="bg-navy/10 text-navy text-[10px] font-bold px-2.5 py-1 rounded-md">Super Admin</span>
+                        </div>
+                        
+                        <!-- Kartu Validasi Guru Bahasa Indonesia -->
+                        <div id="cardValBIndo" class="p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 transition-all duration-200 space-y-3">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-base shadow-sm">
+                                        <i class="fas fa-book-open"></i>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <p class="font-bold text-sm text-navy">Guru Bahasa Indonesia</p>
+                                            <span id="badgeValBIndo" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">Pending</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500">Validasi tata bahasa, ejaan & deskripsi morfologi.</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer mt-1" title="Toggle Status B. Indonesia">
+                                    <input type="checkbox" id="checkBIndo" onchange="onToggleSubjectCheck('b_indo')" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-nature"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center gap-2 pt-2 border-t border-slate-200/70">
+                                <button type="button" onclick="saveSingleSubjectStatus('b_indo', 'Approved')" id="btnApproveBIndo" class="flex-1 py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fas fa-check-circle"></i> Setujui B. Indonesia
+                                </button>
+                                <button type="button" onclick="saveSingleSubjectStatus('b_indo', 'Revisi')" class="py-2 px-3 bg-white hover:bg-red-50 text-red-600 border border-red-200 font-bold rounded-xl text-xs transition flex items-center justify-center gap-1">
+                                    <i class="fas fa-undo"></i> Revisi
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Kartu Validasi Guru IPAS -->
+                        <div id="cardValIpas" class="p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 transition-all duration-200 space-y-3">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-base shadow-sm">
+                                        <i class="fas fa-seedling"></i>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <p class="font-bold text-sm text-navy">Guru IPAS</p>
+                                            <span id="badgeValIpas" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">Pending</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500">Validasi taksonomi, khasiat obat & cara perawatan.</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer mt-1" title="Toggle Status IPAS">
+                                    <input type="checkbox" id="checkIpas" onchange="onToggleSubjectCheck('ipas')" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-nature"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center gap-2 pt-2 border-t border-slate-200/70">
+                                <button type="button" onclick="saveSingleSubjectStatus('ipas', 'Approved')" id="btnApproveIpas" class="flex-1 py-2 px-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fas fa-check-circle"></i> Setujui IPAS
+                                </button>
+                                <button type="button" onclick="saveSingleSubjectStatus('ipas', 'Revisi')" class="py-2 px-3 bg-white hover:bg-red-50 text-red-600 border border-red-200 font-bold rounded-xl text-xs transition flex items-center justify-center gap-1">
+                                    <i class="fas fa-undo"></i> Revisi
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Catatan Revisi -->
+                        <div>
+                            <label class="block font-bold text-xs text-slate-700 uppercase tracking-wider mb-2">
+                                <i class="fas fa-comment-dots text-navy mr-1"></i> Catatan Evaluasi / Revisi Lintas Mapel
+                            </label>
+                            <textarea id="revCatatanInput" rows="3" class="w-full border border-slate-300 rounded-xl p-3 text-xs focus:ring-2 focus:ring-navy focus:border-navy outline-none bg-slate-50/50" placeholder="Tuliskan catatan jika ada bagian ejaan (B. Indo) atau data khasiat/perawatan (IPAS) yang perlu diperbaiki siswa..."></textarea>
+                        </div>
+
+                        <!-- Informasi Status Publikasi -->
+                        <div class="bg-blue-50/80 border border-blue-200/80 rounded-xl p-3.5 flex items-start gap-3">
+                            <i class="fas fa-info-circle text-navy mt-0.5"></i>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">
+                                Apabila <b>Guru B. Indonesia</b> dan <b>Guru IPAS</b> keduanya telah menyetujui (<span class="text-nature font-bold">Approved</span>), maka status tanaman akan otomatis tayang menjadi <b>Live</b> di Master Katalog.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="p-5 border-t border-slate-200 bg-slate-50 grid grid-cols-2 gap-3 flex-shrink-0">
+                        <button type="button" onclick="executeDemotePlant()" id="btnRevReject" class="py-3 px-4 bg-white border-2 border-red-500 text-red-600 font-bold rounded-xl hover:bg-red-50 transition flex items-center justify-center gap-2 text-xs md:text-sm shadow-sm">
+                            <i class="fas fa-undo"></i> Kembalikan (Revisi)
+                        </button>
+                        <button type="button" onclick="executeApprovePlant()" id="btnRevApprove" class="py-3 px-4 bg-nature text-white font-bold rounded-xl hover:bg-naturelight shadow-md transition flex items-center justify-center gap-2 text-xs md:text-sm">
+                            <i class="fas fa-check-double"></i> Setujui Semua (Live)
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -572,24 +780,177 @@
         function openDeleteUserModal(id) { selectedUserId = id; document.getElementById('deleteUserConfirmModal').classList.remove('hidden'); }
         function closeDeleteUserModal() { selectedUserId = null; document.getElementById('deleteUserConfirmModal').classList.add('hidden'); }
 
+        function updateReviewModalSubjectUI(statusBIndo, statusIpas) {
+            const checkBIndo = document.getElementById('checkBIndo');
+            const checkIpas = document.getElementById('checkIpas');
+            const badgeBIndo = document.getElementById('badgeValBIndo');
+            const badgeIpas = document.getElementById('badgeValIpas');
+            const cardBIndo = document.getElementById('cardValBIndo');
+            const cardIpas = document.getElementById('cardValIpas');
+            const overallBadge = document.getElementById('revOverallBadge');
+
+            if (checkBIndo) checkBIndo.checked = (statusBIndo === 'Approved');
+            if (checkIpas) checkIpas.checked = (statusIpas === 'Approved');
+
+            if (badgeBIndo && cardBIndo) {
+                if (statusBIndo === 'Approved') {
+                    badgeBIndo.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-300';
+                    badgeBIndo.innerHTML = '<i class="fas fa-check mr-1"></i>Disetujui';
+                    cardBIndo.className = 'p-4 rounded-2xl border-2 border-green-400 bg-green-50/40 transition-all duration-200 space-y-3';
+                } else if (statusBIndo === 'Revisi') {
+                    badgeBIndo.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border border-red-300';
+                    badgeBIndo.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i>Revisi';
+                    cardBIndo.className = 'p-4 rounded-2xl border-2 border-red-300 bg-red-50/40 transition-all duration-200 space-y-3';
+                } else {
+                    badgeBIndo.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200';
+                    badgeBIndo.innerHTML = 'Pending';
+                    cardBIndo.className = 'p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 transition-all duration-200 space-y-3';
+                }
+            }
+
+            if (badgeIpas && cardIpas) {
+                if (statusIpas === 'Approved') {
+                    badgeIpas.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-300';
+                    badgeIpas.innerHTML = '<i class="fas fa-check mr-1"></i>Disetujui';
+                    cardIpas.className = 'p-4 rounded-2xl border-2 border-green-400 bg-green-50/40 transition-all duration-200 space-y-3';
+                } else if (statusIpas === 'Revisi') {
+                    badgeIpas.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border border-red-300';
+                    badgeIpas.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i>Revisi';
+                    cardIpas.className = 'p-4 rounded-2xl border-2 border-red-300 bg-red-50/40 transition-all duration-200 space-y-3';
+                } else {
+                    badgeIpas.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200';
+                    badgeIpas.innerHTML = 'Pending';
+                    cardIpas.className = 'p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 transition-all duration-200 space-y-3';
+                }
+            }
+
+            if (overallBadge) {
+                if (statusBIndo === 'Approved' && statusIpas === 'Approved') {
+                    overallBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-naturelight text-white shadow-sm';
+                    overallBadge.innerText = 'Siap Tayang (Live)';
+                } else if (statusBIndo === 'Revisi' || statusIpas === 'Revisi') {
+                    overallBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-500 text-white shadow-sm';
+                    overallBadge.innerText = 'Perlu Revisi Siswa';
+                } else {
+                    overallBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-900 shadow-sm';
+                    overallBadge.innerText = 'Menunggu Validasi';
+                }
+            }
+        }
+
+        function onToggleSubjectCheck(subject) {
+            if (!selectedPlantId) return;
+            const checkBIndo = document.getElementById('checkBIndo');
+            const checkIpas = document.getElementById('checkIpas');
+            const statusB = checkBIndo && checkBIndo.checked ? 'Approved' : 'Pending';
+            const statusI = checkIpas && checkIpas.checked ? 'Approved' : 'Pending';
+            saveSingleSubjectStatus(subject, subject === 'b_indo' ? statusB : statusI);
+        }
+
+        async function saveSingleSubjectStatus(subject, newStatus) {
+            if (!selectedPlantId) return;
+            const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == selectedPlantId);
+            if (!plant) return;
+
+            if (subject === 'b_indo') {
+                plant.status_b_indo = newStatus;
+            } else if (subject === 'ipas') {
+                plant.status_ipas = newStatus;
+            }
+
+            // Tentukan status publikasi otomatis berdasarkan kombinasi kedua guru mapel
+            if (plant.status_b_indo === 'Approved' && plant.status_ipas === 'Approved') {
+                plant.status_publikasi = 'Live';
+            } else if (plant.status_b_indo === 'Revisi' || plant.status_ipas === 'Revisi') {
+                plant.status_publikasi = 'Revisi';
+            } else {
+                plant.status_publikasi = 'Pending';
+            }
+
+            updateReviewModalSubjectUI(plant.status_b_indo, plant.status_ipas);
+            localPlantOverrides[String(selectedPlantId)] = {
+                ...(localPlantOverrides[String(selectedPlantId)] || {}),
+                status_b_indo: plant.status_b_indo,
+                status_ipas: plant.status_ipas,
+                status_publikasi: plant.status_publikasi
+            };
+            renderDashboardData();
+
+            const labelMapel = subject === 'b_indo' ? 'Bahasa Indonesia' : 'IPAS';
+            const statusLabel = newStatus === 'Approved' ? 'Disetujui' : (newStatus === 'Revisi' ? 'Diminta Revisi' : 'Pending');
+
+            if (!API_URL.startsWith("http")) {
+                showToast(`Validasi Guru ${labelMapel}: ${statusLabel}`);
+                if (plant.status_publikasi === 'Live') {
+                    setTimeout(() => closeReviewModal(), 600);
+                }
+                return;
+            }
+
+            try {
+                await fetch(API_URL + "?action=updatePlantStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        id_tanaman: selectedPlantId,
+                        status_b_indo: plant.status_b_indo,
+                        status_ipas: plant.status_ipas,
+                        status_publikasi: plant.status_publikasi
+                    })
+                });
+                showToast(`Validasi Guru ${labelMapel} (${statusLabel}) tersimpan!`);
+                if (plant.status_publikasi === 'Live') {
+                    setTimeout(() => {
+                        closeReviewModal();
+                        loadDatabase();
+                    }, 700);
+                }
+            } catch (e) {
+                showToast(`Validasi Guru ${labelMapel} diterapkan pada sesi ini.`);
+            }
+        }
+
         function openReviewModal(id) { 
             selectedPlantId = id;
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
             if(plant) {
-                document.getElementById('revTitle').innerText = `Review Data: ${plant.nama_lokal}`;
-                document.getElementById('revSubtitle').innerText = `Oleh: ${plant.pengelola}`;
+                const kelasInfo = plant.kelas && plant.kelas !== '-' ? ` - Kelas ${plant.kelas}` : '';
+                document.getElementById('revTitle').innerText = `Review Data Baru: ${plant.nama_lokal || 'Tanaman'}`;
+                document.getElementById('revSubtitle').innerText = `Oleh: ${plant.pengelola || '-'}${kelasInfo}`;
                 document.getElementById('revImage').src = plant.image || 'https://placehold.co/600x400/15803d/ffffff?text=Tanaman';
-                document.getElementById('revNamaLokal').innerText = plant.nama_lokal;
-                document.getElementById('revNamaLatin').innerText = plant.nama_latin;
-                document.getElementById('revMorfologi').innerText = plant.morfologi || '-';
+                document.getElementById('revNamaLokal').innerText = plant.nama_lokal || '-';
+                document.getElementById('revNamaLatin').innerText = plant.nama_latin || '-';
+                if (document.getElementById('revDaerah')) {
+                    document.getElementById('revDaerah').innerText = plant.nama_daerah || '-';
+                }
+                document.getElementById('revMorfologi').innerText = plant.morfologi || 'Belum ada deskripsi morfologi.';
                 
+                // Render Khasiat sebagai Akordeon Elegan
                 let khasiatHtml = '';
                 if(plant.khasiatDetail && plant.khasiatDetail.length > 0) {
-                    plant.khasiatDetail.forEach(k => {
-                        khasiatHtml += `<p class="text-sm font-bold text-nature">${k.nama_penyakit || k.nama}</p><p class="text-xs text-slate-600 mb-2">${k.cara_meramu || k.ramuan}</p>`;
-                    });
+                    khasiatHtml = plant.khasiatDetail.map((k, index) => `
+                        <details class="group bg-slate-50 border border-slate-200 rounded-xl overflow-hidden cursor-pointer transition" ${index === 0 ? 'open' : ''}>
+                            <summary class="p-3 font-semibold text-nature text-xs flex justify-between items-center hover:bg-slate-100 group-open:bg-nature group-open:text-white transition-colors duration-200 outline-none">
+                                <span class="flex items-center gap-2"><i class="fas fa-plus-circle"></i> ${k.nama_penyakit || k.nama || 'Khasiat'}</span>
+                                <i class="fas fa-chevron-down text-[10px] transition-transform duration-300 group-open:rotate-180"></i>
+                            </summary>
+                            <div class="p-3 text-xs text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
+                                ${k.cara_meramu || k.ramuan || '-'}
+                            </div>
+                        </details>
+                    `).join('');
+                } else {
+                    khasiatHtml = `<div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-400 italic">Belum ada data khasiat yang diinputkan.</div>`;
                 }
                 document.getElementById('revKhasiatContainer').innerHTML = khasiatHtml;
+
+                // Render Panduan Perawatan
+                if (document.getElementById('revAir')) document.getElementById('revAir').innerText = plant.perawatan?.air || '-';
+                if (document.getElementById('revPupuk')) document.getElementById('revPupuk').innerText = plant.perawatan?.pupuk || '-';
+                if (document.getElementById('revHama')) document.getElementById('revHama').innerText = plant.perawatan?.hama || '-';
+                if (document.getElementById('revCatatanInput')) document.getElementById('revCatatanInput').value = '';
+
+                updateReviewModalSubjectUI(plant.status_b_indo || 'Pending', plant.status_ipas || 'Pending');
             }
             document.getElementById('reviewModal').classList.remove('hidden'); 
         }
@@ -915,18 +1276,47 @@
             if(document.getElementById('badgeValidasi')) document.getElementById('badgeValidasi').innerText = pendingPlants.length;
             pendingPlants.forEach(p => {
                 const plantId = p.tanaman_id || p.id_tanaman;
+                const sIndo = p.status_b_indo || 'Pending';
+                const sIpas = p.status_ipas || 'Pending';
+
+                const badgeIndoClass = sIndo === 'Approved'
+                    ? 'bg-green-100 text-green-800 border-green-200'
+                    : (sIndo === 'Revisi' ? 'bg-red-100 text-red-800 border-red-200' : 'bg-amber-100 text-amber-800 border-amber-200');
+                const badgeIpasClass = sIpas === 'Approved'
+                    ? 'bg-green-100 text-green-800 border-green-200'
+                    : (sIpas === 'Revisi' ? 'bg-red-100 text-red-800 border-red-200' : 'bg-amber-100 text-amber-800 border-amber-200');
+
+                const iconIndo = sIndo === 'Approved' ? 'fa-check-circle' : (sIndo === 'Revisi' ? 'fa-exclamation-circle' : 'fa-clock');
+                const iconIpas = sIpas === 'Approved' ? 'fa-check-circle' : (sIpas === 'Revisi' ? 'fa-exclamation-circle' : 'fa-clock');
+
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <img class="h-10 w-10 rounded-lg object-cover bg-slate-100 shadow-sm" src="${p.image}" onerror="this.src='https://placehold.co/150/15803d/ffffff?text=Tanaman'">
-                                <div class="ml-4"><div class="text-sm font-bold text-navy">${p.nama_lokal}</div><div class="text-xs text-slate-500">${p.pengelola}</div></div>
+                                <img class="h-11 w-11 rounded-xl object-cover bg-slate-100 shadow-sm border border-slate-200" src="${p.image}" onerror="this.src='https://placehold.co/150/15803d/ffffff?text=Tanaman'">
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-navy">${p.nama_lokal} <span class="font-normal italic text-xs text-slate-400">(${p.nama_latin || '-'})</span></div>
+                                    <div class="text-xs text-slate-500">${p.pengelola} ${p.kelas && p.kelas !== '-' ? '&bull; ' + p.kelas : ''}</div>
+                                </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2.5 py-1 rounded-full text-[10px] font-medium bg-amber-100 text-amber-800 border">Pending Validasi</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex flex-col gap-1.5">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold w-max border ${badgeIndoClass}">
+                                    <i class="fas ${iconIndo}"></i> B. Indo: ${sIndo}
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold w-max border ${badgeIpasClass}">
+                                    <i class="fas ${iconIpas}"></i> IPAS: ${sIpas}
+                                </span>
+                            </div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button onclick="openReviewModal('${plantId}')" class="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-navylight mx-1">Review</button>
-                            <button onclick="openTimelineReviewModal('${plantId}')" class="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-blue-700 mx-1">Cek Linimasa</button>
+                            <button onclick="openReviewModal('${plantId}')" class="inline-flex items-center px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl shadow-sm hover:bg-navylight transition mx-1">
+                                <i class="fas fa-tasks mr-2"></i> Review (Admin)
+                            </button>
+                            <button onclick="openTimelineReviewModal('${plantId}')" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-xl shadow-sm hover:bg-blue-700 transition mx-1">
+                                <i class="fas fa-camera-retro mr-2"></i> Cek Linimasa
+                            </button>
                         </td>
                     </tr>
                 `;
