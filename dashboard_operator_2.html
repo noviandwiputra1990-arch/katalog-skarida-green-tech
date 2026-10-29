@@ -6,7 +6,7 @@
     <title>Dashboard Operator | Skarida Green Tech</title>
     
     <!-- Favicon -->
-    <link rel="icon" href="big_logo_2.png" type="image/png">
+    <link rel="icon" href="https://placehold.co/100x100/1e3a8a/ffffff?text=SGT" type="image/png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -98,7 +98,7 @@
                     <p class="text-[10px] text-blue-300">Kepala Lab / Operator</p>
                 </div>
             </div>
-            <button onclick="window.location.href='index.html'" class="mt-4 w-full flex justify-center items-center px-4 py-2 text-sm font-medium rounded-lg border border-red-500/50 text-red-300 hover:bg-red-500 hover:text-white transition">
+            <button onclick="alert('Kembali ke Halaman Login');" class="mt-4 w-full flex justify-center items-center px-4 py-2 text-sm font-medium rounded-lg border border-red-500/50 text-red-300 hover:bg-red-500 hover:text-white transition">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </button>
         </div>
@@ -272,6 +272,7 @@
                                 <tr>
                                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Tanaman & Pengusul</th>
                                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Status Validasi</th>
+                                    <th class="px-6 py-4 text-right text-xs font-semibold text-slate-500 uppercase">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="validasiTableBody" class="bg-white divide-y divide-slate-100">
@@ -288,7 +289,7 @@
                     <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-green-50/30">
                         <div>
                             <h3 class="text-lg font-bold text-navy">Master Data Katalog (Live)</h3>
-                            <p class="text-xs text-slate-500">Daftar tanaman tayang di publik (Lolos validasi IPAS, B. Indo, dan MTK).</p>
+                            <p class="text-xs text-slate-500">Daftar tanaman tayang di publik (Lolos validasi IPAS, B. Indo, dan minimal 1 fase MTK).</p>
                         </div>
                     </div>
 
@@ -298,6 +299,7 @@
                                 <tr>
                                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Identitas Tanaman</th>
                                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase">Pengelola</th>
+                                    <th class="px-6 py-4 text-right text-xs font-semibold text-slate-500 uppercase">Aksi Manajemen</th>
                                 </tr>
                             </thead>
                             <tbody id="katalogTableBody" class="bg-white divide-y divide-slate-100">
@@ -321,15 +323,10 @@
                             <i class="fas fa-file-excel"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-800 text-lg mb-1">Rekap Nilai PBL Siswa (Excel)</h4>
-                            <p class="text-sm text-slate-500 mb-3">Unduh laporan otomatis rekapitulasi nilai berdasarkan kelengkapan pengisian data tiap kelompok:</p>
-                            <ul class="text-xs text-slate-500 mb-4 space-y-1.5 ml-4 list-disc marker:text-slate-300">
-                                <li>Kelengkapan Deskripsi Morfologi (B. Indonesia)</li>
-                                <li>Kelengkapan Khasiat & Panduan Perawatan (IPAS)</li>
-                                <li>Jumlah Validasi Update Fase Pertumbuhan (Matematika)</li>
-                            </ul>
-                            <button class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-700 transition shadow-md flex items-center gap-2">
-                                <i class="fas fa-download"></i> Unduh Rekap (.xlsx)
+                            <h4 class="font-bold text-slate-800 text-lg mb-1">Rekap Nilai PBL Siswa (CSV)</h4>
+                            <p class="text-sm text-slate-500 mb-3">Unduh laporan otomatis rekapitulasi nilai berdasarkan kelengkapan pengisian data tiap kelompok.</p>
+                            <button onclick="exportToCSV()" class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-700 transition shadow-md flex items-center gap-2">
+                                <i class="fas fa-download"></i> Unduh Rekap (.csv)
                             </button>
                         </div>
                     </div>
@@ -340,15 +337,10 @@
                             <i class="fas fa-qrcode"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-800 text-lg mb-1">Batch Kartu Tanaman (PDF A5)</h4>
-                            <p class="text-sm text-slate-500 mb-3">Generate kartu informasi tanaman siap cetak berorientasi <b class="text-navy">Landscape (A5)</b>. Kartu memuat:</p>
-                            <ul class="text-xs text-slate-500 mb-4 space-y-1.5 ml-4 list-disc marker:text-slate-300">
-                                <li>Foto Utama, Nama Lokal, Nama Latin, & Nama Lain</li>
-                                <li>Ringkasan Morfologi & Khasiat Tanaman</li>
-                                <li><b>QR Code Cerdas</b> (Scan menuju halaman profil web)</li>
-                            </ul>
-                            <button class="bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-navylight transition shadow-md flex items-center gap-2">
-                                <i class="fas fa-print"></i> Generate PDF Kartu
+                            <h4 class="font-bold text-slate-800 text-lg mb-1">Batch Kartu Tanaman (Cetak)</h4>
+                            <p class="text-sm text-slate-500 mb-3">Generate kartu informasi tanaman siap cetak berorientasi <b class="text-navy">Landscape (A5)</b>.</p>
+                            <button onclick="exportToPDF()" class="bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-navylight transition shadow-md flex items-center gap-2">
+                                <i class="fas fa-print"></i> Cetak Kartu Tanaman
                             </button>
                         </div>
                     </div>
@@ -412,8 +404,213 @@
         </div>
     </div>
 
+    <!-- MODAL: KONFIRMASI HAPUS AKUN -->
+    <div id="deleteUserConfirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden text-center p-6 transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                <i class="fas fa-user-minus"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Hapus Akun Pengguna?</h3>
+            <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin akan menghapus akun ini dari database? Pengguna tidak akan bisa login kembali. Tindakan ini permanen.</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeDeleteUserModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
+                <button onclick="executeDeleteUser()" id="btnConfirmDeleteUser" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus Akun</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: REVIEW LINTAS MAPEL (Data Baru) -->
+    <div id="reviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-7xl h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div>
+                    <h3 class="text-xl font-bold text-navy" id="revTitle">Review Data Baru: -</h3>
+                    <p class="text-sm text-slate-500" id="revSubtitle">Oleh: -</p>
+                </div>
+                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-red-500 transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-hidden flex flex-col lg:flex-row">
+                <div class="w-full lg:w-3/5 p-6 overflow-y-auto border-r border-slate-200 hide-scrollbar pb-24 bg-slate-50/50">
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-200 pb-2">
+                        <h4 class="font-bold text-slate-700 uppercase text-sm tracking-wide">Pratinjau Data Lengkap</h4>
+                        <span class="text-xs text-slate-500 bg-slate-200 px-2 py-1 rounded font-semibold"><i class="fas fa-desktop mr-1"></i> Mode Publik</span>
+                    </div>
+                    
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-5 items-stretch mb-6 relative">
+                        <div class="w-full md:w-2/5 flex-shrink-0">
+                            <img id="revImage" src="https://placehold.co/600x400/15803d/ffffff?text=Tanaman" class="w-full h-40 md:h-full object-cover rounded-xl shadow-inner border border-slate-100" alt="Preview">
+                        </div>
+                        <div class="flex flex-col justify-center flex-1">
+                            <h2 class="text-2xl md:text-3xl font-bold text-navy mb-1" id="revNamaLokal">Nama Tanaman</h2>
+                            <p class="text-sm text-slate-500 italic mb-3 font-serif" id="revNamaLatin">Nama Latin</p>
+                            <div class="bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-map-marker-alt text-navy mt-1 text-xs"></i>
+                                    <div>
+                                        <span class="text-xs font-bold text-navy block mb-1">Nama Daerah:</span>
+                                        <p class="text-xs text-slate-600 leading-snug" id="revDaerah">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="bg-white p-5 rounded-2xl shadow-sm border border-blue-200 mb-6 relative">
+                        <div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl rounded-tr-xl uppercase shadow-sm">
+                            <i class="fas fa-spell-check mr-1"></i> Fokus Guru B. Indo
+                        </div>
+                        <div class="flex items-center gap-3 mb-3 text-navy mt-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                                <i class="fas fa-leaf text-sm text-navy"></i>
+                            </div>
+                            <h3 class="text-base font-bold">Deskripsi Morfologi</h3>
+                        </div>
+                        <p class="text-slate-700 leading-relaxed text-justify break-words text-sm border-l-4 border-blue-200 pl-3" id="revMorfologi">
+                            -
+                        </p>
+                    </section>
+                </div>
+
+                <div class="w-full lg:w-2/5 flex flex-col bg-slate-50">
+                    <div class="p-6 flex-1 overflow-y-auto">
+                        <h4 class="font-bold text-slate-700 mb-4 uppercase text-sm tracking-wide border-b pb-2">Panel Validasi Mapel</h4>
+                        
+                        <div class="space-y-4 mb-6">
+                            <label class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-blue-400 transition shadow-sm">
+                                <div>
+                                    <p class="font-bold text-sm text-navy">Validasi B. Indonesia</p>
+                                    <p class="text-xs text-slate-500">Tata bahasa dan ejaan sesuai.</p>
+                                </div>
+                                <div class="relative">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-nature"></div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-amber-400 transition shadow-sm">
+                                <div>
+                                    <p class="font-bold text-sm text-navy">Validasi IPAS</p>
+                                    <p class="text-xs text-slate-500">Kebenaran biologi & tata cara tanam valid.</p>
+                                </div>
+                                <div class="relative">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-nature"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="p-6 border-t border-slate-200 bg-white grid grid-cols-2 gap-4">
+                        <button onclick="executeDemotePlant()" id="btnRevReject" class="py-3 px-4 bg-white border-2 border-red-500 text-red-500 font-bold rounded-xl hover:bg-red-50 transition flex items-center justify-center gap-2 text-sm md:text-base">
+                            <i class="fas fa-undo"></i> Kembalikan (Revisi)
+                        </button>
+                        <button onclick="executeApprovePlant()" id="btnRevApprove" class="py-3 px-4 bg-navy text-white font-bold rounded-xl hover:bg-navylight shadow-lg transition flex items-center justify-center gap-2 text-sm md:text-base">
+                            <i class="fas fa-check-double"></i> Setujui (Live)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CEK LINIMASA (Validasi MTK) -->
+    <div id="timelineReviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col overflow-hidden relative">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div>
+                    <h3 class="text-xl font-bold text-navy" id="mtkTitle">Cek Log Pertumbuhan</h3>
+                    <p class="text-sm text-slate-500" id="mtkSubtitle">Oleh: -</p>
+                </div>
+                <button onclick="closeTimelineReviewModal()" class="text-slate-400 hover:text-red-500 transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div class="flex flex-col p-6 overflow-y-auto" style="max-height: 50vh;">
+                <h4 class="font-bold text-slate-700 mb-4 uppercase text-sm border-b pb-2">Log Validasi Guru Matematika (Durasi)</h4>
+                
+                <div id="timelineContainerAdmin" class="space-y-4">
+                    <!-- Dinamis dimuat oleh JavaScript -->
+                </div>
+            </div>
+
+            <div class="p-6 bg-slate-50 border-t flex gap-3">
+                <button onclick="executeDemotePlant()" class="flex-1 py-3 bg-white border border-red-500 text-red-500 font-bold rounded-lg hover:bg-red-50 transition">Revisi / Tolak</button>
+                <button onclick="executeApprovePlant()" class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md">Validasi & Approve (MTK)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: LIHAT PROFIL (Master Katalog) -->
+    <div id="viewProfileModal" class="fixed inset-0 z-50 hidden bg-navy/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6 lg:p-8">
+        <div class="bg-slate-50 w-full max-w-5xl max-h-[95vh] text-left rounded-3xl shadow-2xl overflow-hidden relative flex flex-col">
+            <!-- Close Button -->
+            <button onclick="closeViewProfileModal()" class="absolute top-4 right-4 z-20 bg-white/80 hover:bg-white text-slate-800 hover:text-red-600 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition backdrop-blur-sm">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div id="modalContentProfile" class="overflow-y-auto w-full flex-1 hide-scrollbar smooth-scroll p-6 md:p-8">
+                <!-- Dimuat Dinamis via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT DATA (Master Katalog) -->
+    <div id="editPlantModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 md:p-6">
+        <div class="bg-white w-full max-w-4xl max-h-[95vh] flex flex-col rounded-2xl shadow-2xl relative">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-2xl flex-shrink-0">
+                <div>
+                    <h3 class="text-lg font-bold text-navy"><i class="fas fa-edit mr-2"></i> Edit Data Tanaman (Master)</h3>
+                </div>
+                <button onclick="closeEditPlantModal()" class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 bg-white text-center">
+                <p class="text-slate-500 text-sm">Form Edit dimuat di sini.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end gap-3 flex-shrink-0">
+                <button onclick="closeEditPlantModal()" class="px-5 py-2.5 border border-slate-300 text-slate-600 font-bold rounded-lg text-sm hover:bg-white transition">Batal</button>
+                <button onclick="closeEditPlantModal()" class="px-5 py-2.5 bg-navy text-white font-bold rounded-lg text-sm shadow-md hover:bg-navylight transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: KONFIRMASI HAPUS (Master Katalog) -->
+    <div id="deleteConfirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden text-center p-6 transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Hapus Data Tanaman?</h3>
+            <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin akan menghapus seluruh data tanaman ini dari <b>Database</b> secara permanen? Data tidak dapat dipulihkan.</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeDeleteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
+                <button onclick="executeDeletePlant()" id="btnConfirmDeletePlant" class="flex-1 px-4 py-2.5 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-md">Iya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: KONFIRMASI TURUN STATUS / REVISI (Master Katalog) -->
+    <div id="demoteConfirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden text-center p-6 transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                <i class="fas fa-undo"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Turunkan Status Data?</h3>
+            <p class="text-sm text-slate-500 mb-6">Tanaman ini akan ditarik dari tayangan publik (Katalog Live) dan dikembalikan ke antrean <b>Pusat Validasi</b> agar siswa dapat memperbaiki datanya.</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeDemoteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
+                <button onclick="executeDemotePlant()" id="btnConfirmDemotePlant" class="flex-1 px-4 py-2.5 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-md">Iya, Kembalikan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- LOGIC NAVIGASI SPA & MODAL -->
     <script>
+        let selectedUserId = null;
+        let selectedPlantId = null;
+
         const pages = ['pengguna', 'dashboard', 'validasi', 'katalog', 'ekspor'];
         const titles = {
             pengguna: 'Manajemen Akun Pengguna',
@@ -446,15 +643,148 @@
             });
         }
 
-        function openUserModal() { 
+        // ================= MODAL HELPERS =================
+        function openUserModal(isEdit = false) { 
+            const title = document.getElementById('userModalTitle');
+            const btn = document.getElementById('userModalBtn');
+            
+            if(isEdit) {
+                title.innerHTML = '<i class="fas fa-user-edit mr-2"></i>Edit Data Akun Pengguna';
+                btn.innerHTML = '<i class="fas fa-save"></i> Simpan Perubahan';
+            } else {
+                title.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Form Pengguna Baru';
+                btn.innerHTML = '<i class="fas fa-save"></i> Buat Akun';
+            }
+            
             document.getElementById('userModal').classList.remove('hidden'); 
-            toggleAnggotaField();
+            toggleAnggotaField(); // Pastikan state form sesuai dengan role
         }
         function closeUserModal() { document.getElementById('userModal').classList.add('hidden'); }
         
+        function openDeleteUserModal(id) { 
+            selectedUserId = id;
+            document.getElementById('deleteUserConfirmModal').classList.remove('hidden'); 
+        }
+        function closeDeleteUserModal() { 
+            selectedUserId = null;
+            document.getElementById('deleteUserConfirmModal').classList.add('hidden'); 
+        }
+
+        function openReviewModal(id) { 
+            selectedPlantId = id;
+            const plant = dbPlants.find(p => p.id_tanaman == id);
+            if(plant) {
+                document.getElementById('revTitle').innerText = `Review Data: ${plant.nama_lokal} (${plant.nama_latin})`;
+                document.getElementById('revSubtitle').innerText = `Oleh: ${plant.pengelola}`;
+                document.getElementById('revImage').src = plant.image || 'https://placehold.co/600x400/15803d/ffffff?text=Tanaman';
+                document.getElementById('revNamaLokal').innerText = plant.nama_lokal;
+                document.getElementById('revNamaLatin').innerText = plant.nama_latin;
+                document.getElementById('revDaerah').innerText = plant.nama_daerah || '-';
+                document.getElementById('revMorfologi').innerText = plant.morfologi || 'Belum ada deskripsi morfologi.';
+            }
+            document.getElementById('reviewModal').classList.remove('hidden'); 
+        }
+        function closeReviewModal() { 
+            selectedPlantId = null;
+            document.getElementById('reviewModal').classList.add('hidden'); 
+        }
+        
+        function calculateDays(startDateStr, endDateStr) {
+            const start = new Date(startDateStr);
+            const end = new Date(endDateStr);
+            if(isNaN(start) || isNaN(end)) return "Beberapa hari";
+            const diffDays = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24)); 
+            return diffDays;
+        }
+
+        // Modals for Timeline
+        function openTimelineReviewModal(id) { 
+            selectedPlantId = id;
+            const plant = dbPlants.find(p => p.id_tanaman == id);
+            if(plant) {
+                document.getElementById('mtkTitle').innerText = `Cek Log Pertumbuhan: ${plant.nama_lokal}`;
+                document.getElementById('mtkSubtitle').innerText = `Oleh: ${plant.pengelola}`;
+                
+                const container = document.getElementById('timelineContainerAdmin');
+                if (container) {
+                    if (plant.timeline && plant.timeline.length > 0) {
+                        let html = '';
+                        plant.timeline.forEach((node, index) => {
+                            let durasi = index === 0 ? 'Hari Pertama' : `+${calculateDays(plant.timeline[index-1].tglAsli || plant.timeline[index-1].tanggal_observasi, node.tglAsli || node.tanggal_observasi)} hari`;
+                            html += `
+                                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col sm:flex-row gap-4 items-start">
+                                    <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" class="w-full sm:w-24 h-24 object-cover rounded-lg flex-shrink-0">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="font-bold text-navy">${node.nama_fase || node.fase}</span>
+                                            <span class="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${node.tglFormatted || node.tglAsli || node.tanggal_observasi}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 mb-2">${node.catatan_pertumbuhan || node.catatan || 'Tanpa catatan'}</p>
+                                        <span class="text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-1 rounded"><i class="fas fa-calculator"></i> ${durasi}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        container.innerHTML = html;
+                    } else {
+                        container.innerHTML = `<p class="text-sm text-slate-500 italic text-center py-4">Belum ada log pertumbuhan untuk divalidasi.</p>`;
+                    }
+                }
+            }
+            document.getElementById('timelineReviewModal').classList.remove('hidden'); 
+        }
+        function closeTimelineReviewModal() { 
+            selectedPlantId = null;
+            document.getElementById('timelineReviewModal').classList.add('hidden'); 
+        }
+
+        // Modals for Master Katalog
+        function openViewProfileModal(id) { 
+            const plant = dbPlants.find(p => p.id_tanaman == id);
+            if(plant) {
+                document.getElementById('modalContentProfile').innerHTML = `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6 items-stretch">
+                        <img src="${plant.image || 'https://placehold.co/600x400/15803d/ffffff?text=Tanaman'}" class="w-full md:w-1/3 h-48 md:h-full object-cover rounded-xl shadow-inner border border-slate-100">
+                        <div class="flex flex-col justify-center flex-1">
+                            <h2 class="text-3xl font-bold text-navy mb-1">${plant.nama_lokal}</h2>
+                            <p class="text-lg text-slate-500 italic mb-4">${plant.nama_latin}</p>
+                            <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100/50 mb-4">
+                                <span class="text-sm font-bold text-navy block mb-1">Morfologi:</span>
+                                <p class="text-sm text-slate-600 leading-snug">${plant.morfologi || 'Data morfologi tidak tersedia.'}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('viewProfileModal').classList.remove('hidden'); 
+        }
+        function closeViewProfileModal() { document.getElementById('viewProfileModal').classList.add('hidden'); }
+        
+        function openEditPlantModal(id) { document.getElementById('editPlantModal').classList.remove('hidden'); }
+        function closeEditPlantModal() { document.getElementById('editPlantModal').classList.add('hidden'); }
+        
+        function openDeleteConfirmModal(id) { 
+            selectedPlantId = id;
+            document.getElementById('deleteConfirmModal').classList.remove('hidden'); 
+        }
+        function closeDeleteConfirmModal() { 
+            selectedPlantId = null;
+            document.getElementById('deleteConfirmModal').classList.add('hidden'); 
+        }
+        
+        function openDemoteConfirmModal(id) { 
+            selectedPlantId = id;
+            document.getElementById('demoteConfirmModal').classList.remove('hidden'); 
+        }
+        function closeDemoteConfirmModal() { 
+            selectedPlantId = null;
+            document.getElementById('demoteConfirmModal').classList.add('hidden'); 
+        }
+
         function toggleAnggotaField() {
             const role = document.getElementById('userRole').value;
             const div = document.getElementById('anggotaKelompokDiv');
+            
             if(role === 'Kelompok Siswa') {
                 div.classList.remove('hidden');
                 div.classList.add('block');
@@ -463,6 +793,15 @@
                 div.classList.remove('block');
             }
         }
+
+        // Close on background click
+        window.addEventListener('click', (e) => {
+            const modals = ['userModal', 'deleteUserConfirmModal', 'reviewModal', 'timelineReviewModal', 'viewProfileModal', 'editPlantModal', 'deleteConfirmModal', 'demoteConfirmModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (e.target === modal) modal.classList.add('hidden');
+            });
+        });
 
         // ================= KONFIGURASI API & DATA DINAMIS =================
         const API_URL = "https://script.google.com/macros/s/AKfycbxi6_oVqHFoIR1JiNyeKismyeJilacmo9gcpT3-YaTmgvqUvZ9AlMdFvARzWHk7khFO/exec"; 
@@ -473,23 +812,24 @@
 
         async function loadDatabase() {
             try {
-                // Tampilkan loader
-                document.getElementById('globalLoader').classList.remove('hidden');
+                // Tambahkan null-check agar tidak error jika elemen loader hilang di HTML
+                const loader = document.getElementById('globalLoader');
+                if (loader) loader.classList.remove('hidden');
                 
-                // Mencegah error 'Failed to parse URL' jika API_URL masih berupa teks placeholder
+                // Cek apakah API valid (Mencegah error saat preview offline)
                 if (!API_URL.startsWith("http")) {
-                    console.warn("URL API belum diganti. Menampilkan dashboard kosong.");
-                    alert("Peringatan: URL API belum dimasukkan! Silakan ganti teks 'URL_GOOGLE_APPS_SCRIPT_ANDA_DISINI' dengan URL Apps Script milik Anda.");
-                    dbUsers = [];
-                    dbPlants = [];
+                    console.warn("Memuat Dummy Data (Mode Interaktif Offline).");
+                    if(dbPlants.length === 0 && dbUsers.length === 0) { // Muat pertama kali
+                        const data = getDummyData();
+                        dbUsers = data.users;
+                        dbPlants = data.plants;
+                    }
                     renderDashboardData();
-                    return; // Hentikan eksekusi fetch
+                    return; 
                 }
 
-                // Fetch dari API yang sudah dideploy
                 const response = await fetch(API_URL + "?action=operator"); 
                 const data = await response.json();
-                
                 dbUsers = data.users || [];
                 dbPlants = data.plants || [];
                 
@@ -498,7 +838,9 @@
                 console.error("Gagal terhubung ke Database.", error);
                 alert("Gagal memuat data dari database. Pastikan URL API sudah Anda masukkan dengan benar di dalam kode HTML.");
             } finally {
-                document.getElementById('globalLoader').classList.add('hidden');
+                // Sembunyikan loader dengan aman
+                const loader = document.getElementById('globalLoader');
+                if (loader) loader.classList.add('hidden');
             }
         }
 
@@ -544,7 +886,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 font-mono">${u.username || '-'}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                             <button onclick="openUserModal(true)" class="text-blue-600 hover:bg-blue-50 px-2 py-1 rounded transition" title="Edit Akun"><i class="fas fa-edit"></i></button>
-                            <button onclick="openDeleteUserModal()" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded transition" title="Hapus Akun"><i class="fas fa-trash-alt"></i></button>
+                            <button onclick="openDeleteUserModal('${u.id_user}')" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded transition" title="Hapus Akun"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                 `;
@@ -583,10 +925,10 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button onclick="openReviewModal()" class="inline-flex items-center px-4 py-2 bg-navy text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-navylight transition mx-1">
+                            <button onclick="openReviewModal('${p.id_tanaman}')" class="inline-flex items-center px-4 py-2 bg-navy text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-navylight transition mx-1">
                                 <i class="fas fa-tasks mr-2"></i> Review (Admin)
                             </button>
-                            <button onclick="openTimelineReviewModal()" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition mx-1">
+                            <button onclick="openTimelineReviewModal('${p.id_tanaman}')" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition mx-1">
                                 <i class="fas fa-camera-retro mr-2"></i> Cek Linimasa
                             </button>
                         </td>
@@ -615,10 +957,10 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${p.pengelola}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <button onclick="openViewProfileModal()" class="text-slate-400 hover:text-navy p-2 mx-1" title="Lihat Profil"><i class="fas fa-eye"></i></button>
-                            <button onclick="openEditPlantModal()" class="text-slate-400 hover:text-blue-500 p-2 mx-1" title="Edit Paksa"><i class="fas fa-edit"></i></button>
-                            <button onclick="openDemoteConfirmModal()" class="text-slate-400 hover:text-amber-500 p-2 mx-1" title="Turunkan Status (Revisi)"><i class="fas fa-undo"></i></button>
-                            <button onclick="openDeleteConfirmModal()" class="text-slate-400 hover:text-red-500 p-2" title="Hapus (Takedown)"><i class="fas fa-trash"></i></button>
+                            <button onclick="openViewProfileModal('${p.id_tanaman}')" class="text-slate-400 hover:text-navy p-2 mx-1" title="Lihat Profil"><i class="fas fa-eye"></i></button>
+                            <button onclick="openEditPlantModal('${p.id_tanaman}')" class="text-slate-400 hover:text-blue-500 p-2 mx-1" title="Edit Paksa"><i class="fas fa-edit"></i></button>
+                            <button onclick="openDemoteConfirmModal('${p.id_tanaman}')" class="text-slate-400 hover:text-amber-500 p-2 mx-1" title="Turunkan Status (Revisi)"><i class="fas fa-undo"></i></button>
+                            <button onclick="openDeleteConfirmModal('${p.id_tanaman}')" class="text-slate-400 hover:text-red-500 p-2" title="Hapus (Takedown)"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -661,6 +1003,23 @@
             // Peringatan jika URL belum diganti (Optional check)
             if(!API_URL || API_URL === "URL_GOOGLE_APPS_SCRIPT_ANDA_DISINI" || API_URL.includes("URL_GOOGLE")) {
                 alert("Peringatan: URL API belum dimasukkan! Silakan edit file HTML dan masukkan URL Apps Script Anda pada baris konstanta API_URL.");
+                // Jika ingin lanjut mensimulasikan simpan secara lokal:
+                const payloadDummy = {
+                    id_user: Math.floor(Math.random() * 1000) + 10,
+                    role: document.getElementById('userRole').value,
+                    nama_lengkap: document.getElementById('inputNama').value,
+                    kelas_jurusan: document.getElementById('inputKelas').value,
+                    anggota_kelompok: document.getElementById('inputAnggota').value,
+                    username: document.getElementById('inputUsername').value,
+                    password: document.getElementById('inputPassword').value
+                };
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+                setTimeout(() => {
+                    dbUsers.push(payloadDummy);
+                    closeUserModal();
+                    renderDashboardData();
+                    btn.innerHTML = originalText;
+                }, 500);
                 return;
             }
 
@@ -719,6 +1078,185 @@
                 btn.disabled = false;
                 btn.classList.remove('opacity-70', 'cursor-not-allowed');
             }
+        }
+
+        // ================= LOGIKA MENGHAPUS & UPDATE STATUS =================
+        async function executeDeleteUser() {
+            if(!selectedUserId) return;
+            const btn = document.getElementById('btnConfirmDeleteUser');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            if(!API_URL.startsWith("http")) {
+                setTimeout(() => {
+                    dbUsers = dbUsers.filter(u => u.id_user != selectedUserId);
+                    closeDeleteUserModal();
+                    renderDashboardData();
+                    btn.innerHTML = 'Iya, Hapus Akun'; btn.disabled = false;
+                }, 500);
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + "?action=deleteUser", { method: "POST", body: JSON.stringify({id_user: selectedUserId}) });
+                const res = await response.json();
+                if(res.success) {
+                    closeDeleteUserModal();
+                    loadDatabase();
+                } else alert("Gagal menghapus.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { btn.innerHTML = 'Iya, Hapus Akun'; btn.disabled = false; }
+        }
+
+        async function executeDeletePlant() {
+            if(!selectedPlantId) return;
+            const btn = document.getElementById('btnConfirmDeletePlant');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            
+            if(!API_URL.startsWith("http")) {
+                setTimeout(() => {
+                    dbPlants = dbPlants.filter(p => p.id_tanaman != selectedPlantId);
+                    closeDeleteConfirmModal();
+                    renderDashboardData();
+                    btn.innerHTML = 'Iya, Hapus'; btn.disabled = false;
+                }, 500);
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + "?action=deletePlant", { method: "POST", body: JSON.stringify({id_tanaman: selectedPlantId}) });
+                const res = await response.json();
+                if(res.success) {
+                    closeDeleteConfirmModal();
+                    loadDatabase();
+                } else alert("Gagal menghapus tanaman.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { btn.innerHTML = 'Iya, Hapus'; btn.disabled = false; }
+        }
+
+        async function executeDemotePlant() {
+            if(!selectedPlantId) return;
+            const btn = document.getElementById('btnConfirmDemotePlant') || document.getElementById('btnRevReject');
+            const originalText = btn ? btn.innerHTML : '';
+            if(btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; }
+
+            if(!API_URL.startsWith("http")) {
+                setTimeout(() => {
+                    let p = dbPlants.find(p => p.id_tanaman == selectedPlantId);
+                    if(p) { p.status_publikasi = 'Revisi'; p.status_b_indo = 'Revisi'; p.status_ipas = 'Revisi'; }
+                    closeDemoteConfirmModal(); closeReviewModal(); closeTimelineReviewModal();
+                    renderDashboardData();
+                    if(btn) { btn.innerHTML = originalText; btn.disabled = false; }
+                }, 500);
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + "?action=updatePlantStatus", { 
+                    method: "POST", 
+                    body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Revisi', status_b_indo: 'Revisi', status_ipas: 'Revisi'}) 
+                });
+                const res = await response.json();
+                if(res.success) {
+                    closeDemoteConfirmModal();
+                    closeReviewModal();
+                    closeTimelineReviewModal();
+                    loadDatabase();
+                } else alert("Gagal menurunkan status.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { if(btn) { btn.innerHTML = originalText; btn.disabled = false; } }
+        }
+
+        async function executeApprovePlant() {
+            if(!selectedPlantId) return;
+            const btn = document.getElementById('btnRevApprove');
+            const originalText = btn ? btn.innerHTML : '';
+            if(btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; }
+
+            if(!API_URL.startsWith("http")) {
+                setTimeout(() => {
+                    let p = dbPlants.find(p => p.id_tanaman == selectedPlantId);
+                    if(p) { p.status_publikasi = 'Live'; p.status_b_indo = 'Approved'; p.status_ipas = 'Approved'; }
+                    closeReviewModal(); closeTimelineReviewModal();
+                    renderDashboardData();
+                    if(btn) { btn.innerHTML = originalText; btn.disabled = false; }
+                }, 500);
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + "?action=updatePlantStatus", { 
+                    method: "POST", 
+                    body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Live', status_b_indo: 'Approved', status_ipas: 'Approved'}) 
+                });
+                const res = await response.json();
+                if(res.success) {
+                    closeReviewModal();
+                    closeTimelineReviewModal();
+                    loadDatabase();
+                } else alert("Gagal menyetujui.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { if(btn) { btn.innerHTML = originalText; btn.disabled = false; } }
+        }
+
+        // ================= FITUR EKSPOR =================
+        function exportToCSV() {
+            if(dbPlants.length === 0) { alert("Belum ada data."); return; }
+            let csv = "ID,Nama Lokal,Nama Latin,Pengelola,Status B Indo,Status IPAS,Status Publikasi\n";
+            dbPlants.forEach(p => {
+                csv += `${p.id_tanaman},"${p.nama_lokal}","${p.nama_latin}","${p.pengelola}",${p.status_b_indo},${p.status_ipas},${p.status_publikasi}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'Rekap_Skarida_Green_Tech.csv');
+            a.click();
+        }
+
+        function exportToPDF() {
+            // Membuka print dialog browser
+            window.print();
+        }
+
+        function getDummyData() {
+            return {
+                users: [
+                    { id_user: 1, nama_lengkap: 'Bpk. Budi Utama', role: 'Operator', username: 'admin_budi', kelas_jurusan: 'Kepala Lab Komputer' },
+                    { id_user: 2, nama_lengkap: 'Bpk. Ahmad Sujarwo', role: 'Guru IPAS', username: '198001012010011001', kelas_jurusan: 'Pengampu Kelas X' },
+                    { id_user: 3, nama_lengkap: 'Ibu Sri Wahyuni', role: 'Guru B. Indonesia', username: '198502022015032002', kelas_jurusan: 'Pengampu Kelas X' },
+                    { id_user: 4, nama_lengkap: 'Bpk. Widodo', role: 'Guru Matematika', username: '199003032018011003', kelas_jurusan: 'Pengampu Kelas X' },
+                    { id_user: 5, nama_lengkap: 'Kelompok 1 (X RPL 1)', role: 'Kelompok Siswa', username: 'kelompok1_xrpl1', kelas_jurusan: 'X RPL 1', anggota_kelompok: 'Budi Santoso, Siti Aminah, Andi Wijaya, Rina Sari' },
+                    { id_user: 6, nama_lengkap: 'Kelompok 2 (X RPL 1)', role: 'Kelompok Siswa', username: 'kelompok2_xrpl1', kelas_jurusan: 'X RPL 1', anggota_kelompok: 'Dewi, Putra' }
+                ],
+                plants: [
+                    {
+                        id_tanaman: 1, nama_lokal: 'Jahe Merah', nama_latin: 'Zingiber officinale var. rubrum', nama_daerah: 'Halia, Sipodeh', morfologi: 'Terna berbatang semu, akar rimpang.',
+                        status_b_indo: 'Approved', status_ipas: 'Approved', status_publikasi: 'Live',
+                        pengelola: 'Kelompok 1 (X RPL 1)', kelas: 'Kelas X RPL 1',
+                        image: 'https://placehold.co/600x400/15803d/ffffff?text=Jahe+Merah',
+                        timeline: [
+                            {tglFormatted: "10 Ags 2026", tglAsli: "2026-08-10", fase: "Bibit", foto: "https://placehold.co/150/d1d5db/6b7280?text=Bibit", catatan: "Penanaman awal"},
+                            {tglFormatted: "25 Ags 2026", tglAsli: "2026-08-25", fase: "Tunas", foto: "https://placehold.co/150/86efac/166534?text=Tunas", catatan: "Tumbuh 5cm"}
+                        ]
+                    },
+                    {
+                        id_tanaman: 2, nama_lokal: 'Lidah Buaya', nama_latin: 'Aloe vera', nama_daerah: 'Crocodile tongues', morfologi: 'Tanaman berdaging tebal dan runcing.',
+                        status_b_indo: 'Pending', status_ipas: 'Pending', status_publikasi: 'Pending',
+                        pengelola: 'Kelompok 2 (X RPL 1)', kelas: 'Kelas X RPL 1',
+                        image: 'https://placehold.co/600x400/15803d/ffffff?text=Lidah+Buaya',
+                        timeline: []
+                    },
+                    {
+                        id_tanaman: 3, nama_lokal: 'Kumis Kucing', nama_latin: 'Orthosiphon aristatus', nama_daerah: 'Remujung', morfologi: 'Batang tegak, bunga seperti kumis kucing.',
+                        status_b_indo: 'Approved', status_ipas: 'Approved', status_publikasi: 'Live',
+                        pengelola: 'Kelompok 3 (X TKJ 1)', kelas: 'Kelas X TKJ 1',
+                        image: 'https://placehold.co/600x400/15803d/ffffff?text=Kumis+Kucing',
+                        timeline: []
+                    }
+                ]
+            };
         }
 
         // ================= DIAGRAM PROGRES =================
