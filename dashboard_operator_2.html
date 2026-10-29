@@ -311,8 +311,47 @@
             <!-- ================= PAGE: EKSPOR LAPORAN ================= -->
             <section id="page-ekspor" class="hidden page-transition">
                 <div class="mb-6">
-                    <h3 class="text-2xl font-bold text-navy mb-2">Eskpor Data & Laporan</h3>
-                    <p class="text-sm text-slate-500">Fitur ekspor laporan tersedia pada pembaruan mendatang.</p>
+                    <h3 class="text-2xl font-bold text-navy mb-2">Eskpor Data & Laporan Penilaian</h3>
+                    <p class="text-sm text-slate-500">Gunakan fitur ini untuk merekap nilai PBL atau mengunduh aset fisik (Kartu & QR Code) untuk dipasang di taman.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Export Rekap Nilai -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex items-start gap-4 hover:border-blue-400 transition">
+                        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-2xl flex-shrink-0 mt-1">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-lg mb-1">Rekap Nilai PBL Siswa (Excel)</h4>
+                            <p class="text-sm text-slate-500 mb-3">Unduh laporan otomatis rekapitulasi nilai berdasarkan kelengkapan pengisian data tiap kelompok:</p>
+                            <ul class="text-xs text-slate-500 mb-4 space-y-1.5 ml-4 list-disc marker:text-slate-300">
+                                <li>Kelengkapan Deskripsi Morfologi (B. Indonesia)</li>
+                                <li>Kelengkapan Khasiat & Panduan Perawatan (IPAS)</li>
+                                <li>Jumlah Validasi Update Fase Pertumbuhan (Matematika)</li>
+                            </ul>
+                            <button class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-700 transition shadow-md flex items-center gap-2">
+                                <i class="fas fa-download"></i> Unduh Rekap (.xlsx)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Batch Kartu A5 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex items-start gap-4 hover:border-gold transition">
+                        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0 mt-1">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-lg mb-1">Batch Kartu Tanaman (PDF A5)</h4>
+                            <p class="text-sm text-slate-500 mb-3">Generate kartu informasi tanaman siap cetak berorientasi <b class="text-navy">Landscape (A5)</b>. Kartu memuat:</p>
+                            <ul class="text-xs text-slate-500 mb-4 space-y-1.5 ml-4 list-disc marker:text-slate-300">
+                                <li>Foto Utama, Nama Lokal, Nama Latin, & Nama Lain</li>
+                                <li>Ringkasan Morfologi & Khasiat Tanaman</li>
+                                <li><b>QR Code Cerdas</b> (Scan menuju halaman profil web)</li>
+                            </ul>
+                            <button class="bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-navylight transition shadow-md flex items-center gap-2">
+                                <i class="fas fa-print"></i> Generate PDF Kartu
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -543,6 +582,14 @@
                                 ${statusHtml || `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800 w-max border border-red-200 mb-1">Dalam Revisi</span>`}
                             </div>
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button onclick="openReviewModal()" class="inline-flex items-center px-4 py-2 bg-navy text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-navylight transition mx-1">
+                                <i class="fas fa-tasks mr-2"></i> Review (Admin)
+                            </button>
+                            <button onclick="openTimelineReviewModal()" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition mx-1">
+                                <i class="fas fa-camera-retro mr-2"></i> Cek Linimasa
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
@@ -567,6 +614,12 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${p.pengelola}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <button onclick="openViewProfileModal()" class="text-slate-400 hover:text-navy p-2 mx-1" title="Lihat Profil"><i class="fas fa-eye"></i></button>
+                            <button onclick="openEditPlantModal()" class="text-slate-400 hover:text-blue-500 p-2 mx-1" title="Edit Paksa"><i class="fas fa-edit"></i></button>
+                            <button onclick="openDemoteConfirmModal()" class="text-slate-400 hover:text-amber-500 p-2 mx-1" title="Turunkan Status (Revisi)"><i class="fas fa-undo"></i></button>
+                            <button onclick="openDeleteConfirmModal()" class="text-slate-400 hover:text-red-500 p-2" title="Hapus (Takedown)"><i class="fas fa-trash"></i></button>
+                        </td>
                     </tr>
                 `;
             });
