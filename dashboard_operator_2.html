@@ -333,7 +333,12 @@
                         </div>
                         <div>
                             <h4 class="font-bold text-slate-800 text-lg mb-1">Rekap Nilai PBL Siswa (Excel/CSV)</h4>
-                            <p class="text-sm text-slate-500 mb-3">Unduh laporan otomatis rekapitulasi nilai berdasarkan kelengkapan pengisian data tiap kelompok.</p>
+                            <p class="text-sm text-slate-500 mb-3">Unduh laporan otomatis rekapitulasi nilai berdasarkan kelengkapan pengisian data tiap kelompok:</p>
+                            <ul class="text-xs text-slate-500 mb-4 space-y-1.5 ml-4 list-disc marker:text-slate-300">
+                                <li>Kelengkapan Deskripsi Morfologi (B. Indonesia)</li>
+                                <li>Kelengkapan Khasiat & Panduan Perawatan (IPAS)</li>
+                                <li>Jumlah Validasi Update Fase Pertumbuhan (Matematika)</li>
+                            </ul>
                             <button onclick="exportToCSV()" class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-700 transition shadow-md flex items-center gap-2">
                                 <i class="fas fa-download"></i> Unduh Rekap (.csv)
                             </button>
@@ -347,7 +352,12 @@
                         </div>
                         <div>
                             <h4 class="font-bold text-slate-800 text-lg mb-1">Batch Kartu Tanaman (PDF A5)</h4>
-                            <p class="text-sm text-slate-500 mb-3">Generate kartu informasi tanaman siap cetak berorientasi <b class="text-navy">Landscape (A5)</b>.</p>
+                            <p class="text-sm text-slate-500 mb-3">Generate kartu informasi tanaman siap cetak berorientasi <b class="text-navy">Landscape (A5)</b>. Kartu memuat:</p>
+                            <ul class="text-xs text-slate-500 mb-4 space-y-1.5 ml-4 list-disc marker:text-slate-300">
+                                <li>Foto Utama, Nama Lokal, Nama Latin, & Nama Lain</li>
+                                <li>Ringkasan Morfologi & Khasiat Tanaman</li>
+                                <li><b>QR Code Cerdas</b> (Scan menuju halaman profil web)</li>
+                            </ul>
                             <button onclick="exportToPDF()" class="bg-navy text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-navylight transition shadow-md flex items-center gap-2">
                                 <i class="fas fa-print"></i> Generate PDF Kartu
                             </button>
@@ -615,7 +625,7 @@
                             <h4 class="font-bold text-navy border-b pb-2 mb-3 text-sm">1. Identitas & Foto</h4>
                             <div class="flex items-center gap-4 mb-4">
                                 <img id="editFotoImg" src="https://placehold.co/150/15803d/ffffff?text=Tanaman" class="w-16 h-16 rounded-xl object-cover border border-slate-200" alt="Preview">
-                                <input type="file" id="editFotoInput" onchange="processImage(event, 'editFotoImg')" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 cursor-pointer hover:file:bg-blue-100 transition" accept="image/*">
+                                <input type="file" class="text-xs w-full file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 transition cursor-pointer">
                             </div>
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
@@ -732,7 +742,7 @@
                 <i class="fas fa-undo"></i>
             </div>
             <h3 class="text-xl font-bold text-slate-800 mb-2">Turunkan Status Data?</h3>
-            <p class="text-sm text-slate-500 mb-6">Tanaman ini akan ditarik dari tayangan publik (Katalog Live) dan dikembalikan ke antrean <b>Pusat Validasi</b>.</p>
+            <p class="text-sm text-slate-500 mb-6">Tanaman ini akan ditarik dari tayangan publik (Katalog Live) dan dikembalikan ke antrean <b>Pusat Validasi</b> agar siswa dapat memperbaiki datanya.</p>
             <div class="flex justify-center gap-3">
                 <button onclick="closeDemoteConfirmModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Batal</button>
                 <button onclick="executeDemotePlant()" id="btnConfirmDemotePlant" class="flex-1 px-4 py-2.5 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-md">Iya, Kembalikan</button>
@@ -743,6 +753,7 @@
     <!-- LOGIC NAVIGASI SPA, MODAL, DAN API -->
     <script>
         let selectedUserId = null;
+        let selectedEditUserId = null; 
         let selectedPlantId = null;
 
         const pages = ['pengguna', 'dashboard', 'validasi', 'katalog', 'ekspor'];
@@ -777,76 +788,62 @@
             });
         }
 
-        // ================= IMAGE COMPRESSOR =================
-        function processImage(event, imgId) {
-            const file = event.target.files[0];
-            if(!file) return;
-            compressAndPreview(file, function(base64Str) {
-                document.getElementById(imgId).src = base64Str;
-            });
-        }
-
-        function compressAndPreview(file, callback) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 400;
-                    const MAX_HEIGHT = 400;
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
-                    else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
-                    
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/jpeg', 0.6));
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // ================= MODAL HELPERS =================
+        // ================= MODAL HELPERS (PENGGUNA) =================
         function openUserModal(isEdit = false, id = null) { 
             const title = document.getElementById('userModalTitle');
             const btn = document.getElementById('userModalBtn');
+            
             selectedEditUserId = id;
 
             if(isEdit && id) {
-                title.innerHTML = '<i class="fas fa-user-edit mr-2"></i>Edit Akun';
-                const u = dbUsers.find(x => (x.user_id || x.id_user) == id);
-                if(u) {
-                    document.getElementById('userRole').value = u.role;
-                    document.getElementById('inputNama').value = u.nama_lengkap;
-                    document.getElementById('inputKelas').value = u.kelas_jurusan;
-                    document.getElementById('inputAnggota').value = u.anggota_kelompok;
-                    document.getElementById('inputUsername').value = u.username;
+                title.innerHTML = '<i class="fas fa-user-edit mr-2"></i>Edit Data Akun Pengguna';
+                btn.innerHTML = '<i class="fas fa-save"></i> Simpan Perubahan';
+                
+                const user = dbUsers.find(u => (u.user_id || u.id_user) == id);
+                if(user) {
+                    document.getElementById('userRole').value = user.role || 'Kelompok Siswa';
+                    document.getElementById('inputNama').value = user.nama_lengkap || '';
+                    document.getElementById('inputKelas').value = user.kelas_jurusan || '';
+                    document.getElementById('inputAnggota').value = user.anggota_kelompok || '';
+                    document.getElementById('inputUsername').value = user.username || '';
                     document.getElementById('inputPassword').value = ''; 
                 }
             } else {
-                title.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Akun Baru';
+                title.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Form Pengguna Baru';
+                btn.innerHTML = '<i class="fas fa-save"></i> Buat Akun';
+                
+                document.getElementById('userRole').value = 'Kelompok Siswa';
                 document.getElementById('inputNama').value = '';
+                document.getElementById('inputKelas').value = '';
+                document.getElementById('inputAnggota').value = '';
                 document.getElementById('inputUsername').value = '';
                 document.getElementById('inputPassword').value = '';
             }
+            
             document.getElementById('userModal').classList.remove('hidden'); 
-            toggleAnggotaField();
+            toggleAnggotaField(); 
         }
-        function closeUserModal() { document.getElementById('userModal').classList.add('hidden'); }
+        function closeUserModal() { 
+            selectedEditUserId = null;
+            document.getElementById('userModal').classList.add('hidden'); 
+        }
         
-        function openDeleteUserModal(id) { selectedUserId = id; document.getElementById('deleteUserConfirmModal').classList.remove('hidden'); }
-        function closeDeleteUserModal() { selectedUserId = null; document.getElementById('deleteUserConfirmModal').classList.add('hidden'); }
+        function openDeleteUserModal(id) { 
+            selectedUserId = id;
+            document.getElementById('deleteUserConfirmModal').classList.remove('hidden'); 
+        }
+        function closeDeleteUserModal() { 
+            selectedUserId = null;
+            document.getElementById('deleteUserConfirmModal').classList.add('hidden'); 
+        }
 
+        // ================= MODAL HELPERS (TANAMAN) =================
         function calculateDays(startDateStr, endDateStr) {
             const start = new Date(startDateStr);
             const end = new Date(endDateStr);
             if(isNaN(start) || isNaN(end)) return "Beberapa hari";
-            return Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24)); 
+            const diffDays = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24)); 
+            return diffDays;
         }
 
         function formatDateJS(dateStr) {
@@ -895,7 +892,11 @@
             }
             document.getElementById('reviewModal').classList.remove('hidden'); 
         }
-        function closeReviewModal() { selectedPlantId = null; document.getElementById('reviewModal').classList.add('hidden'); }
+        
+        function closeReviewModal() { 
+            selectedPlantId = null;
+            document.getElementById('reviewModal').classList.add('hidden'); 
+        }
         
         function openTimelineReviewModal(id) { 
             selectedPlantId = id;
@@ -936,9 +937,12 @@
             }
             document.getElementById('timelineReviewModal').classList.remove('hidden'); 
         }
-        function closeTimelineReviewModal() { selectedPlantId = null; document.getElementById('timelineReviewModal').classList.add('hidden'); }
+        function closeTimelineReviewModal() { 
+            selectedPlantId = null;
+            document.getElementById('timelineReviewModal').classList.add('hidden'); 
+        }
 
-        // ================= MODAL PROFIL (MASTER KATALOG) =================
+        // ================= MODAL MASTER KATALOG =================
         function openViewProfileModal(id) { 
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
             if(plant) {
@@ -1079,7 +1083,9 @@
                     plant.timeline.forEach(node => {
                         let rawDate = node.tgl_observasi || node.tglAsli || node.tanggal_observasi || '';
                         let formattedDateInput = rawDate;
-                        if(rawDate && rawDate.includes("T")) formattedDateInput = rawDate.split("T")[0];
+                        if(rawDate && rawDate.includes("T")) {
+                            formattedDateInput = rawDate.split("T")[0]; 
+                        }
                         
                         timelineHtml += `
                             <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 relative group transition hover:border-blue-300 flex flex-col sm:flex-row gap-4 items-start shadow-sm">
@@ -1110,13 +1116,28 @@
             }
             document.getElementById('editPlantModal').classList.remove('hidden'); 
         }
-        function closeEditPlantModal() { selectedPlantId = null; document.getElementById('editPlantModal').classList.add('hidden'); }
+        function closeEditPlantModal() { 
+            selectedPlantId = null;
+            document.getElementById('editPlantModal').classList.add('hidden'); 
+        }
         
-        function openDeleteConfirmModal(id) { selectedPlantId = id; document.getElementById('deleteConfirmModal').classList.remove('hidden'); }
-        function closeDeleteConfirmModal() { selectedPlantId = null; document.getElementById('deleteConfirmModal').classList.add('hidden'); }
+        function openDeleteConfirmModal(id) { 
+            selectedPlantId = id;
+            document.getElementById('deleteConfirmModal').classList.remove('hidden'); 
+        }
+        function closeDeleteConfirmModal() { 
+            selectedPlantId = null;
+            document.getElementById('deleteConfirmModal').classList.add('hidden'); 
+        }
         
-        function openDemoteConfirmModal(id) { selectedPlantId = id; document.getElementById('demoteConfirmModal').classList.remove('hidden'); }
-        function closeDemoteConfirmModal() { selectedPlantId = null; document.getElementById('demoteConfirmModal').classList.add('hidden'); }
+        function openDemoteConfirmModal(id) { 
+            selectedPlantId = id;
+            document.getElementById('demoteConfirmModal').classList.remove('hidden'); 
+        }
+        function closeDemoteConfirmModal() { 
+            selectedPlantId = null;
+            document.getElementById('demoteConfirmModal').classList.add('hidden'); 
+        }
 
         function toggleAnggotaField() {
             const role = document.getElementById('userRole').value;
@@ -1128,36 +1149,56 @@
         function addKhasiatRow() {
             const container = document.getElementById('khasiatContainer');
             if(container.innerHTML.includes('Belum ada')) container.innerHTML = '';
+            
             const newRow = document.createElement('div');
             newRow.className = 'border border-slate-200 rounded-xl p-3 bg-slate-50 relative group transition hover:border-blue-300';
+            
             newRow.innerHTML = `
                 <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Baris"><i class="fas fa-trash text-xs"></i></button>
-                <input type="text" placeholder="Nama Khasiat" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 focus:border-navy outline-none">
-                <textarea rows="2" placeholder="Cara meramu..." class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy outline-none"></textarea>
+                <input type="text" placeholder="Nama Khasiat (Misal: Pereda Nyeri)" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold mb-2 focus:border-navy focus:ring-1 focus:ring-navy outline-none transition pr-8">
+                <textarea rows="2" placeholder="Cara meramu/menggunakan tanaman ini..." class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy focus:ring-1 focus:ring-navy outline-none transition"></textarea>
             `;
+            
             container.appendChild(newRow);
         }
 
         function addTimelineRow() {
             const container = document.getElementById('timelineEditContainer');
             if(container.innerHTML.includes('Belum ada')) container.innerHTML = '';
+            
             const newRow = document.createElement('div');
             newRow.className = 'border border-slate-200 rounded-xl p-4 bg-slate-50 relative group transition hover:border-blue-300 flex flex-col sm:flex-row gap-4 items-start shadow-sm';
+            
             newRow.innerHTML = `
                 <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 w-7 h-7 bg-red-100 text-red-500 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10" title="Hapus Fase"><i class="fas fa-trash text-xs"></i></button>
+                
                 <div class="w-full sm:w-32 flex-shrink-0">
-                    <div class="w-full h-24 bg-slate-200 flex items-center justify-center rounded-lg border border-slate-300 mb-2 text-slate-400 shadow-inner"><i class="fas fa-image text-2xl"></i></div>
-                    <input type="file" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:font-bold file:bg-blue-50 file:text-blue-600 cursor-pointer">
+                    <div class="w-full h-24 bg-slate-200 flex items-center justify-center rounded-lg border border-slate-300 mb-2 text-slate-400 shadow-inner">
+                        <i class="fas fa-image text-2xl"></i>
+                    </div>
+                    <input type="file" class="text-[10px] w-full file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:font-bold file:bg-blue-50 file:text-blue-600 cursor-pointer hover:file:bg-blue-100">
                 </div>
+                
                 <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
-                    <div><label class="block text-[10px] font-bold text-slate-700 mb-1">Tanggal</label><input type="date" class="w-full border border-slate-300 rounded-md p-2 text-xs outline-none"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-700 mb-1">Fase</label><input type="text" placeholder="Fase" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold outline-none"></div>
-                    <div class="sm:col-span-2"><label class="block text-[10px] font-bold text-slate-700 mb-1">Catatan</label><textarea rows="1" class="w-full border border-slate-300 rounded-md p-2 text-xs outline-none"></textarea></div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Tanggal Observasi</label>
+                        <input type="date" class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy focus:ring-1 focus:ring-navy outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Nama Fase</label>
+                        <input type="text" placeholder="Misal: Berdaun" class="w-full border border-slate-300 rounded-md p-2 text-xs font-bold focus:border-navy focus:ring-1 focus:ring-navy outline-none transition pr-8">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] font-bold text-slate-700 mb-1">Catatan Pertumbuhan</label>
+                        <textarea rows="1" placeholder="Jelaskan progres fisik tanaman..." class="w-full border border-slate-300 rounded-md p-2 text-xs focus:border-navy focus:ring-1 focus:ring-navy outline-none transition"></textarea>
+                    </div>
                 </div>
             `;
+            
             container.appendChild(newRow);
         }
 
+        // Close on background click
         window.addEventListener('click', (e) => {
             const modals = ['userModal', 'deleteUserConfirmModal', 'reviewModal', 'timelineReviewModal', 'viewProfileModal', 'editPlantModal', 'deleteConfirmModal', 'demoteConfirmModal'];
             modals.forEach(modalId => {
@@ -1166,8 +1207,9 @@
             });
         });
 
-        // ================= API CONFIG =================
+        // ================= KONFIGURASI API & DATA DINAMIS =================
         const API_URL = "https://script.google.com/macros/s/AKfycbxi6_oVqHFoIR1JiNyeKismyeJilacmo9gcpT3-YaTmgvqUvZ9AlMdFvARzWHk7khFO/exec"; 
+        
         let dbUsers = [];
         let dbPlants = [];
         let classProgressData = [];
@@ -1177,7 +1219,8 @@
                 const loader = document.getElementById('globalLoader');
                 if (loader) loader.classList.remove('hidden');
                 
-                if (!API_URL.startsWith("http")) {
+                if (!API_URL || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
+                    console.warn("Memuat Dummy Data (Mode Interaktif Offline).");
                     if(dbPlants.length === 0 && dbUsers.length === 0) {
                         const data = getDummyData();
                         dbUsers = data.users;
@@ -1191,14 +1234,17 @@
                 const data = await response.json();
                 dbUsers = data.users || [];
                 dbPlants = data.plants || [];
+                
                 renderDashboardData();
             } catch (error) {
                 console.error("Gagal terhubung ke Database.", error);
+                alert("Gagal memuat data dari database. Pastikan URL API sudah Anda masukkan dengan benar di dalam kode HTML.");
             } finally {
                 const loader = document.getElementById('globalLoader');
                 if (loader) loader.classList.add('hidden');
             }
         }
+
         document.addEventListener("DOMContentLoaded", loadDatabase);
 
         function renderDashboardData() {
@@ -1213,11 +1259,15 @@
         function renderUsersTable() {
             const tbody = document.getElementById('usersTableBody');
             tbody.innerHTML = '';
+            
             dbUsers.forEach(u => {
                 let badgeClass = 'bg-slate-100 text-slate-800';
                 if(u.role === 'Operator') badgeClass = 'bg-slate-800 text-white';
-                else if(u.role && u.role.includes('IPAS')) badgeClass = 'bg-amber-100 text-amber-800';
-                else if(u.role === 'Kelompok Siswa') badgeClass = 'bg-nature/10 text-nature';
+                else if(u.role && u.role.includes('IPAS')) badgeClass = 'bg-amber-100 text-amber-800 border border-amber-200';
+                else if(u.role && u.role.includes('B. Indonesia')) badgeClass = 'bg-blue-100 text-blue-800 border border-blue-200';
+                else if(u.role && u.role.includes('Matematika')) badgeClass = 'bg-purple-100 text-purple-800 border border-purple-200';
+                else if(u.role === 'Kelompok Siswa') badgeClass = 'bg-nature/10 text-nature border border-nature/20';
+                
                 let initial = u.role === 'Operator' ? 'OP' : (u.role === 'Kelompok Siswa' ? 'K' : (u.nama_lengkap ? u.nama_lengkap.charAt(0) : 'U'));
                 const userId = u.user_id || u.id_user; 
 
@@ -1225,15 +1275,20 @@
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm shadow-inner border">${initial}</div>
-                                <div class="ml-3"><div class="text-sm font-bold text-slate-800">${u.nama_lengkap || '-'}</div><div class="text-xs text-slate-500">${u.kelas_jurusan || '-'}</div></div>
+                                <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm shadow-inner border border-slate-300">${initial}</div>
+                                <div class="ml-3">
+                                    <div class="text-sm font-bold text-slate-800">${u.nama_lengkap || '-'}</div>
+                                    <div class="text-xs text-slate-500 whitespace-normal max-w-[200px] leading-tight">${u.role === 'Kelompok Siswa' ? (u.anggota_kelompok || u.kelas_jurusan) : (u.kelas_jurusan || '-')}</div>
+                                </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${badgeClass}">${u.role || 'User'}</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold shadow-sm ${badgeClass}">${u.role || 'User'}</span>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 font-mono">${u.username || '-'}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                            <button onclick="openUserModal(true, '${userId}')" class="text-blue-600 hover:bg-blue-50 px-2 py-1 rounded transition"><i class="fas fa-edit"></i></button>
-                            <button onclick="openDeleteUserModal('${userId}')" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded transition"><i class="fas fa-trash-alt"></i></button>
+                            <button onclick="openUserModal(true, '${userId}')" class="text-blue-600 hover:bg-blue-50 px-2 py-1 rounded transition" title="Edit Akun"><i class="fas fa-edit"></i></button>
+                            <button onclick="openDeleteUserModal('${userId}')" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded transition" title="Hapus Akun"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1243,22 +1298,42 @@
         function renderValidationTable() {
             const tbody = document.getElementById('validasiTableBody');
             tbody.innerHTML = '';
+            
             const pendingPlants = dbPlants.filter(p => p.status_publikasi !== 'Live');
-            if(document.getElementById('badgeValidasi')) document.getElementById('badgeValidasi').innerText = pendingPlants.length;
+            
+            if(document.getElementById('badgeValidasi')) {
+                document.getElementById('badgeValidasi').innerText = pendingPlants.length;
+            }
+            
             pendingPlants.forEach(p => {
                 const plantId = p.tanaman_id || p.id_tanaman;
+                let statusHtml = '';
+                if(p.status_b_indo === 'Pending') statusHtml += `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800 w-max border border-amber-200 mb-1">B. Indo: Pending</span><br>`;
+                if(p.status_ipas === 'Pending') statusHtml += `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800 w-max border border-amber-200">IPAS: Pending</span>`;
+                
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <img class="h-10 w-10 rounded-lg object-cover bg-slate-100 shadow-sm" src="${p.image}">
-                                <div class="ml-4"><div class="text-sm font-bold text-navy">${p.nama_lokal}</div><div class="text-xs text-slate-500">${p.pengelola}</div></div>
+                                <img class="h-10 w-10 rounded-lg object-cover bg-slate-100 border border-slate-200 shadow-sm" src="${p.image}" onerror="this.src='https://placehold.co/150/15803d/ffffff?text=Tanaman'" alt="Img">
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-navy">${p.nama_lokal || 'Tanaman Baru'}</div>
+                                    <div class="text-xs text-slate-500">${p.pengelola || '-'}</div>
+                                </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2.5 py-1 rounded-full text-[10px] font-medium bg-amber-100 text-amber-800 border">Pending Validasi</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex flex-col gap-1">
+                                ${statusHtml || `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800 w-max border border-red-200 mb-1">Dalam Revisi</span>`}
+                            </div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button onclick="openReviewModal('${plantId}')" class="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-navylight mx-1">Review</button>
-                            <button onclick="openTimelineReviewModal('${plantId}')" class="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-blue-700 mx-1">Cek Linimasa</button>
+                            <button onclick="openReviewModal('${plantId}')" class="inline-flex items-center px-4 py-2 bg-navy text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-navylight transition mx-1">
+                                <i class="fas fa-tasks mr-2"></i> Review (Admin)
+                            </button>
+                            <button onclick="openTimelineReviewModal('${plantId}')" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition mx-1">
+                                <i class="fas fa-camera-retro mr-2"></i> Cek Linimasa
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -1268,23 +1343,28 @@
         function renderCatalogTable() {
             const tbody = document.getElementById('katalogTableBody');
             tbody.innerHTML = '';
+            
             const livePlants = dbPlants.filter(p => p.status_publikasi === 'Live');
+            
             livePlants.forEach(p => {
                 const plantId = p.tanaman_id || p.id_tanaman;
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <img class="h-10 w-10 rounded-lg object-cover shadow-sm" src="${p.image}">
-                                <div class="ml-4"><div class="text-sm font-bold text-slate-800">${p.nama_lokal}</div><div class="text-xs text-slate-500 italic">${p.nama_latin}</div></div>
+                                <img class="h-10 w-10 rounded-lg object-cover border border-slate-200 shadow-sm" src="${p.image}" onerror="this.src='https://placehold.co/150/15803d/ffffff?text=Tanaman'" alt="Img">
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-slate-800">${p.nama_lokal}</div>
+                                    <div class="text-xs text-slate-500 italic">${p.nama_latin}</div>
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${p.pengelola}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <button onclick="openViewProfileModal('${plantId}')" class="text-slate-400 hover:text-navy p-2 mx-1"><i class="fas fa-eye"></i></button>
-                            <button onclick="openEditPlantModal('${plantId}')" class="text-slate-400 hover:text-blue-500 p-2 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="openDemoteConfirmModal('${plantId}')" class="text-slate-400 hover:text-amber-500 p-2 mx-1"><i class="fas fa-undo"></i></button>
-                            <button onclick="openDeleteConfirmModal('${plantId}')" class="text-slate-400 hover:text-red-500 p-2"><i class="fas fa-trash"></i></button>
+                            <button onclick="openViewProfileModal('${plantId}')" class="text-slate-400 hover:text-navy p-2 mx-1" title="Lihat Profil"><i class="fas fa-eye"></i></button>
+                            <button onclick="openEditPlantModal('${plantId}')" class="text-slate-400 hover:text-blue-500 p-2 mx-1" title="Edit Paksa"><i class="fas fa-edit"></i></button>
+                            <button onclick="openDemoteConfirmModal('${plantId}')" class="text-slate-400 hover:text-amber-500 p-2 mx-1" title="Turunkan Status (Revisi)"><i class="fas fa-undo"></i></button>
+                            <button onclick="openDeleteConfirmModal('${plantId}')" class="text-slate-400 hover:text-red-500 p-2" title="Hapus (Takedown)"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1296,6 +1376,7 @@
             document.getElementById('statLive').innerText = dbPlants.filter(p => p.status_publikasi === 'Live').length;
             document.getElementById('statPending').innerText = dbPlants.filter(p => p.status_publikasi === 'Pending').length;
             document.getElementById('statRevisi').innerText = dbPlants.filter(p => p.status_publikasi === 'Revisi').length;
+            
             if(document.getElementById('totalAkunCard')) {
                 document.getElementById('totalAkunCard').innerText = dbUsers.length;
                 document.getElementById('totalGuruCard').innerText = dbUsers.filter(u => u.role && u.role.includes('Guru')).length;
@@ -1307,7 +1388,10 @@
             const groups = {};
             dbPlants.forEach(p => {
                 if(!p.kelas || p.kelas === '-') return;
-                if(!groups[p.kelas]) groups[p.kelas] = { className: p.kelas, total: 10, live: 0, val: 0, rev: 0 }; 
+                
+                if(!groups[p.kelas]) {
+                    groups[p.kelas] = { className: p.kelas, total: 10, live: 0, val: 0, rev: 0 }; 
+                }
                 if(p.status_publikasi === 'Live') groups[p.kelas].live++;
                 else if(p.status_publikasi === 'Pending') groups[p.kelas].val++;
                 else if(p.status_publikasi === 'Revisi') groups[p.kelas].rev++;
@@ -1315,57 +1399,131 @@
             classProgressData = Object.values(groups);
         }
 
+        // ================= LOGIKA MENGHAPUS & UPDATE STATUS (FULL STACK) =================
         async function executeDeleteUser() {
             if(!selectedUserId) return;
+            const btn = document.querySelector('#deleteUserConfirmModal button.bg-red-600');
+            if(btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; }
+
             if(!API_URL.startsWith("http")) {
-                dbUsers = dbUsers.filter(u => (u.user_id || u.id_user) != selectedUserId);
-                closeDeleteUserModal(); renderDashboardData(); return;
+                setTimeout(() => {
+                    dbUsers = dbUsers.filter(u => u.id_user != selectedUserId && u.user_id != selectedUserId);
+                    closeDeleteUserModal();
+                    renderDashboardData();
+                    if(btn) { btn.innerHTML = 'Iya, Hapus Akun'; btn.disabled = false; }
+                }, 500);
+                return;
             }
+
             try {
-                const res = await (await fetch(API_URL + "?action=deleteUser", { method: "POST", body: JSON.stringify({id_user: selectedUserId}) })).json();
-                if(res.success) { closeDeleteUserModal(); loadDatabase(); }
-            } catch(e) {}
+                const response = await fetch(API_URL + "?action=deleteUser", { 
+                    method: "POST", 
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({id_user: selectedUserId}) 
+                });
+                const res = await response.json();
+                if(res.success) { closeDeleteUserModal(); loadDatabase(); } else alert("Gagal menghapus.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { if(btn) { btn.innerHTML = 'Iya, Hapus Akun'; btn.disabled = false; } }
         }
 
         async function executeDeletePlant() {
             if(!selectedPlantId) return;
+            const btn = document.querySelector('#deleteConfirmModal button.bg-red-600');
+            if(btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; }
+
             if(!API_URL.startsWith("http")) {
-                dbPlants = dbPlants.filter(p => (p.tanaman_id || p.id_tanaman) != selectedPlantId);
-                closeDeleteConfirmModal(); renderDashboardData(); return;
+                setTimeout(() => {
+                    dbPlants = dbPlants.filter(p => (p.tanaman_id || p.id_tanaman) != selectedPlantId);
+                    closeDeleteConfirmModal();
+                    renderDashboardData();
+                    if(btn) { btn.innerHTML = 'Iya, Hapus'; btn.disabled = false; }
+                }, 500);
+                return;
             }
+
             try {
-                const res = await (await fetch(API_URL + "?action=deletePlant", { method: "POST", body: JSON.stringify({id_tanaman: selectedPlantId}) })).json();
-                if(res.success) { closeDeleteConfirmModal(); loadDatabase(); }
-            } catch(e) {}
+                const response = await fetch(API_URL + "?action=deletePlant", { 
+                    method: "POST", 
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({id_tanaman: selectedPlantId}) 
+                });
+                const res = await response.json();
+                if(res.success) { closeDeleteConfirmModal(); loadDatabase(); } else alert("Gagal menghapus tanaman.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { if(btn) { btn.innerHTML = 'Iya, Hapus'; btn.disabled = false; } }
         }
 
         async function executeDemotePlant() {
             if(!selectedPlantId) return;
+            const btn1 = document.querySelector('#demoteConfirmModal button.bg-amber-500');
+            const btn2 = document.getElementById('btnRevReject'); 
+            const btn3 = document.getElementById('btnMtkReject');
+            const activeBtn = btn1 || btn2 || btn3;
+            const originalText = activeBtn ? activeBtn.innerHTML : '';
+            if(activeBtn) { activeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; activeBtn.disabled = true; }
+
             if(!API_URL.startsWith("http")) {
-                let p = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == selectedPlantId);
-                if(p) { p.status_publikasi = 'Revisi'; p.status_b_indo = 'Revisi'; p.status_ipas = 'Revisi'; }
-                closeDemoteConfirmModal(); closeReviewModal(); closeTimelineReviewModal(); renderDashboardData(); return;
+                setTimeout(() => {
+                    let p = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == selectedPlantId);
+                    if(p) { p.status_publikasi = 'Revisi'; p.status_b_indo = 'Revisi'; p.status_ipas = 'Revisi'; }
+                    closeDemoteConfirmModal(); closeReviewModal(); closeTimelineReviewModal();
+                    renderDashboardData();
+                    if(activeBtn) { activeBtn.innerHTML = originalText; activeBtn.disabled = false; }
+                }, 500);
+                return;
             }
+
             try {
-                const res = await (await fetch(API_URL + "?action=updatePlantStatus", { method: "POST", body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Revisi', status_b_indo: 'Revisi', status_ipas: 'Revisi'}) })).json();
-                if(res.success) { closeDemoteConfirmModal(); closeReviewModal(); closeTimelineReviewModal(); loadDatabase(); }
-            } catch(e) {}
+                const response = await fetch(API_URL + "?action=updatePlantStatus", { 
+                    method: "POST", 
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Revisi', status_b_indo: 'Revisi', status_ipas: 'Revisi'}) 
+                });
+                const res = await response.json();
+                if(res.success) { closeDemoteConfirmModal(); closeReviewModal(); closeTimelineReviewModal(); loadDatabase(); } else alert("Gagal menurunkan status.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { if(activeBtn) { activeBtn.innerHTML = originalText; activeBtn.disabled = false; } }
         }
 
         async function executeApprovePlant() {
             if(!selectedPlantId) return;
+            const btn1 = document.getElementById('btnRevApprove');
+            const btn2 = document.getElementById('btnMtkApprove');
+            const activeBtn = btn1 || btn2;
+            const originalText = activeBtn ? activeBtn.innerHTML : '';
+            if(activeBtn) { activeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; activeBtn.disabled = true; }
+
             if(!API_URL.startsWith("http")) {
-                let p = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == selectedPlantId);
-                if(p) { p.status_publikasi = 'Live'; p.status_b_indo = 'Approved'; p.status_ipas = 'Approved'; }
-                closeReviewModal(); closeTimelineReviewModal(); renderDashboardData(); return;
+                setTimeout(() => {
+                    let p = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == selectedPlantId);
+                    if(p) { p.status_publikasi = 'Live'; p.status_b_indo = 'Approved'; p.status_ipas = 'Approved'; }
+                    closeReviewModal(); closeTimelineReviewModal();
+                    renderDashboardData();
+                    if(activeBtn) { activeBtn.innerHTML = originalText; activeBtn.disabled = false; }
+                }, 500);
+                return;
             }
+
             try {
-                const res = await (await fetch(API_URL + "?action=updatePlantStatus", { method: "POST", body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Live', status_b_indo: 'Approved', status_ipas: 'Approved'}) })).json();
-                if(res.success) { closeReviewModal(); closeTimelineReviewModal(); loadDatabase(); }
-            } catch(e) {}
+                const response = await fetch(API_URL + "?action=updatePlantStatus", { 
+                    method: "POST", 
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({id_tanaman: selectedPlantId, status_publikasi: 'Live', status_b_indo: 'Approved', status_ipas: 'Approved'}) 
+                });
+                const res = await response.json();
+                if(res.success) { closeReviewModal(); closeTimelineReviewModal(); loadDatabase(); } else alert("Gagal menyetujui.");
+            } catch(e) { alert("Error jaringan."); }
+            finally { if(activeBtn) { activeBtn.innerHTML = originalText; activeBtn.disabled = false; } }
         }
 
+        // ================= LOGIKA MENYIMPAN USER =================
         async function saveUser() {
+            const btn = document.getElementById('userModalBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+
             const payload = {
                 role: document.getElementById('userRole').value,
                 nama_lengkap: document.getElementById('inputNama').value,
@@ -1374,70 +1532,283 @@
                 username: document.getElementById('inputUsername').value,
                 password: document.getElementById('inputPassword').value
             };
+
+            if(!payload.nama_lengkap || !payload.username) {
+                alert("Harap lengkapi Nama dan Username!");
+                btn.innerHTML = originalText; btn.disabled = false;
+                return;
+            }
+            
             const isEdit = selectedEditUserId !== null;
+            
+            if(!isEdit && !payload.password) {
+                alert("Password wajib diisi untuk membuat akun baru!");
+                btn.innerHTML = originalText; btn.disabled = false;
+                return;
+            }
+            
             if(isEdit) payload.id_user = selectedEditUserId;
+            
+            const apiAction = isEdit ? "editUser" : "addUser";
 
             if(!API_URL.startsWith("http")) {
-                if(isEdit) {
-                    let idx = dbUsers.findIndex(u => (u.user_id || u.id_user) == selectedEditUserId);
-                    if(idx > -1) dbUsers[idx] = {...dbUsers[idx], ...payload};
-                } else {
-                    payload.user_id = Math.floor(Math.random()*1000);
-                    dbUsers.push(payload);
-                }
-                closeUserModal(); renderDashboardData(); return;
+                setTimeout(() => {
+                    if(isEdit) {
+                        let userIndex = dbUsers.findIndex(u => (u.user_id || u.id_user) == selectedEditUserId);
+                        if(userIndex > -1) {
+                             if(payload.password === "") payload.password = dbUsers[userIndex].password;
+                             dbUsers[userIndex] = {...dbUsers[userIndex], ...payload};
+                        }
+                    } else {
+                        payload.user_id = Math.floor(Math.random() * 1000) + 10;
+                        dbUsers.push(payload);
+                    }
+                    closeUserModal();
+                    renderDashboardData();
+                    btn.innerHTML = originalText; btn.disabled = false;
+                }, 500);
+                return;
             }
+
             try {
-                const res = await (await fetch(API_URL + "?action=" + (isEdit ? "editUser" : "addUser"), { method: "POST", body: JSON.stringify(payload) })).json();
-                if(res.success) { closeUserModal(); loadDatabase(); }
-            } catch(e) {}
+                const response = await fetch(API_URL + "?action=" + apiAction, {
+                    method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if(result.success) { 
+                    alert(isEdit ? "✅ Data akun berhasil diperbarui!" : "✅ Akun baru berhasil disimpan!");
+                    closeUserModal(); 
+                    loadDatabase(); 
+                } else {
+                    alert("❌ Gagal menyimpan: " + result.message);
+                }
+            } catch (error) { 
+                alert("⚠️ Error jaringan API."); 
+            } finally { 
+                btn.innerHTML = originalText; btn.disabled = false; 
+            }
         }
 
+        // ================= LOGIKA MENYIMPAN HASIL EDIT TANAMAN =================
         async function saveEditPlant() {
             if(!selectedPlantId) return;
+            const btn = document.getElementById('btnSaveEditPlant');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+
             const payload = {
                 id_tanaman: selectedPlantId,
-                image: document.getElementById('editFotoImg').src,
                 nama_lokal: document.getElementById('editNamaLokal').value,
                 nama_latin: document.getElementById('editNamaLatin').value,
                 nama_daerah: document.getElementById('editNamaDaerah').value,
                 morfologi: document.getElementById('editMorfologi').value,
-                perawatan: { air: document.getElementById('editAir').value, pupuk: document.getElementById('editPupuk').value, hama: document.getElementById('editHama').value },
+                perawatan: {
+                    air: document.getElementById('editAir').value,
+                    pupuk: document.getElementById('editPupuk').value,
+                    hama: document.getElementById('editHama').value
+                },
                 khasiatDetail: [],
                 timeline: []
             };
 
-            document.querySelectorAll('#khasiatContainer > div').forEach(row => {
-                const ins = row.querySelectorAll('input, textarea');
-                if(ins.length === 2 && ins[0].value.trim() !== '') payload.khasiatDetail.push({ nama_penyakit: ins[0].value, cara_meramu: ins[1].value });
+            const khasiatRows = document.querySelectorAll('#khasiatContainer .group');
+            khasiatRows.forEach(row => {
+                const inputs = row.querySelectorAll('input, textarea');
+                if(inputs.length === 2 && inputs[0].value.trim() !== '') {
+                    payload.khasiatDetail.push({
+                        nama_penyakit: inputs[0].value,
+                        cara_meramu: inputs[1].value
+                    });
+                }
             });
 
-            document.querySelectorAll('#timelineEditContainer > div').forEach(row => {
-                const ins = row.querySelectorAll('input[type="date"], input[type="text"], textarea');
-                const img = row.querySelector('img');
-                if(ins.length >= 3 && ins[1].value.trim() !== '') payload.timeline.push({ tanggal_observasi: ins[0].value, nama_fase: ins[1].value, catatan_pertumbuhan: ins[2].value, foto_fase: img ? img.src : "" });
+            const timelineRows = document.querySelectorAll('#timelineEditContainer .group');
+            timelineRows.forEach(row => {
+                const inputs = row.querySelectorAll('input[type="date"], input[type="text"], textarea');
+                if(inputs.length >= 3 && inputs[1].value.trim() !== '') {
+                    payload.timeline.push({
+                        tanggal_observasi: inputs[0].value,
+                        nama_fase: inputs[1].value,
+                        catatan_pertumbuhan: inputs[2].value
+                    });
+                }
             });
 
             if(!API_URL.startsWith("http")) {
-                closeEditPlantModal(); renderDashboardData(); return;
+                setTimeout(() => {
+                    let p = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == selectedPlantId);
+                    if(p) {
+                        p.nama_lokal = payload.nama_lokal;
+                        p.nama_latin = payload.nama_latin;
+                        p.nama_daerah = payload.nama_daerah;
+                        p.morfologi = payload.morfologi;
+                        p.perawatan = payload.perawatan;
+                        p.khasiatDetail = payload.khasiatDetail;
+                        p.timeline = payload.timeline.map(t => ({
+                            tglFormatted: formatDateJS(t.tanggal_observasi),
+                            tglAsli: t.tanggal_observasi,
+                            fase: t.nama_fase,
+                            catatan: t.catatan_pertumbuhan
+                        }));
+                    }
+                    closeEditPlantModal();
+                    renderDashboardData();
+                    btn.innerHTML = originalText; btn.disabled = false;
+                }, 500);
+                return;
             }
+
             try {
-                const res = await (await fetch(API_URL + "?action=editPlantData", { method: "POST", body: JSON.stringify(payload) })).json();
-                if(res.success) { closeEditPlantModal(); loadDatabase(); }
-            } catch(e) {}
+                const response = await fetch(API_URL + "?action=editPlantData", {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                const res = await response.json();
+                if(res.success) { 
+                    alert("✅ Data berhasil diperbarui!");
+                    closeEditPlantModal(); 
+                    loadDatabase(); 
+                } else alert("Gagal memperbarui: " + res.message);
+            } catch(e) { alert("Error jaringan API."); }
+            finally { btn.innerHTML = originalText; btn.disabled = false; }
         }
 
+        // ================= FITUR EKSPOR =================
         function exportToCSV() {
-            if(dbPlants.length === 0) return;
-            let csv = "ID,Nama Lokal,Nama Latin,Pengelola,Status\n";
-            dbPlants.forEach(p => { csv += `${p.tanaman_id || p.id_tanaman},"${p.nama_lokal}","${p.nama_latin}","${p.pengelola}",${p.status_publikasi}\n`; });
+            if(dbPlants.length === 0) { alert("Belum ada data untuk diekspor."); return; }
+            let csv = "ID,Nama Lokal,Nama Latin,Pengelola,Status B Indo,Status IPAS,Status Publikasi\n";
+            dbPlants.forEach(p => {
+                csv += `${p.id_tanaman || p.tanaman_id},"${p.nama_lokal}","${p.nama_latin}","${p.pengelola}",${p.status_b_indo},${p.status_ipas},${p.status_publikasi}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = window.URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-            a.download = 'Rekap.csv'; a.click();
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'Rekap_Skarida_Green_Tech.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
-        function exportToPDF() { window.print(); }
-        function getDummyData() { return { users: [], plants: [] }; }
-        function renderProgressChart() {}
+
+        function exportToPDF() {
+            window.print();
+        }
+
+        function getDummyData() {
+            return {
+                users: [
+                    { user_id: 1, nama_lengkap: 'Bpk. Budi Utama', role: 'Operator', username: 'admin_budi', kelas_jurusan: 'Kepala Lab Komputer' },
+                    { user_id: 2, nama_lengkap: 'Bpk. Ahmad Sujarwo', role: 'Guru IPAS', username: '198001012010011001', kelas_jurusan: 'Pengampu Kelas X' },
+                    { user_id: 3, nama_lengkap: 'Ibu Sri Wahyuni', role: 'Guru B. Indonesia', username: '198502022015032002', kelas_jurusan: 'Pengampu Kelas X' },
+                    { user_id: 4, nama_lengkap: 'Bpk. Widodo', role: 'Guru Matematika', username: '199003032018011003', kelas_jurusan: 'Pengampu Kelas X' },
+                    { user_id: 5, nama_lengkap: 'Kelompok 1 (X RPL 1)', role: 'Kelompok Siswa', username: 'kelompok1_xrpl1', kelas_jurusan: 'X RPL 1', anggota_kelompok: 'Budi Santoso, Siti Aminah, Andi Wijaya, Rina Sari' },
+                    { user_id: 6, nama_lengkap: 'Kelompok 2 (X RPL 1)', role: 'Kelompok Siswa', username: 'kelompok2_xrpl1', kelas_jurusan: 'X RPL 1', anggota_kelompok: 'Dewi, Putra' }
+                ],
+                plants: [
+                    {
+                        tanaman_id: 1, nama_lokal: 'Jahe Merah', nama_latin: 'Zingiber officinale var. rubrum', nama_daerah: 'Halia, Sipodeh', morfologi: 'Terna berbatang semu, akar rimpang.',
+                        status_b_indo: 'Approved', status_ipas: 'Approved', status_publikasi: 'Live',
+                        perawatan: { air: "Disiram 1x sehari", pupuk: "Kompos 2 minggu", hama: "Kutu daun" },
+                        khasiatDetail: [{nama_penyakit: "Imunitas", cara_meramu: "Rebus dengan madu"}],
+                        pengelola: 'Kelompok 1 (X RPL 1)', kelas: 'Kelas X RPL 1',
+                        image: 'https://placehold.co/600x400/15803d/ffffff?text=Jahe+Merah',
+                        timeline: [
+                            {tglFormatted: "10 Ags 2026", tglAsli: "2026-08-10", fase: "Bibit", foto: "https://placehold.co/150/d1d5db/6b7280?text=Bibit", catatan: "Penanaman awal"},
+                            {tglFormatted: "25 Ags 2026", tglAsli: "2026-08-25", fase: "Tunas", foto: "https://placehold.co/150/86efac/166534?text=Tunas", catatan: "Tumbuh 5cm"}
+                        ]
+                    },
+                    {
+                        tanaman_id: 2, nama_lokal: 'Lidah Buaya', nama_latin: 'Aloe vera', nama_daerah: 'Crocodile tongues', morfologi: 'Tanaman berdaging tebal dan runcing.',
+                        status_b_indo: 'Pending', status_ipas: 'Pending', status_publikasi: 'Pending',
+                        perawatan: { air: "2x Sehari", pupuk: "Kandang 1 bulan", hama: "Jamur daun" },
+                        khasiatDetail: [{nama_penyakit: "Luka Bakar", cara_meramu: "Kupas dan oleskan"}],
+                        pengelola: 'Kelompok 2 (X RPL 1)', kelas: 'Kelas X RPL 1',
+                        image: 'https://placehold.co/600x400/15803d/ffffff?text=Lidah+Buaya',
+                        timeline: []
+                    },
+                    {
+                        tanaman_id: 3, nama_lokal: 'Kumis Kucing', nama_latin: 'Orthosiphon aristatus', nama_daerah: 'Remujung', morfologi: 'Batang tegak, bunga seperti kumis kucing.',
+                        status_b_indo: 'Approved', status_ipas: 'Approved', status_publikasi: 'Live',
+                        perawatan: { air: "Disiram 1x sehari", pupuk: "Pupuk Kompos", hama: "Kutu" },
+                        khasiatDetail: [{nama_penyakit: "Luka Bakar", cara_meramu: "Kupas dan oleskan"}],
+                        pengelola: 'Kelompok 3 (X TKJ 1)', kelas: 'Kelas X TKJ 1',
+                        image: 'https://placehold.co/600x400/15803d/ffffff?text=Kumis+Kucing',
+                        timeline: []
+                    }
+                ]
+            };
+        }
+
+        // ================= DIAGRAM PROGRES =================
+        function renderProgressChart() {
+            const container = document.getElementById('progressChartContainer');
+            if(!container) return;
+
+            const sortVal = document.getElementById('sortProgress') ? document.getElementById('sortProgress').value : 'agregat';
+            let htmlOutput = '';
+
+            const renderCard = (title, total, live, val, rev) => {
+                const submit = live + val + rev;
+                const submitPct = total > 0 ? Math.round((submit / total) * 100) : 0;
+                const wLive = Math.round((live / total) * 100) || 0;
+                const wVal = Math.round((val / total) * 100) || 0;
+                const wRev = Math.round((rev / total) * 100) || 0;
+
+                return `
+                    <div class="page-transition bg-white border border-slate-100 p-4 rounded-xl shadow-sm hover:border-blue-200 transition duration-300">
+                        <div class="flex justify-between items-center mb-4 border-b border-slate-50 pb-2">
+                            <span class="text-sm font-bold text-navy">${title} (${total} Kelompok)</span>
+                            <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-md shadow-inner">${submitPct}% Selesai</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-bold text-slate-500 w-14 uppercase tracking-wider">Live</span>
+                                <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                                    <div class="bg-nature h-full rounded-full transition-all duration-700 relative" style="width: ${wLive}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-nature w-24 text-right">${live} Kelompok</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-bold text-slate-500 w-14 uppercase tracking-wider">Validasi</span>
+                                <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                                    <div class="bg-amber-400 h-full rounded-full transition-all duration-700 relative" style="width: ${wVal}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-amber-500 w-24 text-right">${val} Kelompok</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-bold text-slate-500 w-14 uppercase tracking-wider">Revisi</span>
+                                <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                                    <div class="bg-red-500 h-full rounded-full transition-all duration-700 relative" style="width: ${wRev}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-red-500 w-24 text-right">${rev} Kelompok</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            if(classProgressData.length === 0) {
+                container.innerHTML = '<p class="text-sm text-slate-500 italic py-4">Belum ada data progres kelompok siswa dari database.</p>';
+                return;
+            }
+
+            if (sortVal === 'agregat') {
+                let total = 0, live = 0, val = 0, rev = 0;
+                classProgressData.forEach(item => {
+                    total += item.total; live += item.live; val += item.val; rev += item.rev;
+                });
+                htmlOutput = renderCard("Ringkasan Total (Seluruh Kelas)", total, live, val, rev);
+            } else {
+                let sortedData = [...classProgressData]; 
+                if(sortVal === 'kelas') sortedData.sort((a, b) => a.className.localeCompare(b.className));
+                
+                htmlOutput = sortedData.map(item => renderCard(item.className, item.total, item.live, item.val, item.rev)).join('');
+            }
+            container.innerHTML = htmlOutput;
+        }
+
     </script>
 </body>
 </html>
