@@ -506,9 +506,14 @@
                         <!-- Informasi Status Publikasi -->
                         <div class="bg-blue-50/80 border border-blue-200/80 rounded-xl p-3.5 flex items-start gap-3">
                             <i class="fas fa-info-circle text-navy mt-0.5"></i>
-                            <p class="text-[11px] text-slate-600 leading-relaxed">
-                                Apabila <b>Guru B. Indonesia</b> dan <b>Guru IPAS</b> keduanya telah menyetujui (<span class="text-nature font-bold">Approved</span>), maka status tanaman akan otomatis tayang menjadi <b>Live</b> di Master Katalog.
-                            </p>
+                            <div class="text-[11px] text-slate-600 leading-relaxed space-y-1">
+                                <p>Tanaman akan otomatis tayang menjadi <b>Live</b> di Master Katalog apabila memenuhi <b>3 syarat wajib</b>:</p>
+                                <ul class="list-disc ml-4 font-medium text-slate-700">
+                                    <li>Disetujui oleh <b>Guru Bahasa Indonesia</b> (<span class="text-nature font-bold">Approved</span>)</li>
+                                    <li>Disetujui oleh <b>Guru IPAS</b> (<span class="text-nature font-bold">Approved</span>)</li>
+                                    <li>Minimal <b>1 Fase Linimasa</b> disetujui <b>Guru Matematika</b> (<span class="text-nature font-bold">Approved</span>)</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
@@ -518,7 +523,7 @@
                             <i class="fas fa-undo"></i> Kembalikan (Revisi)
                         </button>
                         <button type="button" onclick="executeApprovePlant()" id="btnRevApprove" class="py-3 px-4 bg-nature text-white font-bold rounded-xl hover:bg-naturelight shadow-md transition flex items-center justify-center gap-2 text-xs md:text-sm">
-                            <i class="fas fa-check-double"></i> Setujui Semua (Live)
+                            <i class="fas fa-check-double"></i> Setujui B. Indo & IPAS
                         </button>
                     </div>
                 </div>
@@ -530,13 +535,20 @@
     <div id="timelineReviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col overflow-hidden relative">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="text-xl font-bold text-navy" id="mtkTitle">Cek Log Pertumbuhan</h3>
-                <button onclick="closeTimelineReviewModal()" class="text-slate-400"><i class="fas fa-times text-xl"></i></button>
+                <div>
+                    <h3 class="text-xl font-bold text-navy" id="mtkTitle">Cek Log Pertumbuhan (Validasi Matematika)</h3>
+                    <p class="text-xs text-slate-500 mt-0.5" id="mtkSubtitle">Minimal 1 fase linimasa harus disetujui (Approved) agar tanaman dapat tayang di Master Katalog.</p>
+                </div>
+                <button onclick="closeTimelineReviewModal()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
             </div>
-            <div class="p-6 overflow-y-auto max-h-[50vh]" id="timelineContainerAdmin"></div>
-            <div class="p-6 bg-slate-50 border-t flex gap-3">
-                <button onclick="executeDemotePlant('Revisi')" class="flex-1 py-3 bg-white border border-red-500 text-red-500 font-bold rounded-lg">Revisi / Tolak</button>
-                <button onclick="executeApprovePlant()" class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-lg">Validasi (MTK)</button>
+            <div class="p-6 overflow-y-auto max-h-[55vh] space-y-3 bg-slate-50/50" id="timelineContainerAdmin"></div>
+            <div class="p-5 bg-white border-t border-slate-200 flex flex-col sm:flex-row gap-3">
+                <button type="button" onclick="executeMtkTimelineValidation('Revisi')" class="flex-1 py-3 bg-white border-2 border-red-500 text-red-600 font-bold rounded-xl hover:bg-red-50 transition text-xs md:text-sm flex items-center justify-center gap-2">
+                    <i class="fas fa-undo"></i> Revisi Semua Linimasa (MTK)
+                </button>
+                <button type="button" onclick="executeMtkTimelineValidation('Approved')" class="flex-1 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-md text-xs md:text-sm flex items-center justify-center gap-2">
+                    <i class="fas fa-check-double"></i> Setujui Semua Linimasa (MTK)
+                </button>
             </div>
         </div>
     </div>
@@ -808,6 +820,35 @@
         function openDeleteUserModal(id) { selectedUserId = id; document.getElementById('deleteUserConfirmModal').classList.remove('hidden'); }
         function closeDeleteUserModal() { selectedUserId = null; document.getElementById('deleteUserConfirmModal').classList.add('hidden'); }
 
+        // ================= HELPER SYARAT KELAYAKAN MASTER KATALOG (LIVE) =================
+        function getApprovedMtkCount(plant) {
+            if (!plant || !Array.isArray(plant.timeline) || plant.timeline.length === 0) return 0;
+            return plant.timeline.filter(t => (t.status_mtk || t.status || 'Pending') === 'Approved').length;
+        }
+
+        function isPlantEligibleForCatalog(plant) {
+            if (!plant) return false;
+            const isBIndoApproved = plant.status_b_indo === 'Approved';
+            const isIpasApproved = plant.status_ipas === 'Approved';
+            const hasMinOneMtkApproved = getApprovedMtkCount(plant) >= 1;
+            return isBIndoApproved && isIpasApproved && hasMinOneMtkApproved;
+        }
+
+        function syncPlantPublicationStatus(plant) {
+            if (!plant) return 'Pending';
+            const totalTimeline = Array.isArray(plant.timeline) ? plant.timeline.length : 0;
+            const allTimelineRevisi = totalTimeline > 0 && plant.timeline.every(t => (t.status_mtk || t.status) === 'Revisi');
+
+            if (isPlantEligibleForCatalog(plant)) {
+                plant.status_publikasi = 'Live';
+            } else if (plant.status_b_indo === 'Revisi' || plant.status_ipas === 'Revisi' || allTimelineRevisi) {
+                plant.status_publikasi = 'Revisi';
+            } else {
+                plant.status_publikasi = 'Pending';
+            }
+            return plant.status_publikasi;
+        }
+
         function updateReviewModalSubjectUI(statusBIndo, statusIpas) {
             const checkBIndo = document.getElementById('checkBIndo');
             const checkIpas = document.getElementById('checkIpas');
@@ -816,6 +857,8 @@
             const cardBIndo = document.getElementById('cardValBIndo');
             const cardIpas = document.getElementById('cardValIpas');
             const overallBadge = document.getElementById('revOverallBadge');
+            const currentPlant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == selectedPlantId);
+            const approvedMtkCount = getApprovedMtkCount(currentPlant);
 
             if (checkBIndo) checkBIndo.checked = (statusBIndo === 'Approved');
             if (checkIpas) checkIpas.checked = (statusIpas === 'Approved');
@@ -853,12 +896,15 @@
             }
 
             if (overallBadge) {
-                if (statusBIndo === 'Approved' && statusIpas === 'Approved') {
+                if (statusBIndo === 'Approved' && statusIpas === 'Approved' && approvedMtkCount >= 1) {
                     overallBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-naturelight text-white shadow-sm';
                     overallBadge.innerText = 'Siap Tayang (Live)';
                 } else if (statusBIndo === 'Revisi' || statusIpas === 'Revisi') {
                     overallBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-500 text-white shadow-sm';
                     overallBadge.innerText = 'Perlu Revisi Siswa';
+                } else if (statusBIndo === 'Approved' && statusIpas === 'Approved' && approvedMtkCount === 0) {
+                    overallBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-900 shadow-sm';
+                    overallBadge.innerText = 'Menunggu Validasi MTK (Linimasa)';
                 } else {
                     overallBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-900 shadow-sm';
                     overallBadge.innerText = 'Menunggu Validasi';
@@ -886,28 +932,31 @@
                 plant.status_ipas = newStatus;
             }
 
-            if (plant.status_b_indo === 'Approved' && plant.status_ipas === 'Approved') {
-                plant.status_publikasi = 'Live';
-            } else if (plant.status_b_indo === 'Revisi' || plant.status_ipas === 'Revisi') {
-                plant.status_publikasi = 'Revisi';
-            } else {
-                plant.status_publikasi = 'Pending';
-            }
+            syncPlantPublicationStatus(plant);
 
             updateReviewModalSubjectUI(plant.status_b_indo, plant.status_ipas);
             localPlantOverrides[String(selectedPlantId)] = {
                 ...(localPlantOverrides[String(selectedPlantId)] || {}),
                 status_b_indo: plant.status_b_indo,
                 status_ipas: plant.status_ipas,
-                status_publikasi: plant.status_publikasi
+                status_publikasi: plant.status_publikasi,
+                timeline: plant.timeline
             };
             renderDashboardData();
 
             const labelMapel = subject === 'b_indo' ? 'Bahasa Indonesia' : 'IPAS';
             const statusLabel = newStatus === 'Approved' ? 'Disetujui' : (newStatus === 'Revisi' ? 'Diminta Revisi' : 'Pending');
+            const mtkApprovedCount = getApprovedMtkCount(plant);
+
+            let toastMessage = `Validasi Guru ${labelMapel}: ${statusLabel}`;
+            if (plant.status_b_indo === 'Approved' && plant.status_ipas === 'Approved' && mtkApprovedCount === 0) {
+                toastMessage = `B. Indo & IPAS disetujui! Menunggu minimal 1 fase linimasa disetujui Guru MTK.`;
+            } else if (plant.status_publikasi === 'Live') {
+                toastMessage = `Ketiga syarat terpenuhi! Tanaman kini Live di Master Katalog.`;
+            }
 
             if (!API_URL.startsWith("http")) {
-                showToast(`Validasi Guru ${labelMapel}: ${statusLabel}`);
+                showToast(toastMessage);
                 if (plant.status_publikasi === 'Live') {
                     setTimeout(() => closeReviewModal(), 600);
                 }
@@ -925,7 +974,7 @@
                         status_publikasi: plant.status_publikasi
                     })
                 });
-                showToast(`Validasi Guru ${labelMapel} (${statusLabel}) tersimpan!`);
+                showToast(toastMessage);
                 if (plant.status_publikasi === 'Live') {
                     setTimeout(() => {
                         closeReviewModal();
@@ -933,7 +982,7 @@
                     }, 700);
                 }
             } catch (e) {
-                showToast(`Validasi Guru ${labelMapel} diterapkan pada sesi ini.`);
+                showToast(toastMessage);
             }
         }
 
@@ -987,6 +1036,14 @@
             selectedPlantId = id;
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
             if(plant) {
+                const mtkTitle = document.getElementById('mtkTitle');
+                const mtkSub = document.getElementById('mtkSubtitle');
+                const approvedCount = getApprovedMtkCount(plant);
+                const totalCount = Array.isArray(plant.timeline) ? plant.timeline.length : 0;
+
+                if (mtkTitle) mtkTitle.innerText = `Cek Log Pertumbuhan: ${plant.nama_lokal}`;
+                if (mtkSub) mtkSub.innerText = `Oleh: ${plant.pengelola} • Status Linimasa MTK: ${approvedCount} dari ${totalCount} Fase Disetujui (Syarat Master Katalog: Minimal 1 Fase Approved)`;
+
                 const container = document.getElementById('timelineContainerAdmin');
                 if (plant.timeline && plant.timeline.length > 0) {
                     let html = '';
@@ -995,24 +1052,145 @@
                         let prevDate = index === 0 ? null : (plant.timeline[index-1].tgl_observasi || plant.timeline[index-1].tglAsli || plant.timeline[index-1].tanggal_observasi);
                         let durasi = index === 0 ? 'Hari Pertama' : `+${calculateDays(prevDate, rawDate)} hari`;
                         let displayDate = formatDateJS(rawDate);
+                        let statusMtk = node.status_mtk || node.status || 'Pending';
+
+                        let badgeClass = statusMtk === 'Approved'
+                            ? 'bg-green-100 text-green-800 border-green-300'
+                            : (statusMtk === 'Revisi' ? 'bg-red-100 text-red-800 border-red-300' : 'bg-amber-100 text-amber-800 border-amber-200');
+                        let badgeIcon = statusMtk === 'Approved' ? 'fa-check-circle' : (statusMtk === 'Revisi' ? 'fa-exclamation-circle' : 'fa-clock');
+
                         html += `
-                            <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col sm:flex-row gap-4 mb-2">
-                                <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/150/d1d5db/6b7280?text=Fase'" class="w-24 h-24 object-cover rounded-lg">
-                                <div>
-                                    <p class="font-bold text-navy">${node.nama_fase || node.fase}</p>
-                                    <p class="text-xs text-slate-500">${displayDate}</p>
-                                    <p class="text-sm my-1">${node.catatan_pertumbuhan || node.catatan || '-'}</p>
-                                    <span class="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded border">${durasi}</span>
+                            <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                                    <img src="${node.foto_fase || node.foto || 'https://placehold.co/150/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/150/d1d5db/6b7280?text=Fase'" class="w-24 h-24 object-cover rounded-xl border border-slate-200 flex-shrink-0">
+                                    <div>
+                                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                                            <p class="font-bold text-navy">${node.nama_fase || node.fase}</p>
+                                            <span class="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${displayDate}</span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${badgeClass}">
+                                                <i class="fas ${badgeIcon}"></i> MTK: ${statusMtk}
+                                            </span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 my-1">${node.catatan_pertumbuhan || node.catatan || '-'}</p>
+                                        <span class="inline-block text-xs bg-blue-50 text-blue-600 px-2.5 py-1 rounded-lg border border-blue-100 font-semibold"><i class="fas fa-calculator mr-1"></i>${durasi}</span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-col gap-2 w-full sm:w-auto flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                                    <button type="button" onclick="saveSingleTimelineMtkStatus(${index}, 'Approved')" class="flex-1 sm:w-32 py-1.5 px-3 bg-nature hover:bg-naturelight text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                                        <i class="fas fa-check"></i> Setujui Fase
+                                    </button>
+                                    <button type="button" onclick="saveSingleTimelineMtkStatus(${index}, 'Revisi')" class="flex-1 sm:w-32 py-1.5 px-3 bg-white hover:bg-red-50 text-red-600 border border-red-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
+                                        <i class="fas fa-undo"></i> Revisi Fase
+                                    </button>
                                 </div>
                             </div>
                         `;
                     });
                     container.innerHTML = html;
-                } else container.innerHTML = `<p class="text-center text-slate-500">Belum ada linimasa.</p>`;
+                } else {
+                    container.innerHTML = `
+                        <div class="text-center py-8 px-4 bg-white rounded-2xl border border-dashed border-amber-300">
+                            <i class="fas fa-exclamation-triangle text-2xl text-amber-500 mb-2"></i>
+                            <p class="text-sm font-bold text-slate-700">Belum Ada Data Linimasa Pertumbuhan</p>
+                            <p class="text-xs text-slate-500 mt-1">Tanaman wajib memiliki minimal 1 data linimasa yang disetujui Guru Matematika sebelum dapat masuk ke Master Katalog.</p>
+                        </div>
+                    `;
+                }
             }
             document.getElementById('timelineReviewModal').classList.remove('hidden'); 
         }
         function closeTimelineReviewModal() { document.getElementById('timelineReviewModal').classList.add('hidden'); }
+
+        async function saveSingleTimelineMtkStatus(timelineIndex, newStatus) {
+            if (!selectedPlantId) return;
+            const targetId = String(selectedPlantId);
+            const plant = dbPlants.find(p => String(p.tanaman_id || p.id_tanaman) === targetId);
+            if (!plant || !Array.isArray(plant.timeline) || !plant.timeline[timelineIndex]) return;
+
+            plant.timeline[timelineIndex].status_mtk = newStatus;
+            plant.timeline[timelineIndex].status = newStatus;
+            const itemLinimasaId = plant.timeline[timelineIndex].id_linimasa || "";
+
+            syncPlantPublicationStatus(plant);
+            localPlantOverrides[targetId] = {
+                ...(localPlantOverrides[targetId] || {}),
+                status_publikasi: plant.status_publikasi,
+                timeline: plant.timeline
+            };
+
+            openTimelineReviewModal(selectedPlantId);
+            renderDashboardData();
+
+            const msg = plant.status_publikasi === 'Live'
+                ? `Fase ke-${timelineIndex + 1} disetujui Guru MTK! Ketiga syarat terpenuhi, tanaman kini Live di Master Katalog.`
+                : `Status MTK Fase ke-${timelineIndex + 1} diperbarui menjadi ${newStatus}.`;
+            showToast(msg);
+
+            if (API_URL.startsWith("http")) {
+                try {
+                    await fetch(API_URL + "?action=updatePlantStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify({
+                            id_tanaman: targetId,
+                            id_linimasa: itemLinimasaId,
+                            timeline_index: timelineIndex,
+                            status_mtk: newStatus,
+                            status_publikasi: plant.status_publikasi
+                        })
+                    });
+                } catch (e) {}
+            }
+        }
+
+        async function executeMtkTimelineValidation(newStatus) {
+            if (!selectedPlantId) return;
+            const targetId = String(selectedPlantId);
+            const plant = dbPlants.find(p => String(p.tanaman_id || p.id_tanaman) === targetId);
+            if (!plant) return;
+
+            if (!Array.isArray(plant.timeline) || plant.timeline.length === 0) {
+                showToast("Tidak dapat memvalidasi: Tanaman belum memiliki data fase linimasa!", true);
+                return;
+            }
+
+            plant.timeline.forEach(t => {
+                t.status_mtk = newStatus;
+                t.status = newStatus;
+            });
+
+            syncPlantPublicationStatus(plant);
+            localPlantOverrides[targetId] = {
+                ...(localPlantOverrides[targetId] || {}),
+                status_publikasi: plant.status_publikasi,
+                timeline: plant.timeline
+            };
+
+            closeTimelineReviewModal();
+            renderDashboardData();
+
+            let msg = newStatus === 'Approved'
+                ? (plant.status_publikasi === 'Live'
+                    ? "Linimasa MTK disetujui! Tanaman telah memenuhi semua syarat dan tayang di Master Katalog."
+                    : "Linimasa MTK disetujui! Menunggu persetujuan Guru B. Indonesia & IPAS.")
+                : "Seluruh linimasa tanaman dikembalikan untuk Revisi (MTK).";
+            showToast(msg);
+
+            if (API_URL.startsWith("http")) {
+                try {
+                    const res = await (await fetch(API_URL + "?action=updatePlantStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify({
+                            id_tanaman: targetId,
+                            status_mtk: newStatus,
+                            status_publikasi: plant.status_publikasi
+                        })
+                    })).json();
+                    if (res.success) loadDatabase();
+                } catch (e) {}
+            }
+        }
 
         function openViewProfileModal(id) { 
             const plant = dbPlants.find(p => (p.tanaman_id || p.id_tanaman) == id);
@@ -1377,17 +1555,19 @@
                 dbUsers = data.users || [];
                 dbPlants = (data.plants || []).map(p => {
                     const pid = String(p.tanaman_id || p.id_tanaman);
-                    if (localPlantOverrides[pid]) {
-                        return { ...p, ...localPlantOverrides[pid] };
-                    }
-                    return p;
+                    let merged = localPlantOverrides[pid] ? { ...p, ...localPlantOverrides[pid] } : p;
+                    syncPlantPublicationStatus(merged);
+                    return merged;
                 });
                 renderDashboardData();
             } catch (error) {
                 if(dbPlants.length === 0 && dbUsers.length === 0) {
                     const data = getDummyData();
                     dbUsers = data.users;
-                    dbPlants = data.plants;
+                    dbPlants = data.plants.map(p => {
+                        syncPlantPublicationStatus(p);
+                        return p;
+                    });
                 }
                 renderDashboardData();
                 showToast("Mode Pratinjau Aktif (Data Tersinkronisasi Lokal).", false);
@@ -1398,6 +1578,7 @@
         document.addEventListener("DOMContentLoaded", loadDatabase);
 
         function renderDashboardData() {
+            dbPlants.forEach(p => syncPlantPublicationStatus(p));
             renderUsersTable(); renderValidationTable(); renderCatalogTable();
             updateStats(); calculateProgressData(); renderProgressChart();
         }
@@ -1437,12 +1618,14 @@
             const tbody = document.getElementById('validasiTableBody');
             if (!tbody) return;
             tbody.innerHTML = '';
-            const pendingPlants = dbPlants.filter(p => p.status_publikasi !== 'Live');
+            const pendingPlants = dbPlants.filter(p => !isPlantEligibleForCatalog(p));
             if(document.getElementById('badgeValidasi')) document.getElementById('badgeValidasi').innerText = pendingPlants.length;
             pendingPlants.forEach(p => {
                 const plantId = p.tanaman_id || p.id_tanaman;
                 const sIndo = p.status_b_indo || 'Pending';
                 const sIpas = p.status_ipas || 'Pending';
+                const totalTimeline = Array.isArray(p.timeline) ? p.timeline.length : 0;
+                const approvedMtkCount = getApprovedMtkCount(p);
 
                 const badgeIndoClass = sIndo === 'Approved'
                     ? 'bg-green-100 text-green-800 border-green-200'
@@ -1450,6 +1633,24 @@
                 const badgeIpasClass = sIpas === 'Approved'
                     ? 'bg-green-100 text-green-800 border-green-200'
                     : (sIpas === 'Revisi' ? 'bg-red-100 text-red-800 border-red-200' : 'bg-amber-100 text-amber-800 border-amber-200');
+
+                let badgeMtkClass = 'bg-amber-100 text-amber-800 border-amber-200';
+                let iconMtk = 'fa-clock';
+                let textMtk = `MTK: Pending (0/${totalTimeline} Fase)`;
+
+                if (approvedMtkCount >= 1) {
+                    badgeMtkClass = 'bg-green-100 text-green-800 border-green-200';
+                    iconMtk = 'fa-check-circle';
+                    textMtk = `MTK: Approved (${approvedMtkCount}/${totalTimeline} Fase)`;
+                } else if (totalTimeline === 0) {
+                    badgeMtkClass = 'bg-slate-100 text-slate-600 border-slate-300';
+                    iconMtk = 'fa-exclamation-circle';
+                    textMtk = 'MTK: Belum Ada Linimasa (0 Fase)';
+                } else if (p.timeline.every(t => (t.status_mtk || t.status) === 'Revisi')) {
+                    badgeMtkClass = 'bg-red-100 text-red-800 border-red-200';
+                    iconMtk = 'fa-exclamation-circle';
+                    textMtk = `MTK: Revisi (${totalTimeline} Fase)`;
+                }
 
                 const iconIndo = sIndo === 'Approved' ? 'fa-check-circle' : (sIndo === 'Revisi' ? 'fa-exclamation-circle' : 'fa-clock');
                 const iconIpas = sIpas === 'Approved' ? 'fa-check-circle' : (sIpas === 'Revisi' ? 'fa-exclamation-circle' : 'fa-clock');
@@ -1473,6 +1674,9 @@
                                 <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold w-max border ${badgeIpasClass}">
                                     <i class="fas ${iconIpas}"></i> IPAS: ${sIpas}
                                 </span>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold w-max border ${badgeMtkClass}">
+                                    <i class="fas ${iconMtk}"></i> ${textMtk}
+                                </span>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -1492,7 +1696,7 @@
             const tbody = document.getElementById('katalogTableBody');
             if (!tbody) return;
             tbody.innerHTML = '';
-            const livePlants = dbPlants.filter(p => p.status_publikasi === 'Live');
+            const livePlants = dbPlants.filter(p => isPlantEligibleForCatalog(p));
             livePlants.forEach(p => {
                 const plantId = p.tanaman_id || p.id_tanaman;
                 tbody.innerHTML += `
@@ -1630,31 +1834,43 @@
             const targetId = String(selectedPlantId);
             let p = dbPlants.find(p => String(p.tanaman_id || p.id_tanaman) === targetId);
             if(p) {
-                p.status_publikasi = 'Live';
                 p.status_b_indo = 'Approved';
                 p.status_ipas = 'Approved';
+                syncPlantPublicationStatus(p);
             }
             localPlantOverrides[targetId] = {
                 ...(localPlantOverrides[targetId] || {}),
-                status_publikasi: 'Live',
+                status_publikasi: p ? p.status_publikasi : 'Pending',
                 status_b_indo: 'Approved',
                 status_ipas: 'Approved'
             };
 
             closeReviewModal();
-            closeTimelineReviewModal();
             renderDashboardData();
 
+            const toastMsg = (p && p.status_publikasi === 'Live')
+                ? "B. Indo & IPAS disetujui! Tanaman memenuhi semua syarat dan tayang di Master Katalog (Live)!"
+                : "B. Indo & IPAS disetujui! Menunggu minimal 1 fase linimasa disetujui Guru MTK (melalui tombol Cek Linimasa).";
+
             if(!API_URL.startsWith("http")) {
-                showToast("Tanaman disetujui dan tayang di Master Katalog (Live)!");
+                showToast(toastMsg);
                 return;
             }
             try {
-                const res = await (await fetch(API_URL + "?action=updatePlantStatus", { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({id_tanaman: targetId, status_publikasi: 'Live', status_b_indo: 'Approved', status_ipas: 'Approved'}) })).json();
-                showToast("Tanaman disetujui dan tayang di Master Katalog (Live)!");
+                const res = await (await fetch(API_URL + "?action=updatePlantStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        id_tanaman: targetId,
+                        status_publikasi: p ? p.status_publikasi : 'Pending',
+                        status_b_indo: 'Approved',
+                        status_ipas: 'Approved'
+                    })
+                })).json();
+                showToast(toastMsg);
                 if(res.success) { loadDatabase(); }
             } catch(e) {
-                showToast("Tanaman disetujui dan tayang di Master Katalog (Live)!");
+                showToast(toastMsg);
             }
         }
 
@@ -1856,8 +2072,8 @@
                         kelas: 'X RPL 1',
                         image: 'https://placehold.co/600x400/15803d/ffffff?text=Jahe+Merah',
                         timeline: [
-                            { tanggal_observasi: '2026-08-10', nama_fase: 'Bibit', foto_fase: 'https://placehold.co/150/d1d5db/6b7280?text=Bibit', catatan_pertumbuhan: 'Penanaman rimpang awal.' },
-                            { tanggal_observasi: '2026-08-25', nama_fase: 'Tunas', foto_fase: 'https://placehold.co/150/86efac/166534?text=Tunas', catatan_pertumbuhan: 'Tunas pertama muncul setinggi 5cm.' }
+                            { tanggal_observasi: '2026-08-10', nama_fase: 'Bibit', foto_fase: 'https://placehold.co/150/d1d5db/6b7280?text=Bibit', catatan_pertumbuhan: 'Penanaman rimpang awal.', status_mtk: 'Approved' },
+                            { tanggal_observasi: '2026-08-25', nama_fase: 'Tunas', foto_fase: 'https://placehold.co/150/86efac/166534?text=Tunas', catatan_pertumbuhan: 'Tunas pertama muncul setinggi 5cm.', status_mtk: 'Approved' }
                         ]
                     },
                     {
@@ -1881,7 +2097,7 @@
                         kelas: 'X RPL 1',
                         image: 'https://placehold.co/600x400/15803d/ffffff?text=Lidah+Buaya',
                         timeline: [
-                            { tanggal_observasi: '2026-09-01', nama_fase: 'Anakan', foto_fase: 'https://placehold.co/150/86efac/166534?text=Anakan', catatan_pertumbuhan: 'Pemindahan anakan ke pot utama.' }
+                            { tanggal_observasi: '2026-09-01', nama_fase: 'Anakan', foto_fase: 'https://placehold.co/150/86efac/166534?text=Anakan', catatan_pertumbuhan: 'Pemindahan anakan ke pot utama.', status_mtk: 'Pending' }
                         ]
                     }
                 ]
