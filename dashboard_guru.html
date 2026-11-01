@@ -754,31 +754,62 @@
             if (topTitle) topTitle.innerText = titles[pageId] || 'Dashboard Guru';
         }
 
-        function onChangeTeacherRole(newRole) {
-            if (!teacherProfiles[newRole]) return;
-            currentTeacherRole = newRole;
-            const prof = teacherProfiles[newRole];
+        function normalizeTeacherRoleName(rawRole) {
+            const s = String(rawRole || '').toLowerCase();
+            if (s.includes('ipas')) return 'Guru IPAS';
+            if (s.includes('indonesia') || s.includes('bindo') || s.includes('b. indo')) return 'Guru B. Indonesia';
+            if (s.includes('matematika') || s.includes('mtk')) return 'Guru Matematika';
+            return 'Guru B. Indonesia';
+        }
+
+        function getInitialsFromName(name) {
+            const parts = String(name || 'Guru').replace(/[^a-zA-Z\s]/g, '').trim().split(/\s+/).filter(Boolean);
+            if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+            return (parts[0] || 'GR').slice(0, 2).toUpperCase();
+        }
+
+        function onChangeTeacherRole(newRole, customTeacherName = null, silentToast = false) {
+            const normalizedRole = normalizeTeacherRoleName(newRole);
+            if (!teacherProfiles[normalizedRole]) return;
+            currentTeacherRole = normalizedRole;
+            const prof = teacherProfiles[normalizedRole];
+
+            // Cari nama guru sebenarnya dari dbUsers jika ada
+            const matchedTeacherInDb = dbUsers.find(u => normalizeTeacherRoleName(u.role) === normalizedRole && String(u.role || '').toLowerCase().includes('guru'));
+            const activeTeacherName = customTeacherName || (matchedTeacherInDb ? matchedTeacherInDb.nama_lengkap : prof.name);
+            prof.name = activeTeacherName;
+            prof.initials = getInitialsFromName(activeTeacherName);
+
+            const selectEl = document.getElementById('teacherRoleSelect');
+            if (selectEl && selectEl.value !== normalizedRole) {
+                selectEl.value = normalizedRole;
+            }
 
             document.getElementById('sidebarAvatar').innerText = prof.initials;
-            document.getElementById('sidebarTeacherName').innerText = prof.name;
-            document.getElementById('sidebarTeacherRole').innerText = newRole;
-            document.getElementById('sidebarRoleLabel').innerText = `Panel ${newRole}`;
+            document.getElementById('sidebarTeacherName').innerText = activeTeacherName;
+            document.getElementById('sidebarTeacherRole').innerText = normalizedRole;
+            document.getElementById('sidebarRoleLabel').innerText = `Panel ${normalizedRole}`;
 
             const bannerBadge = document.getElementById('activeRoleBannerBadge');
             if (bannerBadge) {
                 bannerBadge.className = `px-4 py-2 rounded-2xl border text-xs font-extrabold self-start sm:self-auto flex items-center gap-2 ${prof.badgeColor}`;
-                bannerBadge.innerHTML = `<i class="fas fa-user-shield"></i> Login Aktif: ${prof.name} (${newRole})`;
+                bannerBadge.innerHTML = `<i class="fas fa-user-shield"></i> Login Aktif: ${activeTeacherName} (${normalizedRole})`;
             }
 
             const infoText = document.getElementById('validasiRoleInfoText');
             if (infoText) {
-                infoText.innerHTML = `Anda login sebagai <b>${prof.name} (${newRole})</b>. Anda hanya dapat memberikan persetujuan/revisi pada bidang <b>${prof.subjectLabel}</b> (tombol validasi guru mapel lain dinonaktifkan).`;
+                infoText.innerHTML = `Anda login sebagai <b>${activeTeacherName} (${normalizedRole})</b>. Anda hanya dapat memberikan persetujuan/revisi pada bidang <b>${prof.subjectLabel}</b> (tombol validasi guru mapel lain menjadi <i>inactive</i>).`;
             }
 
             const pill = document.getElementById('validasiRoleBadgePill');
             if (pill) {
                 pill.className = `px-3.5 py-1.5 rounded-xl text-xs font-extrabold border self-start md:self-auto ${prof.badgeColor}`;
-                pill.innerText = `Hak Validasi Aktif: ${newRole}`;
+                pill.innerText = `Hak Validasi Aktif: ${normalizedRole}`;
+            }
+
+            const footerHint = document.getElementById('footerRoleHintText');
+            if (footerHint) {
+                footerHint.innerHTML = `<i class="fas fa-shield-alt text-navy mr-1"></i> Hak akses aktif: <b>${normalizedRole}</b> (Mapel lain dikunci)`;
             }
 
             // Refresh open modals if any
@@ -794,7 +825,9 @@
                 }
             }
             renderValidationTable();
-            showToast(`Berpindah tampilan role ke: ${newRole} (${prof.name})`);
+            if (!silentToast) {
+                showToast(`Hak Akses Guru Aktif: ${normalizedRole} (${activeTeacherName})`);
+            }
         }
 
         // ================= LOG AKTIVITAS SISTEM =================
@@ -993,21 +1026,53 @@
                 }
             } finally {
                 if (loader) loader.classList.add('hidden');
+                syncLoggedInTeacherFromUrlAndDb();
                 renderDashboardData();
             }
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
+        function syncLoggedInTeacherFromUrlAndDb() {
             try {
                 const params = new URLSearchParams(window.location.search);
                 const roleParam = params.get('role');
-                if (roleParam && teacherProfiles[roleParam]) {
-                    document.getElementById('teacherRoleSelect').value = roleParam;
-                    onChangeTeacherRole(roleParam);
-                } else {
-                    onChangeTeacherRole(currentTeacherRole);
+                const userParam = params.get('user');
+                const nameParam = params.get('name');
+
+                // Perbarui label opsi dropdown dengan nama guru dari database jika ada
+                const selectEl = document.getElementById('teacherRoleSelect');
+                if (selectEl && dbUsers.length > 0) {
+                    Array.from(selectEl.options).forEach(opt => {
+                        const found = dbUsers.find(u => normalizeTeacherRoleName(u.role) === opt.value && String(u.role || '').toLowerCase().includes('guru'));
+                        if (found && found.nama_lengkap) {
+                            opt.textContent = `${opt.value} (${found.nama_lengkap})`;
+                        }
+                    });
                 }
-            } catch (e) {}
+
+                if (userParam && dbUsers.length > 0) {
+                    const matchedUser = dbUsers.find(u =>
+                        String(u.username || '').toLowerCase() === userParam.toLowerCase() ||
+                        String(u.nama_lengkap || '').toLowerCase() === userParam.toLowerCase()
+                    );
+                    if (matchedUser) {
+                        const resolvedRole = normalizeTeacherRoleName(matchedUser.role || roleParam);
+                        onChangeTeacherRole(resolvedRole, matchedUser.nama_lengkap, true);
+                        return;
+                    }
+                }
+
+                if (roleParam) {
+                    onChangeTeacherRole(roleParam, nameParam || null, true);
+                } else {
+                    onChangeTeacherRole(currentTeacherRole, null, true);
+                }
+            } catch (e) {
+                onChangeTeacherRole(currentTeacherRole, null, true);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            syncLoggedInTeacherFromUrlAndDb();
             loadDatabase();
         });
 
