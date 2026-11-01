@@ -108,16 +108,12 @@
                 <h2 id="topbar-title" class="text-base sm:text-xl font-bold text-navy">Dashboard Utama</h2>
             </div>
 
-            <!-- Pemilih Role Guru (Memudahkan Pengujian Hak Akses Validasi) -->
+            <!-- Informasi Akun Guru yang Sedang Login -->
             <div class="flex items-center gap-2.5">
-                <div class="flex items-center gap-2 bg-blue-50/80 border border-blue-200 px-3 py-1.5 rounded-xl">
+                <div class="flex items-center gap-2 bg-blue-50/80 border border-blue-200 px-3.5 py-1.5 rounded-xl">
                     <i class="fas fa-user-check text-navy text-xs"></i>
-                    <span class="text-[11px] font-bold text-slate-600 hidden sm:inline">Role Login Guru:</span>
-                    <select id="teacherRoleSelect" onchange="onChangeTeacherRole(this.value)" class="text-xs font-extrabold text-navy bg-transparent outline-none cursor-pointer">
-                        <option value="Guru B. Indonesia">Guru B. Indonesia (Ibu Sri Wahyuni)</option>
-                        <option value="Guru IPAS">Guru IPAS (Bpk. Ahmad Sujarwo)</option>
-                        <option value="Guru Matematika">Guru Matematika (Bpk. Widodo)</option>
-                    </select>
+                    <span class="text-[11px] font-bold text-slate-500 hidden sm:inline">Akun Guru:</span>
+                    <span id="topbarTeacherInfo" class="text-xs font-extrabold text-navy">Ibu Sri Wahyuni (Guru B. Indonesia)</span>
                 </div>
                 <button onclick="loadDatabase()" class="text-xs font-bold text-navy bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-xl transition flex items-center gap-1.5" title="Sinkronisasi Data">
                     <i class="fas fa-sync-alt"></i> <span class="hidden lg:inline">Muat Ulang</span>
@@ -780,9 +776,9 @@
             prof.name = activeTeacherName;
             prof.initials = getInitialsFromName(activeTeacherName);
 
-            const selectEl = document.getElementById('teacherRoleSelect');
-            if (selectEl && selectEl.value !== normalizedRole) {
-                selectEl.value = normalizedRole;
+            const topbarInfo = document.getElementById('topbarTeacherInfo');
+            if (topbarInfo) {
+                topbarInfo.innerText = `${activeTeacherName} (${normalizedRole})`;
             }
 
             document.getElementById('sidebarAvatar').innerText = prof.initials;
@@ -1037,17 +1033,6 @@
                 const roleParam = params.get('role');
                 const userParam = params.get('user');
                 const nameParam = params.get('name');
-
-                // Perbarui label opsi dropdown dengan nama guru dari database jika ada
-                const selectEl = document.getElementById('teacherRoleSelect');
-                if (selectEl && dbUsers.length > 0) {
-                    Array.from(selectEl.options).forEach(opt => {
-                        const found = dbUsers.find(u => normalizeTeacherRoleName(u.role) === opt.value && String(u.role || '').toLowerCase().includes('guru'));
-                        if (found && found.nama_lengkap) {
-                            opt.textContent = `${opt.value} (${found.nama_lengkap})`;
-                        }
-                    });
-                }
 
                 if (userParam && dbUsers.length > 0) {
                     const matchedUser = dbUsers.find(u =>
