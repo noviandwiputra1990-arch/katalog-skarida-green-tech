@@ -105,7 +105,10 @@
             opacity: 0.85;
         }
         img {
-            image-rendering: -webkit-optimize-contrast;
+            image-rendering: auto;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
 
         @media print {
@@ -564,7 +567,7 @@
         let filmHoverPaused = false;
         let filmScrollInterval = null;
 
-        // Optimasi URL Gambar agar Tidak Pecah (HD 16:9)
+        // Optimasi URL Gambar agar Tidak Pecah (HD 16:9 & Konversi Link Google Drive Resolusi Tinggi)
         function enhanceImageQualityUrl(url, fallbackText = 'Tanaman+TOGA') {
             if (!url || typeof url !== 'string' || url.trim() === '') {
                 return `https://placehold.co/1280x720/15803d/ffffff?text=${encodeURIComponent(fallbackText)}`;
@@ -573,6 +576,11 @@
             if (clean.startsWith('data:image')) return clean;
             if (clean.includes('placehold.co/600x400') || clean.includes('placehold.co/150')) {
                 return clean.replace(/placehold\.co\/[0-9x]+/, 'placehold.co/1280x720');
+            }
+            // Jika menggunakan link Google Drive, arahkan ke thumbnail HD w1600
+            const driveMatch = clean.match(/(?:\/d\/|id=)([a-zA-Z0-9_-]{20,})/);
+            if (driveMatch && clean.includes('drive.google.com')) {
+                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1600`;
             }
             return clean;
         }
