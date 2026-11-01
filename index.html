@@ -562,11 +562,15 @@
                 <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Username / NIP / ID Kelompok</label>
-                        <input type="text" id="loginUsername" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-navy outline-none bg-slate-50 text-sm" placeholder="Contoh: admin_budi / kelompok1_xrpl1">
+                        <input type="text" id="loginUsername" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-navy outline-none bg-slate-50 text-sm" placeholder="Contoh: guru_ipas / guru_bindo / kelompok1_xrpl1">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Password</label>
                         <input type="password" id="loginPassword" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-navy outline-none bg-slate-50 text-sm" placeholder="••••••••">
+                    </div>
+                    <div id="loginErrorBox" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-xs font-bold text-red-600 flex items-center gap-2">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="loginErrorText">Username atau password tidak ditemukan.</span>
                     </div>
                     <div class="pt-3">
                         <button type="submit" id="btnLogin" class="w-full bg-navy text-white font-bold py-3.5 px-4 rounded-xl hover:bg-navylight transition-all shadow-md text-sm">
@@ -1623,6 +1627,7 @@
         // 7. LOGIN MODAL LOGIC
         // ==========================================
         function openLoginModal() {
+            document.getElementById('loginErrorBox')?.classList.add('hidden');
             document.getElementById('loginModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
@@ -1630,36 +1635,129 @@
         function closeLoginModal() {
             document.getElementById('loginModal').classList.add('hidden');
             document.body.style.overflow = 'auto';
+            document.getElementById('loginErrorBox')?.classList.add('hidden');
             document.getElementById('loginForm')?.reset();
         }
 
-        function handleLogin(e) {
+        function detectTeacherRoleFromString(roleOrText) {
+            const str = String(roleOrText || '').toLowerCase();
+            if (str.includes('ipas')) return 'Guru IPAS';
+            if (str.includes('indonesia') || str.includes('bindo') || str.includes('b. indo') || str.includes('b_indo')) return 'Guru B. Indonesia';
+            if (str.includes('matematika') || str.includes('mtk')) return 'Guru Matematika';
+            return null;
+        }
+
+        async function handleLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('btnLogin');
-            const usernameInput = (document.getElementById('loginUsername')?.value || '').trim().toLowerCase();
+            const errBox = document.getElementById('loginErrorBox');
+            const errText = document.getElementById('loginErrorText');
+            if (errBox) errBox.classList.add('hidden');
 
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-1"></i> Memverifikasi...';
+            const rawUsername = (document.getElementById('loginUsername')?.value || '').trim();
+            const rawPassword = (document.getElementById('loginPassword')?.value || '').trim();
+            const usernameInput = rawUsername.toLowerCase();
+
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-1"></i> Memverifikasi Akun...';
             btn.disabled = true;
 
-            setTimeout(() => {
+            try {
+                // Pastikan data pengguna dari Google Sheet sudah termuat
+                if (!Array.isArray(allUsersData) || allUsersData.length === 0) {
+                    try {
+                        const res = await fetch(API_URL + "?action=operator");
+                        const data = await res.json();
+                        if (data && Array.isArray(data.users)) {
+                            allUsersData = data.users;
+                        }
+                    } catch (fetchErr) {}
+                }
+
+                // Gabungkan dengan akun fallback agar pengujian tetap berjalan lancar
+                const fallbackUsers = [
+                    { user_id: 1, nama_lengkap: 'Bpk. Budi Utama', role: 'Operator', username: 'admin_budi', kelas_jurusan: 'Kepala Lab' },
+                    { user_id: 2, nama_lengkap: 'Bpk. Ahmad Sujarwo', role: 'Guru IPAS', username: 'guru_ipas', kelas_jurusan: 'Pengampu IPAS' },
+                    { user_id: 3, nama_lengkap: 'Ibu Sri Wahyuni', role: 'Guru B. Indonesia', username: 'guru_bindo', kelas_jurusan: 'Pengampu B. Indonesia' },
+                    { user_id: 4, nama_lengkap: 'Bpk. Widodo', role: 'Guru Matematika', username: 'guru_mtk', kelas_jurusan: 'Pengampu Matematika' },
+                    { user_id: 5, nama_lengkap: 'Kelompok 1', role: 'Kelompok Siswa', username: 'kelompok1_xrpl1', kelas_jurusan: 'X RPL 1' },
+                    { user_id: 6, nama_lengkap: 'Kelompok 2', role: 'Kelompok Siswa', username: 'kelompok2_xrpl2', kelas_jurusan: 'X RPL 2' },
+                    { user_id: 7, nama_lengkap: 'Kelompok 3', role: 'Kelompok Siswa', username: 'kelompok3_xdpib', kelas_jurusan: 'X DPIB' },
+                    { user_id: 8, nama_lengkap: 'Kelompok 4', role: 'Kelompok Siswa', username: 'kelompok4_xtkr1', kelas_jurusan: 'XI TKR 1' }
+                ];
+
+                const combinedUsers = [...allUsersData];
+                fallbackUsers.forEach(fu => {
+                    if (!combinedUsers.some(u => String(u.username || '').toLowerCase() === fu.username.toLowerCase())) {
+                        combinedUsers.push(fu);
+                    }
+                });
+
+                // Cari akun berdasarkan username atau nama_lengkap
+                const matchedUser = combinedUsers.find(u =>
+                    String(u.username || '').trim().toLowerCase() === usernameInput ||
+                    String(u.nama_lengkap || '').trim().toLowerCase() === usernameInput
+                );
+
+                // Validasi password jika akun di database memiliki password
+                if (matchedUser && matchedUser.password !== undefined && String(matchedUser.password).trim() !== '') {
+                    if (String(matchedUser.password).trim() !== rawPassword) {
+                        if (errBox && errText) {
+                            errText.innerText = 'Password yang Anda masukkan tidak sesuai.';
+                            errBox.classList.remove('hidden');
+                        }
+                        btn.innerHTML = 'Masuk ke Dashboard';
+                        btn.disabled = false;
+                        return;
+                    }
+                }
+
+                let targetUrl = '';
+                let welcomeName = rawUsername;
+
+                if (matchedUser) {
+                    const roleStr = String(matchedUser.role || '').trim();
+                    const roleLower = roleStr.toLowerCase();
+                    welcomeName = matchedUser.nama_lengkap || matchedUser.username;
+
+                    if (roleLower.includes('operator') || roleLower.includes('admin')) {
+                        targetUrl = `dashboard_operator_2_2.html?user=${encodeURIComponent(matchedUser.username || '')}`;
+                    } else if (
+                        roleLower.includes('guru') ||
+                        roleLower.includes('ipas') ||
+                        roleLower.includes('indonesia') ||
+                        roleLower.includes('matematika') ||
+                        roleLower.includes('reviewer')
+                    ) {
+                        const normalizedRole = detectTeacherRoleFromString(roleStr) || detectTeacherRoleFromString(matchedUser.kelas_jurusan) || 'Guru B. Indonesia';
+                        targetUrl = `dashboard_guru.html?role=${encodeURIComponent(normalizedRole)}&user=${encodeURIComponent(matchedUser.username || '')}&name=${encodeURIComponent(matchedUser.nama_lengkap || '')}`;
+                    } else {
+                        targetUrl = `dashboard_siswa.html?user=${encodeURIComponent(matchedUser.username || matchedUser.nama_lengkap || '')}`;
+                    }
+                } else {
+                    // Fallback deteksi berdasarkan kata kunci username jika belum terdaftar di sheet
+                    const detectedTeacherRole = detectTeacherRoleFromString(usernameInput);
+                    if (usernameInput.includes('admin') || usernameInput.includes('operator')) {
+                        targetUrl = 'dashboard_operator_2_2.html';
+                    } else if (detectedTeacherRole || usernameInput.includes('guru') || usernameInput.includes('197') || usernameInput.includes('198') || usernameInput.includes('199')) {
+                        const roleParam = detectedTeacherRole || 'Guru B. Indonesia';
+                        targetUrl = `dashboard_guru.html?role=${encodeURIComponent(roleParam)}&user=${encodeURIComponent(rawUsername)}`;
+                    } else {
+                        targetUrl = `dashboard_siswa.html?user=${encodeURIComponent(rawUsername)}`;
+                    }
+                }
+
                 btn.innerHTML = 'Masuk ke Dashboard';
                 btn.disabled = false;
                 closeLoginModal();
-                showToast('Login berhasil! Mengalihkan ke Dashboard...');
+                showToast(`Login berhasil (${welcomeName}). Mengalihkan...`);
 
                 setTimeout(() => {
-                    if (usernameInput.includes('admin') || usernameInput.includes('operator')) {
-                        window.location.href = 'dashboard_operator_2_2.html';
-                    } else if (usernameInput.includes('guru') || usernameInput.includes('198') || usernameInput.includes('199')) {
-                        let roleParam = 'Guru B. Indonesia';
-                        if (usernameInput.includes('ipas') || usernameInput.includes('1980')) roleParam = 'Guru IPAS';
-                        else if (usernameInput.includes('mtk') || usernameInput.includes('matematika') || usernameInput.includes('1990')) roleParam = 'Guru Matematika';
-                        window.location.href = 'dashboard_guru.html?role=' + encodeURIComponent(roleParam);
-                    } else {
-                        window.location.href = 'dashboard_siswa.html?user=' + encodeURIComponent(usernameInput);
-                    }
-                }, 900);
-            }, 700);
+                    window.location.href = targetUrl;
+                }, 700);
+            } catch (err) {
+                btn.innerHTML = 'Masuk ke Dashboard';
+                btn.disabled = false;
+            }
         }
 
         // ==========================================
