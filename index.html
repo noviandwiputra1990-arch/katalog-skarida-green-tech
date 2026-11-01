@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Eksplorasi tanaman obat di SMKN 2 Tegalsari dengan Skarida Green Tech. Scan QR Code untuk info detail, khasiat, dan update pertumbuhan tanaman.">
-    <title>Skarida Green Tech | Katalog Digital TOGA SMKN 2 Tegalsari</title>
+    <title>Skarida Green Tech | SMK Negeri 2 Tegalsari</title>
     
     <!-- Favicon School Logo -->
     <link rel="icon" href="big_logo_2.png" type="image/png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
@@ -30,10 +32,11 @@
         }
     </script>
     
-    <!-- Google Fonts & Icons -->
+    <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome (Icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Libraries for PDF A5 Card Generation -->
+    <!-- PDF Generation Libraries (Sama seperti Dashboard Operator) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -43,22 +46,27 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .smooth-scroll { scroll-behavior: smooth; }
         
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 9999px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
         .timeline-line::before {
             content: '';
             position: absolute;
             top: 0;
             bottom: 0;
-            left: 1.2rem;
+            left: 1.25rem;
             width: 2px;
-            background: linear-gradient(to bottom, #eab308, #15803d, #e5e7eb);
+            background: linear-gradient(to bottom, #eab308, #15803d, #e2e8f0);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideUp {
+            from { transform: translate(-50%, 100%); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
         }
-        .page-transition {
-            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .toast-enter {
+            animation: slideUp 0.3s ease-out forwards;
         }
 
         @keyframes floatSlow {
@@ -69,35 +77,67 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
+        .page-transition {
+            animation: fadeIn 0.28s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Desain Roll Film (Cinema Filmstrip) untuk Galeri Kegiatan */
+        .film-strip-wrapper {
+            background-color: #0b1120;
+            position: relative;
+            box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.85);
+        }
+        .film-perforation {
+            height: 22px;
+            background-image: repeating-linear-gradient(
+                to right,
+                transparent 0px,
+                transparent 12px,
+                #e2e8f0 12px,
+                #e2e8f0 30px,
+                transparent 30px,
+                transparent 42px
+            );
+            opacity: 0.85;
+        }
+        img {
+            image-rendering: -webkit-optimize-contrast;
+        }
+
         @media print {
             @page { size: A5 landscape; margin: 0; }
             html, body { height: auto !important; overflow: visible !important; background: #ffffff !important; }
             body * { visibility: hidden; }
-            #singleCardPdfModal, #singleCardPdfModal *, #singleCardRenderArea, #singleCardRenderArea * { visibility: visible; }
-            #singleCardPdfModal { position: absolute !important; inset: 0 !important; background: transparent !important; max-height: none !important; overflow: visible !important; display: block !important; padding: 0 !important; }
+            #singlePdfModal, #singlePdfModal *, #singlePdfCardRenderArea, #singlePdfCardRenderArea * { visibility: visible; }
+            #singlePdfModal { position: absolute !important; inset: 0 !important; background: transparent !important; max-height: none !important; overflow: visible !important; display: block !important; padding: 0 !important; }
+            #singlePdfModal > div { max-height: none !important; overflow: visible !important; box-shadow: none !important; border: none !important; background: transparent !important; }
+            #singlePdfModal > div > div:first-child { display: none !important; }
+            #singlePdfCardRenderArea { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
             .a5-card-item { page-break-inside: avoid !important; break-inside: avoid !important; margin: 6mm auto !important; box-shadow: none !important; }
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 smooth-scroll selection:bg-gold selection:text-navy">
 
-    <!-- Navigation Bar (Glassmorphism Sticky) -->
+    <!-- Navigation Bar -->
     <nav class="bg-navy/95 backdrop-blur-md text-white sticky top-0 z-40 shadow-lg border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-18 py-3 items-center">
+            <div class="flex justify-between h-16 sm:h-20 items-center">
                 <!-- Logo & Brand -->
-                <div class="flex items-center space-x-3.5 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                    <div class="w-11 h-11 rounded-full bg-white flex items-center justify-center border-2 border-gold shadow-md overflow-hidden p-0.5 transition-transform duration-300 group-hover:scale-105">
+                <div class="flex items-center space-x-3.5 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white flex items-center justify-center border-2 border-gold shadow-md overflow-hidden p-0.5 transition-transform duration-300 group-hover:scale-105">
                         <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" alt="Logo SMKN 2 Tegalsari" class="w-full h-full object-contain">
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
                             <h1 class="font-extrabold text-base sm:text-lg leading-tight tracking-wide text-white group-hover:text-gold transition">Skarida Green Tech</h1>
-                            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-naturelight/20 text-green-300 border border-green-400/30">
-                                <span class="w-1.5 h-1.5 rounded-full bg-green-400 mr-1 animate-pulse"></span> Live Katalog
-                            </span>
+                            <span class="hidden sm:inline-block bg-naturelight/20 text-green-300 border border-green-400/30 text-[10px] font-bold px-2 py-0.5 rounded-full">PBL TOGA</span>
                         </div>
-                        <p class="text-[11px] text-blue-200 font-medium">SMK Negeri 2 Tegalsari • Ensiklopedia Digital TOGA</p>
+                        <p class="text-[11px] text-blue-200 font-medium">SMK Negeri 2 Tegalsari</p>
                     </div>
                 </div>
                 
@@ -109,6 +149,9 @@
                     <a href="#kolaborasi" class="hover:text-gold transition font-semibold text-sm flex items-center gap-1.5">
                         <i class="fas fa-layer-group text-gold text-xs"></i> Kolaborasi Mapel
                     </a>
+                    <a href="#galeri" class="hover:text-gold transition font-semibold text-sm flex items-center gap-1.5">
+                        <i class="fas fa-film text-amber-300 text-xs"></i> Galeri Kegiatan
+                    </a>
                     <a href="#tentang" class="hover:text-gold transition font-semibold text-sm flex items-center gap-1.5">
                         <i class="fas fa-qrcode text-blue-300 text-xs"></i> Integrasi QR
                     </a>
@@ -119,7 +162,10 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center gap-2">
-                    <button onclick="openLoginModal()" class="bg-gold text-navy px-4 py-2 rounded-full font-extrabold text-xs shadow-md flex items-center gap-1.5">
+                    <a href="#galeri" class="text-xs font-bold text-amber-300 bg-white/10 px-3 py-2 rounded-full border border-white/15">
+                        <i class="fas fa-film"></i>
+                    </a>
+                    <button onclick="openLoginModal()" class="bg-gradient-to-r from-gold to-yellow-400 text-navy px-4 py-2 rounded-full font-extrabold text-xs shadow-md flex items-center gap-1.5">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </button>
                 </div>
@@ -128,16 +174,15 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative bg-gradient-to-br from-navy via-[#173573] to-nature pt-14 pb-28 md:pt-20 md:pb-32 overflow-hidden">
-        <!-- Decorative Elements -->
-        <div class="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-naturelight opacity-15 blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-gold opacity-15 blur-3xl pointer-events-none"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.06] pointer-events-none"></div>
+    <header class="relative bg-gradient-to-br from-navy via-navylight to-nature pt-14 pb-28 sm:pt-20 sm:pb-32 overflow-hidden">
+        <!-- Decorative Background Elements -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-white opacity-5 blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-gold opacity-10 blur-3xl pointer-events-none"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center text-white">
-            <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/10 text-xs font-bold tracking-wider mb-6 border border-white/20 backdrop-blur-md shadow-sm">
-                <i class="fas fa-award text-gold"></i>
-                <span>INOVASI PROJECT BASED LEARNING • SMKN 2 TEGALSARI</span>
+            <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/15 text-xs font-bold tracking-wider mb-6 border border-white/25 backdrop-blur-md shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-naturelight animate-ping"></span>
+                <span>INOVASI PROJECT BASED LEARNING • SMK NEGERI 2 TEGALSARI</span>
             </div>
             
             <h2 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
@@ -145,110 +190,179 @@
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-green-300">Tanaman Obat Keluarga (TOGA)</span>
             </h2>
             
-            <p class="text-blue-100/95 max-w-2xl mx-auto mb-10 text-sm sm:text-base md:text-lg leading-relaxed font-normal">
-                Jembatan digital menuju literasi lingkungan. Seluruh tanaman pada katalog ini dikelola langsung oleh kelompok siswa dan telah <strong class="text-white underline decoration-gold/70">tervalidasi oleh Guru Bahasa Indonesia, IPAS, dan Matematika</strong>.
+            <p class="text-blue-100/95 max-w-3xl mx-auto mb-10 text-sm sm:text-base md:text-lg leading-relaxed font-normal">
+                Jembatan digital menuju literasi lingkungan. Seluruh tanaman pada katalog ini dikelola langsung oleh kelompok siswa dan telah <strong class="text-white underline decoration-gold/70">tervalidasi oleh Guru Bahasa Indonesia, IPAS, dan Matematika</strong>, serta dikembangkan bersama <strong class="text-gold">Guru Informatika</strong>.
             </p>
             
             <!-- Interactive Search Bar -->
             <div class="max-w-2xl mx-auto relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r from-gold via-naturelight to-blue-400 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
                 <div class="relative flex items-center bg-white rounded-full shadow-2xl p-1.5 pl-5">
-                    <i class="fas fa-search text-slate-400 text-lg mr-3"></i>
-                    <input type="text" id="searchInput" class="w-full py-3 pr-4 text-slate-800 placeholder-slate-400 focus:outline-none text-sm sm:text-base bg-transparent" placeholder="Cari nama tanaman, nama latin, daerah, atau khasiat (misal: Jahe, Imunitas)...">
-                    <button onclick="document.getElementById('searchInput').focus()" class="hidden sm:flex bg-navy hover:bg-navylight text-white font-bold text-xs px-6 py-3.5 rounded-full transition items-center gap-2 flex-shrink-0">
-                        <span>Cari</span> <i class="fas fa-arrow-right text-[10px]"></i>
+                    <i class="fas fa-search text-slate-400 text-base mr-3"></i>
+                    <input type="text" id="searchInput" class="w-full py-3 pr-4 text-slate-800 placeholder-slate-400 bg-transparent text-sm sm:text-base focus:outline-none font-medium" placeholder="Cari nama tanaman, nama ilmiah, daerah, atau khasiat...">
+                    <button type="button" onclick="resetCatalogFilter()" id="btnClearSearch" class="hidden text-slate-400 hover:text-red-500 px-3 py-1.5 text-xs font-bold">
+                        <i class="fas fa-times-circle text-base"></i>
                     </button>
+                    <a href="#katalog" class="bg-navy hover:bg-navylight text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-full transition shadow-md flex-shrink-0">
+                        Jelajahi
+                    </a>
                 </div>
             </div>
 
-            <!-- Live Quick Stats Pills -->
-            <div class="mt-10 flex flex-wrap justify-center gap-3 sm:gap-6 text-xs font-semibold text-blue-100">
-                <div class="flex items-center gap-2 bg-white/10 backdrop-blur-xs px-4 py-2 rounded-full border border-white/15">
-                    <i class="fas fa-leaf text-naturelight"></i>
-                    <span><strong id="heroStatTanaman" class="text-white">0</strong> Tanaman Tervalidasi</span>
+            <!-- Live Stats Summary -->
+            <div class="mt-10 grid grid-cols-3 gap-3 max-w-xl mx-auto text-center">
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3">
+                    <p class="text-xl sm:text-2xl font-extrabold text-gold" id="heroStatTanaman">0</p>
+                    <p class="text-[10px] sm:text-xs text-blue-100 font-medium">Tanaman Tervalidasi</p>
                 </div>
-                <div class="flex items-center gap-2 bg-white/10 backdrop-blur-xs px-4 py-2 rounded-full border border-white/15">
-                    <i class="fas fa-check-double text-gold"></i>
-                    <span>Lolos Kurasi 3 Mapel (B. Indo, IPAS, MTK)</span>
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3">
+                    <p class="text-xl sm:text-2xl font-extrabold text-green-300">4 Mapel</p>
+                    <p class="text-[10px] sm:text-xs text-blue-100 font-medium">Kokurikuler Lintas Mapel</p>
                 </div>
-                <div class="flex items-center gap-2 bg-white/10 backdrop-blur-xs px-4 py-2 rounded-full border border-white/15">
-                    <i class="fas fa-qrcode text-blue-300"></i>
-                    <span>Siap Cetak Kartu A5 & Scan QR Taman</span>
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3">
+                    <p class="text-xl sm:text-2xl font-extrabold text-white"><i class="fas fa-qrcode text-gold mr-1"></i>A5</p>
+                    <p class="text-[10px] sm:text-xs text-blue-100 font-medium">Kartu QR Pintar</p>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content (Master Catalog) -->
-    <main id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-14 relative z-20">
+    <main id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-16 relative z-20">
         
-        <!-- Filter Bar Container -->
-        <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-100 mb-10">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-nature flex items-center gap-1.5">
-                        <i class="fas fa-certificate"></i> Master Katalog Publik
-                    </span>
-                    <h3 class="text-lg sm:text-xl font-extrabold text-navy">Koleksi Tanaman Obat Terverifikasi</h3>
+        <!-- Filter & Info Bar -->
+        <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-200/80 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 mb-4 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-nature/10 text-nature flex items-center justify-center text-lg font-bold">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-navy">Master Katalog Tanaman TOGA</h3>
+                        <p class="text-xs text-slate-500">Menampilkan tanaman yang telah disetujui Guru Bahasa Indonesia, IPAS, dan Matematika</p>
+                    </div>
                 </div>
-                <!-- Dynamic Filter Chips -->
-                <div id="filterChipsContainer" class="flex space-x-2 overflow-x-auto hide-scrollbar pb-1">
-                    <button class="filter-btn active whitespace-nowrap px-4 py-2 rounded-full bg-navy text-white text-xs font-bold shadow-md transition" data-filter="semua">
-                        <i class="fas fa-th-large mr-1"></i> Semua Tanaman
-                    </button>
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-500 bg-slate-100 px-3.5 py-2 rounded-xl self-start md:self-auto">
+                    <i class="fas fa-check-double text-nature"></i>
+                    <span id="catalogCountLabel">Memuat katalog...</span>
                 </div>
+            </div>
+
+            <!-- Dynamic Filter Chips -->
+            <div id="filterChipContainer" class="flex space-x-2 overflow-x-auto hide-scrollbar pb-1">
+                <button onclick="applyCategoryFilter('semua')" class="filter-btn active whitespace-nowrap px-4 py-2 rounded-full bg-navy text-white text-xs font-bold shadow-sm transition">
+                    Semua Tanaman
+                </button>
             </div>
         </div>
 
         <!-- Catalog Grid -->
-        <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-7">
-            <!-- Loading State -->
-            <div class="col-span-full bg-white rounded-3xl p-12 text-center shadow-sm border border-slate-100">
-                <div class="w-16 h-16 rounded-2xl bg-blue-50 text-navy flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-circle-notch fa-spin text-3xl"></i>
-                </div>
-                <h4 class="font-bold text-navy text-base">Sinkronisasi Master Katalog...</h4>
-                <p class="text-xs text-slate-500 mt-1">Memuat tanaman yang telah disetujui Guru B. Indonesia, IPAS, dan Matematika.</p>
+        <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Loading Skeleton -->
+            <div class="col-span-full bg-white rounded-3xl p-12 text-center border border-slate-200/70 shadow-sm">
+                <i class="fas fa-circle-notch fa-spin text-4xl text-navy mb-4"></i>
+                <p class="text-slate-700 font-bold text-base">Menghubungkan ke Master Katalog...</p>
+                <p class="text-xs text-slate-400 mt-1">Memuat data tanaman yang telah lolos validasi lintas mata pelajaran</p>
             </div>
         </div>
 
-        <!-- Section: Kolaborasi Lintas Mapel -->
+        <!-- Section: Standar Kurasi Lintas Mapel -->
         <section id="kolaborasi" class="mt-20">
             <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="text-xs font-extrabold uppercase tracking-widest text-nature bg-nature/10 px-3.5 py-1 rounded-full">Standar Kurasi Katalog</span>
-                <h3 class="text-2xl md:text-3xl font-extrabold text-navy mt-3">Teruji Melalui Validasi 3 Mata Pelajaran</h3>
-                <p class="text-xs sm:text-sm text-slate-500 mt-2">Setiap tanaman yang tampil di halaman ini telah melewati pemeriksaan berjenjang oleh bapak/ibu guru pengampu di SMKN 2 Tegalsari.</p>
+                <span class="text-xs font-extrabold uppercase tracking-widest text-nature bg-green-100 px-3.5 py-1 rounded-full">Kokurikuler Lintas Mata Pelajaran</span>
+                <h3 class="text-2xl md:text-3xl font-extrabold text-navy mt-3">Teruji Melalui Kolaborasi 4 Bidang Studi</h3>
+                <p class="text-xs sm:text-sm text-slate-500 mt-2">Setiap tanaman di Master Katalog melewati verifikasi berjenjang dan digitalisasi bersama bapak/ibu guru pembimbing.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-md hover:border-blue-300 transition">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4 border border-blue-100">
-                        <i class="fas fa-book-open"></i>
+                        <i class="fas fa-spell-check"></i>
                     </div>
                     <span class="text-[10px] font-bold uppercase text-blue-600 tracking-wider">Validasi Bahasa Indonesia</span>
-                    <h4 class="text-base font-extrabold text-navy mt-1 mb-2">Teks Deskripsi Morfologi</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">Menjamin ketepatan struktur teks observasi, pemilihan diksi ilmiah populer, serta kesesuaian kaidah ejaan (PUEBI) pada penjelasan fisik tanaman.</p>
+                    <h4 class="text-base font-extrabold text-navy mt-1 mb-2">Struktur Teks & Ejaan</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Menjamin deskripsi morfologi tanaman disusun dengan kalimat efektif, kosakata baku, dan sesuai kaidah PUEBI/EYD.</p>
                 </div>
+
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-md hover:border-amber-300 transition">
                     <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4 border border-amber-100">
                         <i class="fas fa-flask"></i>
                     </div>
                     <span class="text-[10px] font-bold uppercase text-amber-600 tracking-wider">Validasi IPAS</span>
-                    <h4 class="text-base font-extrabold text-navy mt-1 mb-2">Taksonomi, Khasiat & Perawatan</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">Memverifikasi kebenaran nama ilmiah (binomial nomenklatur), manfaat farmakologis herbal, takaran meramu, serta panduan budidaya tanaman.</p>
+                    <h4 class="text-base font-extrabold text-navy mt-1 mb-2">Taksonomi, Khasiat & Rawat</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Memastikan keakuratan nama ilmiah, kandungan khasiat herbal, cara meramu yang aman, serta prosedur perawatan biologis.</p>
                 </div>
+
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-md hover:border-green-300 transition">
                     <div class="w-12 h-12 rounded-2xl bg-green-50 text-nature flex items-center justify-center text-xl mb-4 border border-green-100">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <span class="text-[10px] font-bold uppercase text-nature tracking-wider">Validasi Matematika</span>
                     <h4 class="text-base font-extrabold text-navy mt-1 mb-2">Linimasa & Laju Pertumbuhan</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">Mengukur akurasi pencatatan tanggal observasi, rentang hari antar-fase pertumbuhan, dan perkembangan kuantitatif tanaman dari bibit hingga panen.</p>
+                    <p class="text-xs text-slate-600 leading-relaxed">Mengukur akurasi pencatatan tanggal observasi, rentang hari antar-fase pertumbuhan, dan perkembangan kuantitatif tanaman.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-md hover:border-teal-300 transition">
+                    <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-4 border border-teal-100">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase text-teal-600 tracking-wider">Pengembangan Informatika</span>
+                    <h4 class="text-base font-extrabold text-navy mt-1 mb-2">Digitalisasi Web & QR Code</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Mengintegrasikan basis data katalog tanaman ke dalam sistem web interaktif dan otomatisasi kartu QR Code A5.</p>
                 </div>
             </div>
         </section>
 
+        <!-- Section: Galeri Kegiatan Siswa (Desain Roll Film Sinematik) -->
+        <section id="galeri" class="mt-20">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-widest text-amber-700 bg-amber-100/80 border border-amber-200 px-3.5 py-1 rounded-full">
+                        <i class="fas fa-film"></i> Dokumentasi Kokurikuler PBL
+                    </span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-navy mt-2.5">Galeri Kegiatan Siswa</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">Rekaman lensa kegiatan siswa SMKN 2 Tegalsari dari penyiapan lahan, penanaman, observasi berkala, hingga digitalisasi QR Code.</p>
+                </div>
+                <div class="flex items-center gap-2 self-start md:self-end">
+                    <button type="button" onclick="toggleFilmAutoScroll()" id="btnFilmAutoPlay" class="px-3.5 py-2 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navylight transition flex items-center gap-1.5 shadow-sm" title="Putar / Jeda Roll Film Otomatis">
+                        <i id="iconFilmAutoPlay" class="fas fa-pause text-gold"></i> <span id="textFilmAutoPlay">Auto-Roll Aktif</span>
+                    </button>
+                    <button type="button" onclick="scrollFilmStrip(-1)" class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-navy hover:bg-navy hover:text-white transition flex items-center justify-center shadow-sm" title="Geser Kiri">
+                        <i class="fas fa-chevron-left text-xs"></i>
+                    </button>
+                    <button type="button" onclick="scrollFilmStrip(1)" class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-navy hover:bg-navy hover:text-white transition flex items-center justify-center shadow-sm" title="Geser Kanan">
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Roll Film Container -->
+            <div class="film-strip-wrapper rounded-3xl py-4 border-4 border-slate-900 shadow-2xl overflow-hidden relative" onmouseenter="pauseFilmHover(true)" onmouseleave="pauseFilmHover(false)">
+                <!-- Top Sprocket Holes -->
+                <div class="film-perforation mb-2.5"></div>
+                <div class="px-4 flex items-center justify-between text-[10px] font-mono tracking-widest text-amber-400/80 uppercase mb-2">
+                    <span><i class="fas fa-camera-retro mr-1"></i> SKARIDA GREEN TECH • COLOR FILM 400</span>
+                    <span id="galleryCountBadge">MEMUAT ROLL FILM...</span>
+                    <span class="hidden sm:inline">KOKURIKULER IPAS • B.INDO • MTK • INFORMATIKA</span>
+                </div>
+
+                <!-- Film Frames Track -->
+                <div id="galleryFilmTrack" class="flex gap-6 overflow-x-auto hide-scrollbar px-6 py-2 select-none">
+                    <!-- Dynamic Film Frames Injected Here -->
+                </div>
+
+                <div class="px-4 flex items-center justify-between text-[10px] font-mono tracking-widest text-amber-400/70 uppercase mt-2">
+                    <span>SMKN 2 TEGALSARI ARCHIVE</span>
+                    <span>KLIK BINGKAI FOTO UNTUK MEMPERBESAR</span>
+                    <span class="hidden sm:inline">ISO 400 • 16:9 HD</span>
+                </div>
+                <!-- Bottom Sprocket Holes -->
+                <div class="film-perforation mt-2.5"></div>
+            </div>
+        </section>
+
         <!-- Section: Tentang Aplikasi & Integrasi QR -->
-        <section id="tentang" class="mt-16 mb-12 bg-gradient-to-br from-navy via-navylight to-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+        <section id="tentang" class="mt-20 mb-12 bg-gradient-to-br from-navy via-navylight to-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
             <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-gold/10 blur-3xl pointer-events-none"></div>
             <div class="relative z-10 flex flex-col lg:flex-row gap-10 items-center">
                 <div class="w-full lg:w-2/5 flex justify-center">
@@ -277,7 +391,7 @@
                     </span>
                     <h3 class="text-2xl md:text-4xl font-extrabold leading-tight">Tentang Skarida Green Tech</h3>
                     <p class="text-blue-100 text-sm md:text-base leading-relaxed text-justify">
-                        <strong>Skarida Green Tech</strong> adalah inisiatif pembelajaran berbasis proyek (<em>Project-Based Learning</em>) di SMK Negeri 2 Tegalsari yang memadukan pelestarian kebun Tanaman Obat Keluarga (TOGA) dengan teknologi informasi.
+                        <strong>Skarida Green Tech</strong> adalah inisiatif pembelajaran berbasis proyek (<em>Project-Based Learning</em>) di SMK Negeri 2 Tegalsari yang memadukan pelestarian kebun Tanaman Obat Keluarga (TOGA) dengan teknologi informasi. Pembelajaran ini merupakan bentuk Kokurikuler lintas mata pelajaran, yaitu IPAS, Bahasa Indonesia, Matematika, dan Informatika.
                     </p>
                     <p class="text-blue-100 text-sm md:text-base leading-relaxed text-justify">
                         Setiap tanaman yang tumbuh di kebun sekolah dilengkapi dengan <strong>Kartu Tanaman A5 ber-QR Code khusus</strong>. Ketika pengunjung memindai QR Code tersebut menggunakan kamera ponsel, halaman web ini akan otomatis membuka <strong>Detail Profil & Linimasa Pertumbuhan</strong> spesifik untuk tanaman tersebut. Pengunjung maupun guru juga dapat mengunduh langsung Kartu Tanaman PDF A5 melalui tombol di halaman detail.
@@ -289,64 +403,89 @@
 
     <!-- Footer -->
     <footer class="bg-navy text-blue-200 py-10 border-t-4 border-gold">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-white p-0.5 border border-gold flex items-center justify-center">
-                    <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" alt="Logo SMKN 2 Tegalsari" class="w-full h-full object-contain rounded-full">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-full bg-white p-1 border-2 border-gold shadow-md">
+                    <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" alt="Logo SMKN 2 Tegalsari" class="w-full h-full object-contain">
                 </div>
                 <div class="text-left">
-                    <p class="font-bold text-white">Skarida Green Tech • SMK Negeri 2 Tegalsari</p>
-                    <p class="text-[11px] text-blue-300">Katalog Digital Tanaman Obat Keluarga (TOGA)</p>
+                    <h4 class="font-extrabold text-white text-base">Skarida Green Tech</h4>
+                    <p class="text-xs text-blue-300">SMK Negeri 2 Tegalsari • Banyuwangi</p>
                 </div>
             </div>
-            <p class="text-center sm:text-right text-blue-300">&copy; 2026 SMK Negeri 2 Tegalsari. All rights reserved.</p>
+            <p class="text-xs text-blue-300/80">&copy; 2026 SMK Negeri 2 Tegalsari. Kokurikuler Lintas Mapel (IPAS, Bahasa Indonesia, Matematika & Informatika).</p>
         </div>
     </footer>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-6 right-6 z-[90] hidden bg-navy text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-white/15 flex items-center gap-3 page-transition">
-        <i id="toastIcon" class="fas fa-check-circle text-gold text-lg"></i>
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[90] hidden bg-slate-900 text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 border border-white/15">
+        <i id="toastIcon" class="fas fa-check-circle text-gold"></i>
         <span id="toastMessage" class="text-xs sm:text-sm font-semibold">Notifikasi</span>
     </div>
 
-    <!-- MODAL: LIHAT DETAIL PROFIL TANAMAN (ELEGAN & SINKRON DENGAN MASTER KATALOG) -->
-    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 md:p-6">
+    <!-- MODAL LIGHTBOX: PREVIEW FOTO GALERI KEGIATAN -->
+    <div id="galleryLightboxModal" class="fixed inset-0 z-[75] hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4" onclick="if(event.target===this) closeGalleryLightbox()">
+        <div class="bg-slate-900 border border-white/15 rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl page-transition">
+            <div class="px-5 py-3.5 bg-slate-950 flex justify-between items-center border-b border-white/10">
+                <div class="flex items-center gap-2.5 text-amber-400 font-mono text-xs">
+                    <i class="fas fa-film"></i>
+                    <span id="lightboxFrameCode">FRAME #01A</span>
+                    <span class="text-slate-500">•</span>
+                    <span id="lightboxDate" class="text-slate-300">-</span>
+                </div>
+                <button type="button" onclick="closeGalleryLightbox()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-red-500 text-white flex items-center justify-center transition">
+                    <i class="fas fa-times text-sm"></i>
+                </button>
+            </div>
+            <div class="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
+                <img id="lightboxImage" src="" alt="Foto Kegiatan" class="w-full h-full object-contain">
+            </div>
+            <div class="p-5 sm:p-6 bg-slate-900 text-white space-y-1.5">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span id="lightboxCategory" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-gold text-navy">Kegiatan PBL</span>
+                    <h4 id="lightboxTitle" class="text-base sm:text-lg font-extrabold text-white">-</h4>
+                </div>
+                <p id="lightboxDesc" class="text-xs sm:text-sm text-slate-300 leading-relaxed">-</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: LIHAT DETAIL PROFIL TANAMAN (ELEGAN & FOTO LANDSCAPE 16:9) -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 md:p-6" onclick="if(event.target===this) closeModal()">
         <div class="bg-slate-50 w-full max-w-6xl max-h-[93vh] text-left rounded-3xl shadow-2xl overflow-hidden relative flex flex-col border border-white/20 page-transition">
-            <!-- Modal Header -->
+            <!-- Modal Top Header Bar -->
             <div class="px-5 sm:px-7 py-4 bg-gradient-to-r from-navy via-navylight to-nature text-white flex justify-between items-center flex-shrink-0 shadow-md">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-gold overflow-hidden p-0.5 flex-shrink-0 shadow-xs">
-                        <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" alt="Logo" class="w-full h-full object-contain">
+                    <div class="w-10 h-10 rounded-full bg-white p-0.5 border-2 border-gold flex items-center justify-center flex-shrink-0">
+                        <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" class="w-full h-full object-contain rounded-full" alt="Logo">
                     </div>
                     <div>
-                        <div class="flex flex-wrap items-center gap-2">
-                            <h3 class="text-sm sm:text-base md:text-lg font-extrabold tracking-wide text-white" id="detailModalHeaderTitle">Detail Profil Tanaman TOGA</h3>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-naturelight text-white shadow-xs">
-                                <i class="fas fa-check-circle mr-1"></i> Terverifikasi Master Katalog
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm sm:text-base md:text-lg font-extrabold tracking-wide text-white" id="detailModalTopTitle">Detail Profil Tanaman TOGA</h3>
+                            <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-naturelight text-white shadow-xs">
+                                <i class="fas fa-check-circle mr-1"></i> Tervalidasi 3 Mapel
                             </span>
                         </div>
-                        <p class="text-[11px] text-blue-100" id="detailModalHeaderSub">Katalog Digital Skarida Green Tech • SMKN 2 Tegalsari</p>
+                        <p class="text-[11px] text-blue-100" id="detailModalSubtitle">Master Katalog Skarida Green Tech</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button id="btnHeaderShareLink" type="button" class="hidden sm:inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition border border-white/20" title="Salin Tautan Langsung (QR Link)">
-                        <i class="fas fa-link text-gold"></i> Salin Link QR
+                    <button type="button" onclick="sharePlantLink()" class="bg-white/15 hover:bg-white/25 text-white px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="Salin Link QR Spesifik Tanaman">
+                        <i class="fas fa-link text-gold"></i> <span class="hidden sm:inline">Salin Link QR</span>
                     </button>
-                    <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center transition">
+                    <button type="button" onclick="closeModal()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center transition">
                         <i class="fas fa-times text-base"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Modal Body -->
-            <div id="modalContent" class="overflow-y-auto w-full flex-1 hide-scrollbar smooth-scroll p-4 sm:p-6 md:p-8">
-                <!-- Dynamic content injected here -->
-            </div>
+            <!-- Dynamic Detail Body -->
+            <div id="modalContent" class="overflow-y-auto w-full flex-1 p-4 sm:p-6 md:p-8 custom-scrollbar"></div>
         </div>
     </div>
 
-    <!-- MODAL: PRATINJAU & UNDUH KARTU TANAMAN PDF A5 LANDSCAPE (SAMA DENGAN DASHBOARD OPERATOR/GURU) -->
-    <div id="singleCardPdfModal" class="fixed inset-0 z-[65] hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 md:p-6">
+    <!-- MODAL: PRATINJAU & UNDUH KARTU TANAMAN PDF A5 (SAMA PERSIS DENGAN DASHBOARD OPERATOR) -->
+    <div id="singlePdfModal" class="fixed inset-0 z-[65] hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 md:p-6" onclick="if(event.target===this) closeSinglePdfModal()">
         <div class="bg-slate-100 w-full max-w-5xl max-h-[92vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 page-transition">
             <div class="px-6 py-4 bg-navy text-white flex flex-wrap justify-between items-center gap-3">
                 <div class="flex items-center gap-3">
@@ -354,53 +493,53 @@
                         <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" alt="Logo" class="w-full h-full object-contain">
                     </div>
                     <div>
-                        <h3 class="text-base sm:text-lg font-bold" id="pdfModalPlantTitle">Kartu Tanaman TOGA (A5 Landscape)</h3>
-                        <p class="text-[11px] text-blue-200">QR Code otomatis mengarah ke halaman Lihat Detail tanaman ini saat dipindai.</p>
+                        <h3 class="text-base sm:text-lg font-bold" id="singlePdfTitle">Kartu Tanaman TOGA (A5 Landscape)</h3>
+                        <p class="text-[11px] text-blue-200">QR Code pada kartu ini mengarah langsung ke halaman Lihat Detail tanaman ini.</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="downloadActivePlantCardPdf()" id="btnDownloadSinglePdf" class="bg-gold text-navy px-4 py-2 rounded-xl text-xs font-extrabold hover:bg-yellow-400 transition shadow-md flex items-center gap-1.5">
-                        <i class="fas fa-file-pdf"></i> Unduh PDF A5 (.pdf)
+                    <button type="button" onclick="downloadSinglePlantPdfFile()" id="btnDownloadSinglePdf" class="bg-gold text-navy px-4 py-2 rounded-xl text-xs font-extrabold hover:bg-yellow-400 transition shadow-md flex items-center gap-1.5">
+                        <i class="fas fa-download"></i> Unduh PDF (.pdf)
                     </button>
-                    <button onclick="window.print()" class="bg-white/15 hover:bg-white/25 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                    <button type="button" onclick="window.print()" class="bg-white/15 hover:bg-white/25 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
                         <i class="fas fa-print"></i> Cetak
                     </button>
-                    <button onclick="closeSingleCardPdfModal()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center ml-1">
+                    <button type="button" onclick="closeSinglePdfModal()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center ml-1">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
             <div class="p-4 sm:p-6 overflow-x-auto overflow-y-auto flex-1 flex flex-col items-center bg-slate-200/70">
-                <div id="singleCardRenderArea" class="w-full flex justify-center"></div>
+                <div id="singlePdfCardRenderArea" class="w-full flex justify-center"></div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Login Portal -->
-    <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
-        <div class="bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden relative transform transition-transform duration-300 scale-95 border border-slate-100" id="loginModalBody">
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 hover:bg-red-50 w-10 h-10 rounded-full flex items-center justify-center transition">
-                <i class="fas fa-times text-xl"></i>
+    <!-- MODAL: LOGIN PORTAL -->
+    <div id="loginModal" class="fixed inset-0 z-[70] hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeLoginModal()">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden relative page-transition" id="loginModalBody">
+            <button type="button" onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 hover:bg-red-50 w-9 h-9 rounded-full flex items-center justify-center transition">
+                <i class="fas fa-times text-lg"></i>
             </button>
             <div class="p-8 sm:p-10">
-                <div class="text-center mb-8">
+                <div class="text-center mb-7">
                     <div class="w-20 h-20 bg-slate-50 border-2 border-gold rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm p-1">
                         <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" alt="Logo SMKN 2 Tegalsari" class="w-full h-full object-contain rounded-full">
                     </div>
                     <h2 class="text-2xl font-extrabold text-navy">Portal Sistem PBL</h2>
-                    <p class="text-xs text-slate-500 mt-1">Masuk sebagai Siswa, Guru Mapel, atau Operator</p>
+                    <p class="text-xs text-slate-500 mt-1">Masuk sebagai Operator, Guru Mapel, atau Kelompok Siswa</p>
                 </div>
                 <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Username / NIP / NISN</label>
-                        <input type="text" required placeholder="Masukkan username Anda" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-navy outline-none bg-slate-50 text-sm">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Username / NIP / ID Kelompok</label>
+                        <input type="text" id="loginUsername" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-navy outline-none bg-slate-50 text-sm" placeholder="Contoh: admin_budi / kelompok1_xrpl1">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Password</label>
-                        <input type="password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-navy outline-none bg-slate-50 text-sm">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Password</label>
+                        <input type="password" id="loginPassword" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-navy outline-none bg-slate-50 text-sm" placeholder="••••••••">
                     </div>
                     <div class="pt-3">
-                        <button type="submit" id="btnLogin" class="w-full bg-gradient-to-r from-navy to-navylight text-white font-bold py-3.5 px-4 rounded-xl hover:shadow-lg transition-all text-sm">
+                        <button type="submit" id="btnLogin" class="w-full bg-navy text-white font-bold py-3.5 px-4 rounded-xl hover:bg-navylight transition-all shadow-md text-sm">
                             Masuk ke Dashboard
                         </button>
                     </div>
@@ -417,8 +556,26 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbxi6_oVqHFoIR1JiNyeKismyeJilacmo9gcpT3-YaTmgvqUvZ9AlMdFvARzWHk7khFO/exec";
 
         let plantData = [];
+        let allUsersData = [];
+        let galleryData = [];
         let activePlantForPdf = null;
         let currentCategoryFilter = 'semua';
+        let filmAutoScrollActive = true;
+        let filmHoverPaused = false;
+        let filmScrollInterval = null;
+
+        // Optimasi URL Gambar agar Tidak Pecah (HD 16:9)
+        function enhanceImageQualityUrl(url, fallbackText = 'Tanaman+TOGA') {
+            if (!url || typeof url !== 'string' || url.trim() === '') {
+                return `https://placehold.co/1280x720/15803d/ffffff?text=${encodeURIComponent(fallbackText)}`;
+            }
+            const clean = url.trim();
+            if (clean.startsWith('data:image')) return clean;
+            if (clean.includes('placehold.co/600x400') || clean.includes('placehold.co/150')) {
+                return clean.replace(/placehold\.co\/[0-9x]+/, 'placehold.co/1280x720');
+            }
+            return clean;
+        }
 
         // Format & Kalkulasi Tanggal Lokal (Bebas Pergeseran Zona Waktu UTC)
         function toInputDate(rawDate) {
@@ -457,60 +614,72 @@
             return Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24));
         }
 
-        // Normalisasi & Filter Ketat Syarat Master Katalog:
-        // 1. Disetujui Guru B. Indonesia (Approved)
-        // 2. Disetujui Guru IPAS (Approved)
-        // 3. Minimal ada 1 fase linimasa yang disetujui Guru Matematika (Approved)
-        function normalizeAndFilterMasterCatalog(rawPlants, rawUsers = []) {
-            if (!Array.isArray(rawPlants)) return [];
+        function showToast(message, iconClass = "fa-check-circle text-gold") {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMessage');
+            if (!toast || !msg) return;
+            if (icon) icon.className = `fas ${iconClass}`;
+            msg.textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('toast-enter');
+            clearTimeout(window._portalToastTimer);
+            window._portalToastTimer = setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        // Normalisasi & Filter Ketat: Hanya Tanaman Master Katalog (Approved B. Indo, Approved IPAS, & >= 1 Linimasa Approved MTK)
+        function normalizeAndFilterMasterCatalog(rawList, usersList = []) {
+            if (!Array.isArray(rawList)) return [];
             const masterList = [];
 
-            rawPlants.forEach(item => {
+            rawList.forEach(item => {
                 const id = item.id ?? item.id_tanaman ?? item.tanaman_id;
-                const statusIndo = item.status_b_indo || 'Approved';
-                const statusIpas = item.status_ipas || 'Approved';
-                const statusPub = item.status_publikasi || 'Live';
-
                 const rawTimeline = Array.isArray(item.timeline) ? item.timeline : [];
+
                 // Hanya ambil linimasa yang sudah Approved oleh Guru Matematika
-                const approvedTimeline = rawTimeline.filter(tl => (tl.status_mtk || 'Approved') === 'Approved').map(tl => {
-                    const rawDate = tl.tglAsli || tl.tanggal_observasi || tl.tgl_observasi || '';
-                    return {
-                        tglAsli: toInputDate(rawDate),
-                        tglFormatted: tl.tglFormatted || formatDateJS(rawDate),
-                        fase: tl.fase || tl.nama_fase || 'Fase Pertumbuhan',
-                        foto: tl.foto || tl.foto_fase || 'https://placehold.co/150/d1d5db/6b7280?text=Fase',
-                        catatan: tl.catatan || tl.catatan_pertumbuhan || '-',
-                        status_mtk: 'Approved'
-                    };
-                });
+                const approvedTimeline = rawTimeline
+                    .filter(tl => (tl.status_mtk || 'Approved') === 'Approved')
+                    .map(tl => {
+                        const rawDate = tl.tglAsli || tl.tanggal_observasi || tl.tgl_observasi || '';
+                        return {
+                            tglAsli: toInputDate(rawDate),
+                            tglFormatted: tl.tglFormatted || formatDateJS(rawDate),
+                            fase: tl.fase || tl.nama_fase || 'Fase Pertumbuhan',
+                            foto: enhanceImageQualityUrl(tl.foto || tl.foto_fase, tl.fase || tl.nama_fase || 'Fase'),
+                            catatan: tl.catatan || tl.catatan_pertumbuhan || '-',
+                            status_mtk: 'Approved'
+                        };
+                    });
 
                 // Cek 3 syarat wajib Master Katalog
-                const isEligible = (statusPub === 'Live' && statusIndo === 'Approved' && statusIpas === 'Approved' && approvedTimeline.length >= 1);
+                const statusBIndo = item.status_b_indo || 'Approved';
+                const statusIpas = item.status_ipas || 'Approved';
+                const statusPub = item.status_publikasi || 'Live';
+                const isEligible = (statusBIndo === 'Approved' && statusIpas === 'Approved' && approvedTimeline.length >= 1 && statusPub === 'Live');
+
                 if (!isEligible) return;
 
-                const khasiatDetail = Array.isArray(item.khasiatDetail) ? item.khasiatDetail.map(k => ({
-                    nama: k.nama || k.nama_penyakit || 'Khasiat Herbal',
-                    ramuan: k.ramuan || k.cara_meramu || '-'
-                })) : [];
+                const khasiatDetail = Array.isArray(item.khasiatDetail)
+                    ? item.khasiatDetail.map(k => ({
+                        nama: k.nama || k.nama_penyakit || 'Khasiat Herbal',
+                        ramuan: k.ramuan || k.cara_meramu || '-'
+                    }))
+                    : [];
 
                 const kategori = Array.isArray(item.kategori) && item.kategori.length > 0
                     ? item.kategori
-                    : khasiatDetail.map(k => k.nama);
+                    : khasiatDetail.map(k => k.nama).filter(Boolean);
 
                 const pengelolaName = item.perawat || item.pengelola || 'Kelompok Siswa';
-                let kelasVal = item.kelas || '-';
-                let anggotaVal = item.anggota || '-';
+                const matchedUser = usersList.find(u =>
+                    (u.nama_lengkap && pengelolaName && u.nama_lengkap.toLowerCase().trim() === pengelolaName.toLowerCase().trim())
+                );
 
-                if ((kelasVal === '-' || anggotaVal === '-') && Array.isArray(rawUsers) && rawUsers.length > 0) {
-                    const matchedUser = rawUsers.find(u =>
-                        u.nama_lengkap && pengelolaName && u.nama_lengkap.toLowerCase().trim() === pengelolaName.toLowerCase().trim()
-                    );
-                    if (matchedUser) {
-                        if (kelasVal === '-') kelasVal = matchedUser.kelas_jurusan || matchedUser.kelas || '-';
-                        if (anggotaVal === '-') anggotaVal = matchedUser.anggota_kelompok || matchedUser.anggota || '-';
-                    }
-                }
+                const kelasVal = item.kelas && item.kelas !== '-' ? item.kelas : (matchedUser ? (matchedUser.kelas_jurusan || '-') : '-');
+                const anggotaVal = item.anggota && item.anggota !== '-' ? item.anggota : (matchedUser ? (matchedUser.anggota_kelompok || '-') : 'Anggota kelompok terdaftar pada sistem');
 
                 masterList.push({
                     id: id,
@@ -519,7 +688,7 @@
                     namaDaerah: item.namaDaerah || item.nama_daerah || '-',
                     kategori: kategori,
                     khasiatDetail: khasiatDetail,
-                    image: item.image || item.foto_utama || 'https://placehold.co/600x400/15803d/ffffff?text=Tanaman',
+                    image: enhanceImageQualityUrl(item.image || item.foto_utama, item.namaLokal || item.nama_lokal || 'Tanaman'),
                     morfologi: item.morfologi || item.deskripsi_morfologi || '-',
                     perawatan: {
                         air: item.perawatan?.air || '-',
@@ -536,21 +705,23 @@
             return masterList;
         }
 
-        // Load Data dari Google Sheets API (Prioritas action=operator agar mendapat info Kelas & Anggota Kelompok lengkap)
+        // Load Data dari Google Sheets API
         async function loadDatabase() {
             try {
                 const response = await fetch(API_URL + "?action=operator");
                 const data = await response.json();
 
                 if (data && Array.isArray(data.plants)) {
-                    plantData = normalizeAndFilterMasterCatalog(data.plants, data.users || []);
+                    allUsersData = Array.isArray(data.users) ? data.users : [];
+                    plantData = normalizeAndFilterMasterCatalog(data.plants, allUsersData);
+                    galleryData = Array.isArray(data.gallery) && data.gallery.length > 0 ? data.gallery : getDummyGalleryData();
                 } else if (Array.isArray(data)) {
                     plantData = normalizeAndFilterMasterCatalog(data, []);
+                    galleryData = getDummyGalleryData();
                 } else {
                     throw new Error("Format respons tidak dikenali");
                 }
             } catch (error) {
-                // Fallback jika endpoint utama gagal atau sedang offline
                 try {
                     const resPublic = await fetch(API_URL);
                     const dataPublic = await resPublic.json();
@@ -562,6 +733,11 @@
                 } catch (err2) {
                     plantData = normalizeAndFilterMasterCatalog(getDummyData(), []);
                 }
+                galleryData = getDummyGalleryData();
+            }
+
+            if (plantData.length === 0) {
+                plantData = normalizeAndFilterMasterCatalog(getDummyData(), []);
             }
 
             const statEl = document.getElementById('heroStatTanaman');
@@ -569,244 +745,337 @@
 
             renderDynamicFilterChips(plantData);
             renderCards(plantData);
+            renderGalleryFilmstrip(galleryData);
+            startFilmAutoScroll();
             checkUrlForDirectPlantRedirect();
         }
 
         document.addEventListener("DOMContentLoaded", loadDatabase);
 
         // ==========================================
-        // 2. AUTO-REDIRECT DARI QR CODE (?id=...)
+        // 2. GALERI KEGIATAN ROLL FILM (FILMSTRIP)
         // ==========================================
-        function getPlantShareUrl(plantId) {
-            const isStandardWeb = (window.location.protocol === 'http:' || window.location.protocol === 'https:') &&
-                window.location.origin && window.location.origin !== 'null';
-            const cleanBase = isStandardWeb
-                ? window.location.origin + window.location.pathname
-                : 'https://skarida-green-tech.github.io/index.html';
-            return `${cleanBase}?id=${encodeURIComponent(plantId)}`;
+        function renderGalleryFilmstrip(items) {
+            const track = document.getElementById('galleryFilmTrack');
+            const badge = document.getElementById('galleryCountBadge');
+            if (!track) return;
+
+            const list = Array.isArray(items) && items.length > 0 ? items : getDummyGalleryData();
+            if (badge) badge.innerText = `${list.length} BINGKAI DOKUMENTASI KEGIATAN`;
+
+            track.innerHTML = list.map((g, idx) => {
+                const frameNo = String(idx + 1).padStart(2, '0') + 'A';
+                const title = g.judul || g.title || 'Kegiatan Kokurikuler TOGA';
+                const desc = g.deskripsi || g.catatan || '-';
+                const kategori = g.kategori || 'Kokurikuler PBL';
+                const rawDate = g.tanggal || '';
+                const formattedDate = rawDate ? formatDateJS(rawDate) : 'Semester berjalan';
+                const imgUrl = enhanceImageQualityUrl(g.foto || g.image, title);
+
+                return `
+                    <div onclick="openGalleryLightbox(${idx})" class="group relative flex-shrink-0 w-[290px] sm:w-[350px] bg-slate-950 border-x-8 border-slate-900 rounded-xl p-3 cursor-pointer hover:border-amber-500/40 transition-all duration-300 shadow-lg">
+                        <div class="flex items-center justify-between text-[10px] font-mono text-amber-400/90 mb-2 px-1">
+                            <span><i class="fas fa-caret-right mr-1"></i>FRAME ${frameNo}</span>
+                            <span class="text-slate-400">${formattedDate}</span>
+                        </div>
+                        <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-900 border border-white/10">
+                            <img src="${imgUrl}" alt="${title}" onerror="this.src='https://placehold.co/1280x720/1e3a8a/ffffff?text=Dokumentasi+Kegiatan'" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"></div>
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gold text-navy shadow-xs">
+                                ${kategori}
+                            </span>
+                            <div class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-slate-900/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                <i class="fas fa-expand-alt text-xs"></i>
+                            </div>
+                            <div class="absolute bottom-2.5 left-3 right-3 text-white">
+                                <h4 class="font-extrabold text-sm leading-snug group-hover:text-gold transition line-clamp-1">${title}</h4>
+                                <p class="text-[11px] text-slate-300 line-clamp-2 mt-0.5 leading-relaxed">${desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function checkUrlForDirectPlantRedirect() {
-            const params = new URLSearchParams(window.location.search);
-            const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-            const targetId = params.get('id') || params.get('tanaman') || hashParams.get('id') || hashParams.get('tanaman');
-            if (!targetId) return;
+        function scrollFilmStrip(direction) {
+            const track = document.getElementById('galleryFilmTrack');
+            if (!track) return;
+            const amount = 360 * direction;
+            track.scrollBy({ left: amount, behavior: 'smooth' });
+        }
 
-            const found = plantData.find(p => String(p.id) === String(targetId));
-            if (found) {
-                setTimeout(() => {
-                    openModal(found.id, false);
-                    showToast(`Membuka profil tanaman "${found.namaLokal}" dari pemindaian QR Code.`);
-                }, 250);
-            } else {
-                showToast(`Tanaman dengan ID #${targetId} tidak ditemukan atau belum tayang di Master Katalog.`, "fa-exclamation-circle text-amber-400");
+        function startFilmAutoScroll() {
+            if (filmScrollInterval) clearInterval(filmScrollInterval);
+            filmScrollInterval = setInterval(() => {
+                if (!filmAutoScrollActive || filmHoverPaused) return;
+                const track = document.getElementById('galleryFilmTrack');
+                if (!track) return;
+                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 5) {
+                    track.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    track.scrollLeft += 1;
+                }
+            }, 35);
+        }
+
+        function pauseFilmHover(state) {
+            filmHoverPaused = state;
+        }
+
+        function toggleFilmAutoScroll() {
+            filmAutoScrollActive = !filmAutoScrollActive;
+            const icon = document.getElementById('iconFilmAutoPlay');
+            const text = document.getElementById('textFilmAutoPlay');
+            if (icon && text) {
+                if (filmAutoScrollActive) {
+                    icon.className = 'fas fa-pause text-gold';
+                    text.innerText = 'Auto-Roll Aktif';
+                } else {
+                    icon.className = 'fas fa-play text-green-400';
+                    text.innerText = 'Auto-Roll Dijeda';
+                }
             }
         }
 
-        function copyPlantDirectLink(plantId) {
-            const link = getPlantShareUrl(plantId);
+        function openGalleryLightbox(index) {
+            const list = Array.isArray(galleryData) && galleryData.length > 0 ? galleryData : getDummyGalleryData();
+            const item = list[index];
+            if (!item) return;
+
+            document.getElementById('lightboxFrameCode').innerText = `FRAME #${String(index + 1).padStart(2, '0')}A`;
+            document.getElementById('lightboxDate').innerText = item.tanggal ? formatDateJS(item.tanggal) : 'Dokumentasi Sekolah';
+            document.getElementById('lightboxImage').src = enhanceImageQualityUrl(item.foto || item.image, item.judul || 'Kegiatan');
+            document.getElementById('lightboxCategory').innerText = item.kategori || 'Kokurikuler PBL';
+            document.getElementById('lightboxTitle').innerText = item.judul || item.title || '-';
+            document.getElementById('lightboxDesc').innerText = item.deskripsi || item.catatan || '-';
+
+            document.getElementById('galleryLightboxModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGalleryLightbox() {
+            document.getElementById('galleryLightboxModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ==========================================
+        // 3. AUTO-REDIRECT DARI QR CODE (?id=...)
+        // ==========================================
+        function getPlantShareUrl(plantId) {
+            try {
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('id', plantId);
+                    url.hash = '';
+                    return url.toString();
+                }
+            } catch (e) {}
+            return `https://skarida-green-tech.github.io/index.html?id=${encodeURIComponent(plantId)}`;
+        }
+
+        function checkUrlForDirectPlantRedirect() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const targetId = params.get('id') || params.get('tanaman') || params.get('plant');
+                if (targetId) {
+                    const found = plantData.find(p => String(p.id) === String(targetId));
+                    if (found) {
+                        setTimeout(() => {
+                            openModal(found.id);
+                            showToast(`Membuka profil tanaman: ${found.namaLokal}`, "fa-qrcode text-gold");
+                        }, 250);
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function sharePlantLink() {
+            if (!activePlantForPdf) return;
+            const shareUrl = getPlantShareUrl(activePlantForPdf.id);
             const tempInput = document.createElement('input');
-            tempInput.value = link;
+            tempInput.value = shareUrl;
             document.body.appendChild(tempInput);
             tempInput.select();
             document.execCommand('copy');
             document.body.removeChild(tempInput);
-            showToast("Tautan QR spesifik tanaman berhasil disalin!");
-        }
-
-        function showToast(message, iconCls = "fa-check-circle text-gold") {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toastIcon');
-            document.getElementById('toastMessage').textContent = message;
-            if (icon) icon.className = `fas ${iconCls} text-lg`;
-            toast.classList.remove('hidden');
-            clearTimeout(window._portalToastTimer);
-            window._portalToastTimer = setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3500);
+            showToast("Link QR spesifik tanaman berhasil disalin!");
         }
 
         // ==========================================
-        // 3. FILTER KATEGORI & PENCARIAN
+        // 4. FILTER & RENDER KATALOG UTAMA
         // ==========================================
         function renderDynamicFilterChips(data) {
-            const container = document.getElementById('filterChipsContainer');
+            const container = document.getElementById('filterChipContainer');
             if (!container) return;
 
-            const uniqueCategories = new Set();
+            const categoriesSet = new Set();
             data.forEach(p => {
                 (p.kategori || []).forEach(k => {
-                    if (k && k !== '-') uniqueCategories.add(k);
+                    if (k && k.trim() !== '' && k !== '-') categoriesSet.add(k.trim());
                 });
             });
 
-            let html = `
-                <button onclick="applyCategoryFilter('semua')" class="filter-btn active whitespace-nowrap px-4 py-2 rounded-full bg-navy text-white text-xs font-bold shadow-md transition" data-filter="semua">
-                    <i class="fas fa-th-large mr-1"></i> Semua (${data.length})
-                </button>
-            `;
-
-            Array.from(uniqueCategories).slice(0, 8).forEach(cat => {
-                html += `
-                    <button onclick="applyCategoryFilter('${cat.replace(/'/g, "\\'")}')" class="filter-btn whitespace-nowrap px-4 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-semibold transition" data-filter="${cat}">
-                        ${cat}
+            const categories = ['semua', ...Array.from(categoriesSet).slice(0, 10)];
+            container.innerHTML = categories.map(cat => {
+                const isActive = cat === currentCategoryFilter;
+                const label = cat === 'semua' ? 'Semua Tanaman' : cat;
+                return `
+                    <button type="button" onclick="applyCategoryFilter('${cat.replace(/'/g, "\\'")}')" class="filter-btn whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition ${isActive ? 'bg-navy text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                        ${label}
                     </button>
                 `;
-            });
-
-            container.innerHTML = html;
+            }).join('');
         }
 
         function applyCategoryFilter(category) {
             currentCategoryFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                if (btn.getAttribute('data-filter') === category) {
-                    btn.className = 'filter-btn active whitespace-nowrap px-4 py-2 rounded-full bg-navy text-white text-xs font-bold shadow-md transition';
-                } else {
-                    btn.className = 'filter-btn whitespace-nowrap px-4 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-semibold transition';
-                }
-            });
-            filterAndSearchPlants();
+            renderDynamicFilterChips(plantData);
+            filterAndSearchCatalog();
         }
 
-        function filterAndSearchPlants() {
+        function resetCatalogFilter() {
+            const searchEl = document.getElementById('searchInput');
+            if (searchEl) searchEl.value = '';
+            document.getElementById('btnClearSearch')?.classList.add('hidden');
+            currentCategoryFilter = 'semua';
+            renderDynamicFilterChips(plantData);
+            renderCards(plantData);
+        }
+
+        function filterAndSearchCatalog() {
             const term = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+            const clearBtn = document.getElementById('btnClearSearch');
+            if (clearBtn) {
+                if (term.length > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+            }
+
             const filtered = plantData.filter(p => {
-                const matchCat = currentCategoryFilter === 'semua' || (p.kategori || []).includes(currentCategoryFilter);
+                const matchCat = currentCategoryFilter === 'semua' || (p.kategori && p.kategori.includes(currentCategoryFilter));
                 const matchTerm = !term ||
-                    p.namaLokal.toLowerCase().includes(term) ||
-                    p.namaLatin.toLowerCase().includes(term) ||
-                    (p.namaDaerah || '').toLowerCase().includes(term) ||
-                    (p.perawat || '').toLowerCase().includes(term) ||
-                    (p.kategori || []).some(k => k.toLowerCase().includes(term));
+                    (p.namaLokal && p.namaLokal.toLowerCase().includes(term)) ||
+                    (p.namaLatin && p.namaLatin.toLowerCase().includes(term)) ||
+                    (p.namaDaerah && p.namaDaerah.toLowerCase().includes(term)) ||
+                    (p.perawat && p.perawat.toLowerCase().includes(term)) ||
+                    (p.kategori && p.kategori.some(k => k.toLowerCase().includes(term)));
                 return matchCat && matchTerm;
             });
+
             renderCards(filtered);
         }
 
-        document.getElementById('searchInput').addEventListener('input', filterAndSearchPlants);
+        document.getElementById('searchInput')?.addEventListener('input', filterAndSearchCatalog);
 
-        // ==========================================
-        // 4. RENDER KARTU MASTER KATALOG DI BERANDA
-        // ==========================================
         function renderCards(data) {
             const grid = document.getElementById('catalogGrid');
-            grid.innerHTML = '';
+            const countLabel = document.getElementById('catalogCountLabel');
+            if (!grid) return;
+
+            if (countLabel) {
+                countLabel.innerText = `${data.length} Tanaman Live Ditampilkan`;
+            }
 
             if (data.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full bg-white rounded-3xl p-12 text-center border border-slate-100 shadow-xs">
-                        <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3 text-2xl">
+                    <div class="col-span-full bg-white rounded-3xl p-12 text-center border border-slate-200/80 shadow-xs">
+                        <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3 text-2xl">
                             <i class="fas fa-seedling"></i>
                         </div>
-                        <h4 class="font-bold text-navy text-base">Tanaman Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500 mt-1">Coba gunakan kata kunci pencarian atau kategori khasiat lainnya.</p>
+                        <h4 class="font-extrabold text-navy text-base">Tanaman Tidak Ditemukan</h4>
+                        <p class="text-xs text-slate-500 mt-1 mb-4">Coba gunakan kata kunci pencarian atau kategori khasiat lainnya.</p>
+                        <button onclick="resetCatalogFilter()" class="px-4 py-2 bg-navy text-white rounded-full text-xs font-bold hover:bg-navylight transition">Tampilkan Semua Tanaman</button>
                     </div>
                 `;
                 return;
             }
 
-            data.forEach(plant => {
+            grid.innerHTML = data.map(plant => {
                 const badgeHTML = (plant.kategori || []).slice(0, 3).map(k =>
-                    `<span class="inline-flex items-center gap-1 bg-nature/10 text-nature border border-nature/20 px-2.5 py-0.5 rounded-full text-[11px] font-bold mr-1 mb-1"><i class="fas fa-mortar-pestle text-[9px]"></i> ${k}</span>`
+                    `<span class="inline-block bg-green-50 text-nature border border-green-200/80 px-2.5 py-0.5 rounded-full text-[11px] font-bold mr-1.5 mb-1.5">${k}</span>`
                 ).join('');
 
                 const phaseCount = Array.isArray(plant.timeline) ? plant.timeline.length : 0;
 
-                const cardHTML = `
-                    <div class="bg-white rounded-3xl shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col h-full border border-slate-200/80" onclick="openModal('${plant.id}')">
-                        <div class="relative h-52 overflow-hidden bg-slate-100">
-                            <img src="${plant.image}" alt="${plant.namaLokal}" onerror="this.src='https://placehold.co/600x400/15803d/ffffff?text=Tanaman'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/25 to-transparent"></div>
+                return `
+                    <article onclick="openModal('${plant.id}')" class="bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col h-full border border-slate-200/80 hover:-translate-y-1.5">
+                        <div class="relative aspect-video overflow-hidden bg-slate-900">
+                            <img src="${plant.image}" alt="${plant.namaLokal}" onerror="this.src='https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/20 to-transparent"></div>
                             
                             <!-- Top Badges -->
-                            <div class="absolute top-3 left-3 right-3 flex justify-between items-center gap-2">
-                                <span class="bg-slate-900/75 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15 truncate">
-                                    <i class="fas fa-users text-gold mr-1"></i> ${plant.perawat}${plant.kelas && plant.kelas !== '-' ? ' • ' + plant.kelas : ''}
+                            <div class="absolute top-3 left-3 right-3 flex justify-between items-center">
+                                <span class="bg-slate-900/75 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15 flex items-center gap-1">
+                                    <i class="fas fa-users text-gold"></i> ${plant.perawat}${plant.kelas && plant.kelas !== '-' ? ' • ' + plant.kelas : ''}
                                 </span>
-                                <span class="bg-nature text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-xs flex-shrink-0">
-                                    <i class="fas fa-check-circle mr-0.5"></i> Verified
+                                <span class="bg-nature text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+                                    <i class="fas fa-check-circle"></i> Verified
                                 </span>
                             </div>
 
-                            <!-- Bottom Plant Name -->
-                            <div class="absolute bottom-3.5 left-4 right-4 text-white">
+                            <!-- Bottom Title Overlay -->
+                            <div class="absolute bottom-3 left-4 right-4 text-white">
                                 <h3 class="font-extrabold text-xl leading-tight group-hover:text-gold transition">${plant.namaLokal}</h3>
-                                <p class="text-xs italic font-serif text-slate-200 mt-0.5">${plant.namaLatin}</p>
+                                <p class="text-xs italic text-slate-200 font-serif mt-0.5">${plant.namaLatin}</p>
                             </div>
                         </div>
 
                         <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
                             <div>
-                                <div class="mb-2.5 flex-wrap flex">
+                                <div class="flex flex-wrap mb-2">
                                     ${badgeHTML}
                                 </div>
-                                <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${plant.morfologi || 'Klik untuk melihat deskripsi morfologi, khasiat, panduan perawatan, dan linimasa pertumbuhan.'}</p>
+                                <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed">${plant.morfologi || '-'}</p>
                             </div>
 
-                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
-                                <span class="flex items-center gap-1.5 text-navy">
+                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                                <span class="text-slate-500 font-semibold flex items-center gap-1.5">
                                     <i class="fas fa-chart-line text-gold"></i> ${phaseCount} Fase Pertumbuhan
                                 </span>
-                                <span class="text-nature font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                                    Lihat Detail <i class="fas fa-arrow-right text-[10px]"></i>
+                                <span class="font-extrabold text-navy group-hover:text-nature transition flex items-center gap-1">
+                                    Lihat Detail <i class="fas fa-arrow-right text-[10px] transform group-hover:translate-x-1 transition"></i>
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 `;
-                grid.innerHTML += cardHTML;
-            });
+            }).join('');
         }
 
         // ==========================================
-        // 5. MODAL LIHAT DETAIL PROFIL TANAMAN (ELEGAN)
+        // 5. MODAL LIHAT DETAIL PROFIL TANAMAN (LANDSCAPE 16:9)
         // ==========================================
-        const modal = document.getElementById('detailModal');
-        const modalContent = document.getElementById('modalContent');
-
-        function openModal(id, updateHistory = true) {
+        function openModal(id) {
             const plant = plantData.find(p => String(p.id) === String(id));
             if (!plant) return;
 
             activePlantForPdf = plant;
 
-            if (updateHistory && (window.location.protocol === 'http:' || window.location.protocol === 'https:') && window.history && window.history.replaceState) {
-                try {
-                    const newUrl = `${window.location.pathname}?id=${encodeURIComponent(plant.id)}`;
-                    window.history.replaceState({ plantId: plant.id }, '', newUrl);
-                } catch (err) {
-                    // Abaikan jika dibatasi oleh sandbox/blob preview
+            try {
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('id', plant.id);
+                    window.history.replaceState({}, '', url.toString());
                 }
-            }
+            } catch (e) {}
 
-            const headerTitle = document.getElementById('detailModalHeaderTitle');
-            const headerSub = document.getElementById('detailModalHeaderSub');
-            const btnShare = document.getElementById('btnHeaderShareLink');
+            document.getElementById('detailModalTopTitle').innerText = plant.namaLokal;
+            document.getElementById('detailModalSubtitle').innerText = `Dikelola oleh: ${plant.perawat} (${plant.kelas || '-'}) • ID #${plant.id}`;
 
-            if (headerTitle) headerTitle.innerText = `Profil Tanaman: ${plant.namaLokal}`;
-            if (headerSub) headerSub.innerText = `Dikelola oleh: ${plant.perawat}${plant.kelas && plant.kelas !== '-' ? ' (' + plant.kelas + ')' : ''} • ID Tanaman #${plant.id}`;
-            if (btnShare) {
-                btnShare.onclick = () => copyPlantDirectLink(plant.id);
-            }
-
-            // Render Linimasa (Hanya yang sudah disetujui Guru Matematika)
             let timelineHTML = '';
             if (plant.timeline && plant.timeline.length > 0) {
                 plant.timeline.forEach((node, index) => {
-                    let prevDate = index === 0 ? null : plant.timeline[index - 1].tglAsli;
-                    let durasi = index === 0 ? 'Fase Awal (Hari Pertama)' : `+${calculateDays(prevDate, node.tglAsli)} hari`;
-                    let displayDate = node.tglFormatted || formatDateJS(node.tglAsli);
+                    const prevDate = index === 0 ? null : plant.timeline[index - 1].tglAsli;
+                    const durasi = index === 0 ? 'Fase Awal (Hari Ke-1)' : `+${calculateDays(prevDate, node.tglAsli)} hari dari fase sebelumnya`;
 
                     timelineHTML += `
-                        <div class="relative pl-8 py-3.5 timeline-line">
-                            <div class="absolute left-3 w-5 h-5 rounded-full bg-gold border-4 border-white shadow-sm flex items-center justify-center transform -translate-x-1/2 mt-1 z-10"></div>
-                            <div class="bg-slate-50/90 hover:bg-white border border-slate-200/80 rounded-2xl p-3.5 shadow-xs transition flex flex-col sm:flex-row gap-3.5 items-start">
-                                <img src="${node.foto}" onerror="this.src='https://placehold.co/150/d1d5db/6b7280?text=Fase'" class="w-full sm:w-20 h-28 sm:h-20 object-cover rounded-xl bg-slate-100 border border-slate-200 flex-shrink-0" alt="${node.fase}">
+                        <div class="relative pl-9 py-3.5 timeline-line">
+                            <div class="absolute left-3 w-5 h-5 rounded-full bg-gold border-4 border-white shadow-sm flex items-center justify-center transform -translate-x-1/2 mt-1.5 z-10"></div>
+                            <div class="bg-slate-50/90 hover:bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-xs transition flex flex-col sm:flex-row gap-3.5 items-start">
+                                <img src="${node.foto}" onerror="this.src='https://placehold.co/640x360/d1d5db/6b7280?text=Fase'" class="w-full sm:w-24 aspect-video sm:h-20 object-cover rounded-xl bg-slate-100 border border-slate-200 flex-shrink-0" alt="${node.fase}">
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center flex-wrap gap-1.5 mb-1">
-                                        <span class="font-bold text-navy text-sm">${node.fase}</span>
-                                        <span class="text-[11px] font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">${displayDate}</span>
+                                        <span class="font-extrabold text-navy text-sm">${node.fase}</span>
+                                        <span class="text-[11px] font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">${node.tglFormatted}</span>
                                     </div>
                                     <p class="text-xs text-slate-600 mb-2 break-words leading-relaxed">${node.catatan}</p>
                                     <div class="flex flex-wrap gap-1.5">
@@ -814,7 +1083,7 @@
                                             <i class="fas fa-calculator mr-1.5"></i> ${durasi}
                                         </span>
                                         <span class="inline-flex items-center text-[10px] font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md">
-                                            <i class="fas fa-check-circle mr-1"></i> MTK Approved
+                                            <i class="fas fa-check-circle mr-1"></i> Tervalidasi MTK
                                         </span>
                                     </div>
                                 </div>
@@ -823,15 +1092,14 @@
                     `;
                 });
             } else {
-                timelineHTML = `<p class="text-sm text-slate-400 italic text-center py-6">Belum ada linimasa yang disetujui Guru Matematika.</p>`;
+                timelineHTML = `<p class="text-sm text-slate-400 italic text-center py-6">Belum ada fase linimasa yang tervalidasi.</p>`;
             }
 
-            // Render Khasiat & Chips
             let khasiatHTML = '';
             let badgeChipsHTML = '';
             if (plant.khasiatDetail && plant.khasiatDetail.length > 0) {
                 badgeChipsHTML = plant.khasiatDetail.map(k =>
-                    `<span class="inline-flex items-center gap-1 bg-nature/10 text-nature border border-nature/20 px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-leaf text-[10px]"></i> ${k.nama}</span>`
+                    `<span class="inline-flex items-center gap-1.5 bg-nature/10 text-nature border border-nature/20 px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-leaf text-[10px]"></i> ${k.nama}</span>`
                 ).join('');
 
                 khasiatHTML = plant.khasiatDetail.map((k, index) => `
@@ -840,7 +1108,7 @@
                             <span class="flex items-center gap-2"><i class="fas fa-notes-medical"></i> ${k.nama}</span>
                             <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-open:rotate-180"></i>
                         </summary>
-                        <div class="p-4 text-xs md:text-sm text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
+                        <div class="p-4 text-xs sm:text-sm text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
                             ${k.ramuan}
                         </div>
                     </details>
@@ -849,81 +1117,71 @@
                 khasiatHTML = `<p class="text-sm text-slate-400 italic">Data khasiat belum tersedia.</p>`;
             }
 
-            const qrDirectUrl = getPlantShareUrl(plant.id);
-            const qrImageSmall = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=4&data=${encodeURIComponent(qrDirectUrl)}`;
+            const shareUrl = getPlantShareUrl(plant.id);
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=${encodeURIComponent(shareUrl)}`;
 
-            modalContent.innerHTML = `
+            document.getElementById('modalContent').innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                    <!-- Kolom Kiri (2/3): Identitas, Morfologi, Khasiat & Perawatan -->
+                    <!-- Kolom Kiri (2/3): Identitas Foto 16:9, Morfologi, Khasiat & Perawatan -->
                     <div class="lg:col-span-2 space-y-6">
-                        <!-- Hero Card Identitas dengan Foto Utama Landscape 16:9 -->
                         <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
-                            <!-- Bingkai Foto Landscape 16:9 (aspect-video) -->
+                            <!-- Bingkai Foto Utama Landscape 16:9 -->
                             <div class="w-full aspect-video relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 shadow-inner group">
-                                <img src="${plant.image}" onerror="this.src='https://placehold.co/800x450/15803d/ffffff?text=Tanaman+TOGA+(16:9)'" class="w-full h-full object-cover object-center transition duration-700 group-hover:scale-105" alt="${plant.namaLokal}">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-slate-950/25 pointer-events-none"></div>
+                                <img src="${plant.image}" onerror="this.src='https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'" class="w-full h-full object-cover object-center transition duration-700 group-hover:scale-105" alt="${plant.namaLokal}">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/30 pointer-events-none"></div>
                                 
-                                <!-- Lencana Atas: Pengelola & Status Validasi 3 Mapel -->
                                 <div class="absolute top-3.5 left-3.5 right-3.5 flex flex-wrap justify-between items-center gap-2">
-                                    <span class="bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/15 shadow-sm">
+                                    <span class="bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/15">
                                         <i class="fas fa-users text-gold mr-1.5"></i> ${plant.perawat}${plant.kelas && plant.kelas !== '-' ? ' • ' + plant.kelas : ''}
                                     </span>
                                     <div class="flex flex-wrap gap-1.5">
-                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 backdrop-blur-md text-white shadow-xs"><i class="fas fa-check mr-1"></i>B. Indo</span>
-                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 backdrop-blur-md text-white shadow-xs"><i class="fas fa-check mr-1"></i>IPAS</span>
-                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 backdrop-blur-md text-white shadow-xs"><i class="fas fa-check mr-1"></i>MTK (${plant.timeline.length} Fase)</span>
+                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 text-white"><i class="fas fa-check mr-1"></i>B. Indo</span>
+                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 text-white"><i class="fas fa-check mr-1"></i>IPAS</span>
+                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 text-white"><i class="fas fa-check mr-1"></i>MTK (${plant.timeline.length} Fase)</span>
                                     </div>
                                 </div>
 
-                                <!-- Judul Tanaman di Atas Gambar Bagian Bawah (Opsional Elegan) -->
                                 <div class="absolute bottom-4 left-4 right-4 flex flex-wrap items-end justify-between gap-3 text-white">
                                     <div>
-                                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold block mb-0.5">Koleksi Master Katalog TOGA</span>
-                                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight drop-shadow-sm">${plant.namaLokal}</h2>
-                                        <p class="text-xs sm:text-sm text-slate-200 italic font-serif">${plant.namaLatin}</p>
+                                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold block mb-0.5">Master Katalog TOGA • 16:9 HD</span>
+                                        <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight">${plant.namaLokal}</h2>
+                                        <p class="text-xs sm:text-base text-slate-200 italic font-serif">${plant.namaLatin}</p>
                                     </div>
-                                    <span class="bg-white/20 backdrop-blur-md text-white border border-white/30 text-[11px] font-extrabold px-3 py-1 rounded-full">
+                                    <span class="bg-white/20 backdrop-blur-md text-white border border-white/30 text-xs font-extrabold px-3.5 py-1 rounded-full">
                                         ID #${plant.id}
                                     </span>
                                 </div>
                             </div>
 
-                            <!-- Informasi Detail Identitas di Bawah Foto 16:9 -->
+                            <!-- Detail Identitas, Nama Daerah, Anggota & Tombol Download Kartu PDF A5 -->
                             <div class="space-y-4">
-                                <!-- Chips Kategori Khasiat -->
                                 <div class="flex flex-wrap items-center gap-1.5">
-                                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1"><i class="fas fa-tags mr-1"></i>Kategori Khasiat:</span>
+                                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1"><i class="fas fa-tags mr-1"></i>Khasiat:</span>
                                     ${badgeChipsHTML}
                                 </div>
 
-                                <!-- Grid 2 Kolom: Nama Daerah & Anggota Kelompok -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                                    <div class="bg-gradient-to-r from-blue-50/80 to-indigo-50/50 p-3.5 rounded-2xl border border-blue-100">
-                                        <span class="text-[11px] font-bold text-navy uppercase tracking-wider flex items-center gap-1.5 mb-1">
-                                            <i class="fas fa-map-marker-alt text-red-500"></i> Nama Daerah / Sinonim Lokal
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                    <div class="bg-blue-50/70 p-4 rounded-2xl border border-blue-100">
+                                        <span class="text-[11px] font-extrabold text-navy uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                                            <i class="fas fa-map-marker-alt text-red-500"></i> Nama Daerah / Sinonim
                                         </span>
                                         <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${plant.namaDaerah || '-'}</p>
                                     </div>
-
-                                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
-                                        <span class="text-[11px] font-bold text-navy uppercase tracking-wider flex items-center gap-1.5 mb-1">
-                                            <i class="fas fa-user-graduate text-nature"></i> Anggota Kelompok (${plant.perawat})
+                                    <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-100">
+                                        <span class="text-[11px] font-extrabold text-navy uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                                            <i class="fas fa-user-graduate text-amber-600"></i> Anggota Kelompok (${plant.perawat})
                                         </span>
-                                        <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">${plant.anggota && plant.anggota !== '-' ? plant.anggota : 'Kelompok Siswa Kontributor Skarida Green Tech'}</p>
+                                        <p class="text-xs text-slate-700 leading-relaxed">${plant.anggota || '-'}</p>
                                     </div>
                                 </div>
 
-                                <!-- Tombol Download Kartu Tanaman PDF A5 -->
-                                <div class="pt-3.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                                    <div class="text-xs text-slate-500">
-                                        <i class="fas fa-qrcode text-navy mr-1"></i> Siap dicetak ukuran <b>A5 Landscape</b> untuk papan tanaman sekolah.
-                                    </div>
-                                    <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-                                        <button type="button" onclick="openSingleCardPdfModal('${plant.id}', false)" class="flex-1 sm:flex-none bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-3.5 py-2.5 rounded-xl font-bold text-xs transition flex items-center justify-center gap-1.5">
-                                            <i class="fas fa-eye"></i> Pratinjau Kartu A5
+                                <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100">
+                                    <div class="flex flex-wrap gap-2.5 w-full sm:w-auto">
+                                        <button type="button" onclick="openSinglePdfModal('${plant.id}', true)" class="flex-1 sm:flex-initial bg-gradient-to-r from-nature to-naturelight hover:opacity-95 text-white px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                                            <i class="fas fa-file-pdf text-base"></i> Download Kartu QR Code (PDF A5)
                                         </button>
-                                        <button type="button" onclick="openSingleCardPdfModal('${plant.id}', true)" class="flex-1 sm:flex-none bg-nature hover:bg-naturelight text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md hover:shadow-lg transition flex items-center justify-center gap-2">
-                                            <i class="fas fa-file-pdf text-sm"></i> Download Kartu QR Code (PDF A5)
+                                        <button type="button" onclick="openSinglePdfModal('${plant.id}', false)" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-navy rounded-2xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+                                            <i class="fas fa-qrcode"></i> Pratinjau Kartu A5
                                         </button>
                                     </div>
                                 </div>
@@ -932,13 +1190,11 @@
 
                         <!-- Deskripsi Morfologi -->
                         <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
-                            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5 mb-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-2xl bg-blue-50 text-navy flex items-center justify-center">
-                                        <i class="fas fa-leaf text-lg"></i>
-                                    </div>
+                                    <div class="w-10 h-10 rounded-2xl bg-blue-50 text-navy flex items-center justify-center"><i class="fas fa-leaf text-lg"></i></div>
                                     <div>
-                                        <h3 class="text-base md:text-lg font-bold text-navy">Deskripsi Morfologi Tanaman</h3>
+                                        <h3 class="text-base sm:text-lg font-extrabold text-navy">Deskripsi Morfologi Tanaman</h3>
                                         <p class="text-[11px] text-slate-400">Tervalidasi Guru Bahasa Indonesia</p>
                                     </div>
                                 </div>
@@ -949,18 +1205,18 @@
                         <!-- Khasiat & Panduan Perawatan -->
                         <div class="grid sm:grid-cols-2 gap-6">
                             <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
-                                <h3 class="text-base font-bold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+                                <h3 class="text-base font-extrabold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
                                     <i class="fas fa-mortar-pestle text-nature"></i> Khasiat & Cara Meramu
                                 </h3>
                                 <div class="space-y-3">${khasiatHTML}</div>
-                                <p class="text-[11px] text-slate-400 mt-4 italic">*Tervalidasi Guru IPAS • Informasi bersifat edukatif.</p>
+                                <p class="text-[11px] text-slate-400 mt-4 italic">*Informasi bersifat edukatif berdasarkan literatur TOGA.</p>
                             </section>
 
                             <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
-                                <h3 class="text-base font-bold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+                                <h3 class="text-base font-extrabold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
                                     <i class="fas fa-hand-holding-water text-blue-600"></i> Panduan Perawatan
                                 </h3>
-                                <ul class="space-y-3.5 text-xs md:text-sm text-slate-600">
+                                <ul class="space-y-3.5 text-xs sm:text-sm text-slate-600">
                                     <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-blue-50/50 border border-blue-100/80">
                                         <div class="w-9 h-9 rounded-xl bg-blue-500 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-tint"></i></div>
                                         <div><strong class="text-navy block text-xs uppercase">Penyiraman (Air)</strong><span>${plant.perawatan?.air || '-'}</span></div>
@@ -980,27 +1236,27 @@
 
                     <!-- Kolom Kanan (1/3): QR Code Spesifik & Linimasa Pertumbuhan -->
                     <div class="lg:col-span-1 space-y-6">
-                        <!-- Kartu QR Code Spesifik Tanaman -->
-                        <section class="bg-white p-5 rounded-3xl shadow-xs border border-slate-200/80 flex items-center gap-4">
-                            <img src="${qrImageSmall}" alt="QR Code ${plant.namaLokal}" class="w-20 h-20 rounded-xl border border-slate-200 p-1 flex-shrink-0">
-                            <div class="min-w-0 flex-1">
-                                <span class="text-[10px] font-extrabold uppercase tracking-wider text-nature block">QR Spesifik Tanaman</span>
-                                <h4 class="text-sm font-bold text-navy truncate">${plant.namaLokal} (ID #${plant.id})</h4>
-                                <p class="text-[11px] text-slate-500 leading-snug mt-0.5">Scan QR ini untuk langsung membuka profil detail tanaman ini.</p>
-                                <button type="button" onclick="copyPlantDirectLink('${plant.id}')" class="mt-2 text-[11px] font-bold text-blue-600 hover:text-navy inline-flex items-center gap-1">
-                                    <i class="fas fa-copy"></i> Salin Tautan QR
-                                </button>
+                        <div class="bg-white p-5 rounded-3xl shadow-xs border border-slate-200/80 text-center">
+                            <div class="flex items-center justify-center gap-2 mb-3">
+                                <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" class="w-6 h-6 rounded-full border border-gold object-contain" alt="Logo">
+                                <span class="text-xs font-extrabold text-navy uppercase tracking-wider">QR Code Spesifik Tanaman</span>
                             </div>
-                        </section>
+                            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 inline-block mb-2">
+                                <img src="${qrUrl}" alt="QR Code ${plant.namaLokal}" class="w-32 h-32 object-contain mx-auto">
+                            </div>
+                            <p class="text-[11px] text-slate-500 leading-snug mb-3">Scan QR ini untuk langsung membuka profil <b>${plant.namaLokal}</b>.</p>
+                            <button type="button" onclick="openSinglePdfModal('${plant.id}', true)" class="w-full py-2.5 px-4 bg-navy hover:bg-navylight text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+                                <i class="fas fa-download text-gold"></i> Unduh Kartu Tanaman A5
+                            </button>
+                        </div>
 
-                        <!-- Linimasa Pertumbuhan -->
                         <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
                             <div class="flex items-center gap-3 border-b border-slate-100 pb-3.5 mb-4">
                                 <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
                                     <i class="fas fa-chart-line text-lg"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-base font-bold text-navy">Linimasa Pertumbuhan</h3>
+                                    <h3 class="text-base font-extrabold text-navy">Linimasa Pertumbuhan</h3>
                                     <p class="text-[11px] text-slate-500">Tervalidasi Guru Matematika</p>
                                 </div>
                             </div>
@@ -1010,42 +1266,33 @@
                 </div>
             `;
 
-            modal.classList.remove('hidden');
+            document.getElementById('detailModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            modal.classList.add('hidden');
+            document.getElementById('detailModal').classList.add('hidden');
             document.body.style.overflow = 'auto';
-            if ((window.location.protocol === 'http:' || window.location.protocol === 'https:') && window.history && window.history.replaceState && window.location.search.includes('id=')) {
-                try {
-                    window.history.replaceState({}, '', window.location.pathname);
-                } catch (err) {
-                    // Abaikan jika dibatasi oleh sandbox/blob preview
+            try {
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                    const url = new URL(window.location.href);
+                    if (url.searchParams.has('id')) {
+                        url.searchParams.delete('id');
+                        window.history.replaceState({}, '', url.toString());
+                    }
                 }
-            }
+            } catch (e) {}
         }
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
         // ==========================================
-        // 6. GENERATOR KARTU TANAMAN PDF A5 LANDSCAPE
-        //    (Sama Persis dengan Dashboard Operator/Guru & QR Redirect Spesifik)
+        // 6. GENERATE & DOWNLOAD KARTU TANAMAN PDF A5 (SAMA DENGAN OPERATOR)
         // ==========================================
-        function buildSingleA5CardHtml(plant) {
-            const plantId = plant.id;
-            const qrTargetUrl = getPlantShareUrl(plantId);
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=${encodeURIComponent(qrTargetUrl)}`;
-
+        function buildSingleA5CardHTML(plant) {
+            const shareUrl = getPlantShareUrl(plant.id);
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=${encodeURIComponent(shareUrl)}`;
             const khasiatTags = (plant.khasiatDetail || []).map(k =>
                 `<span class="inline-block bg-green-50 text-nature border border-green-200 px-2.5 py-0.5 rounded-md text-[10px] font-bold mr-1 mb-1">${k.nama}</span>`
             ).join('') || '<span class="text-slate-400 text-[10px]">Tanaman Herbal TOGA</span>';
-
-            const anggotaKelompok = (plant.anggota && plant.anggota !== '-')
-                ? plant.anggota
-                : 'Kelompok Siswa Kontributor Skarida Green Tech';
 
             return `
                 <div class="a5-card-item bg-white rounded-2xl border-2 border-navy shadow-lg overflow-hidden mx-auto" style="width: 756px; min-height: 540px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; background: #ffffff;">
@@ -1060,24 +1307,24 @@
                                 <p class="text-[10px] text-blue-100 leading-snug">SMK Negeri 2 Tegalsari • Project Based Learning</p>
                             </div>
                         </div>
-                        <span class="bg-white/15 border border-white/30 px-3 py-1 rounded-full text-[10px] font-bold whitespace-nowrap">ID #${plantId}</span>
+                        <span class="bg-white/15 border border-white/30 px-3 py-1 rounded-full text-[10px] font-bold whitespace-nowrap">ID #${plant.id}</span>
                     </div>
 
-                    <!-- Isi Utama Kartu (Bebas Truncate / Tidak Terpotong) -->
+                    <!-- Isi Utama Kartu (Bebas Terpotong) -->
                     <div class="p-4 grid grid-cols-12 gap-4 items-stretch" style="flex: 1;">
-                        <!-- Kolom Foto 16:9 & Identitas Kelompok + Anggota (4 Kolom) -->
+                        <!-- Kolom Foto & Identitas Kelompok + Anggota (4 Kolom) -->
                         <div class="col-span-4 flex flex-col justify-between gap-2.5">
-                            <div class="w-full aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex-shrink-0">
-                                <img src="${plant.image || 'https://placehold.co/800x450/15803d/ffffff?text=Tanaman'}" crossorigin="anonymous" onerror="this.src='https://placehold.co/800x450/15803d/ffffff?text=Tanaman'" class="w-full h-full object-cover object-center">
+                            <div class="w-full h-36 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex-shrink-0">
+                                <img src="${plant.image}" crossorigin="anonymous" onerror="this.src='https://placehold.co/400x300/15803d/ffffff?text=Tanaman'" class="w-full h-full object-cover">
                             </div>
                             <div class="bg-blue-50/90 border border-blue-200 rounded-xl p-2.5 text-[10px] space-y-1.5 flex-1 flex flex-col justify-center">
                                 <div>
                                     <span class="font-bold text-navy uppercase block text-[9px] tracking-wide">Kelompok & Kelas:</span>
-                                    <p class="font-extrabold text-slate-800 text-[11px] leading-snug" style="word-break: break-word;">${plant.perawat || '-'}${plant.kelas && plant.kelas !== '-' ? ' • ' + plant.kelas : ''}</p>
+                                    <p class="font-extrabold text-slate-800 text-[11px] leading-snug" style="word-break: break-word;">${plant.perawat || '-'} • ${plant.kelas || '-'}</p>
                                 </div>
                                 <div class="border-t border-blue-200/80 pt-1.5">
                                     <span class="font-bold text-navy uppercase block text-[9px] tracking-wide">Anggota Kelompok:</span>
-                                    <p class="text-slate-700 font-medium leading-relaxed text-[10px]" style="word-break: break-word; overflow-wrap: anywhere;">${anggotaKelompok}</p>
+                                    <p class="text-slate-700 font-medium leading-relaxed text-[10px]" style="word-break: break-word; overflow-wrap: anywhere;">${plant.anggota || '-'}</p>
                                 </div>
                             </div>
                         </div>
@@ -1127,41 +1374,37 @@
             `;
         }
 
-        function openSingleCardPdfModal(plantId, autoDownload = false) {
-            const plant = plantData.find(p => String(p.id) === String(plantId)) || activePlantForPdf;
+        function openSinglePdfModal(id, autoDownload = false) {
+            const plant = plantData.find(p => String(p.id) === String(id)) || activePlantForPdf;
             if (!plant) return;
             activePlantForPdf = plant;
 
-            const titleEl = document.getElementById('pdfModalPlantTitle');
-            if (titleEl) titleEl.innerText = `Kartu Tanaman A5: ${plant.namaLokal}`;
-
-            const renderArea = document.getElementById('singleCardRenderArea');
-            renderArea.innerHTML = buildSingleA5CardHtml(plant);
-
-            document.getElementById('singleCardPdfModal').classList.remove('hidden');
+            document.getElementById('singlePdfTitle').innerText = `Kartu Tanaman A5: ${plant.namaLokal}`;
+            document.getElementById('singlePdfCardRenderArea').innerHTML = buildSingleA5CardHTML(plant);
+            document.getElementById('singlePdfModal').classList.remove('hidden');
 
             if (autoDownload) {
                 setTimeout(() => {
-                    downloadActivePlantCardPdf();
+                    downloadSinglePlantPdfFile();
                 }, 400);
             }
         }
 
-        function closeSingleCardPdfModal() {
-            document.getElementById('singleCardPdfModal').classList.add('hidden');
+        function closeSinglePdfModal() {
+            document.getElementById('singlePdfModal').classList.add('hidden');
         }
 
-        async function downloadActivePlantCardPdf() {
-            const cardEl = document.querySelector('#singleCardRenderArea .a5-card-item');
+        async function downloadSinglePlantPdfFile() {
+            const cardEl = document.querySelector('#singlePdfCardRenderArea .a5-card-item');
             if (!cardEl || !activePlantForPdf) return;
 
             const btn = document.getElementById('btnDownloadSinglePdf');
-            const origText = btn ? btn.innerHTML : '';
+            const origHTML = btn ? btn.innerHTML : '';
             if (btn) {
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Merender PDF...';
                 btn.disabled = true;
             }
-            showToast(`Sedang menyiapkan PDF Kartu Tanaman A5 "${activePlantForPdf.namaLokal}"...`, "fa-spinner fa-spin text-gold");
+            showToast(`Membuat PDF Kartu A5 untuk ${activePlantForPdf.namaLokal}...`, "fa-spinner fa-spin text-gold");
 
             const offscreenHost = document.createElement('div');
             offscreenHost.style.position = 'fixed';
@@ -1229,19 +1472,19 @@
 
                     pdf.addImage(imgData, 'JPEG', offsetX, offsetY, renderW, renderH);
                     const safeName = String(activePlantForPdf.namaLokal || 'Tanaman').replace(/[^a-zA-Z0-9_-]/g, '_');
-                    pdf.save(`Kartu_A5_${safeName}_Skarida_Green_Tech.pdf`);
-                    showToast(`Kartu Tanaman PDF A5 "${activePlantForPdf.namaLokal}" berhasil diunduh!`);
+                    pdf.save(`Kartu_Tanaman_A5_${safeName}.pdf`);
+                    showToast(`Kartu PDF A5 "${activePlantForPdf.namaLokal}" berhasil diunduh!`);
                 } else {
                     window.print();
                 }
-            } catch (err) {
+            } catch (e) {
                 window.print();
             } finally {
                 if (offscreenHost && offscreenHost.parentNode) {
                     offscreenHost.parentNode.removeChild(offscreenHost);
                 }
                 if (btn) {
-                    btn.innerHTML = origText;
+                    btn.innerHTML = origHTML;
                     btn.disabled = false;
                 }
             }
@@ -1250,58 +1493,45 @@
         // ==========================================
         // 7. LOGIN MODAL LOGIC
         // ==========================================
-        const loginModal = document.getElementById('loginModal');
-        const loginModalBody = document.getElementById('loginModalBody');
-
         function openLoginModal() {
-            loginModal.classList.remove('hidden');
-            setTimeout(() => {
-                loginModal.classList.remove('opacity-0');
-                loginModalBody.classList.remove('scale-95');
-                loginModalBody.classList.add('scale-100');
-            }, 10);
+            document.getElementById('loginModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
         function closeLoginModal() {
-            loginModal.classList.add('opacity-0');
-            loginModalBody.classList.remove('scale-100');
-            loginModalBody.classList.add('scale-95');
-            setTimeout(() => {
-                loginModal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-                document.getElementById('loginForm').reset();
-            }, 300);
+            document.getElementById('loginModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('loginForm')?.reset();
         }
 
         function handleLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('btnLogin');
-            const usernameInput = document.querySelector('#loginForm input[type="text"]').value.toLowerCase();
+            const usernameInput = (document.getElementById('loginUsername')?.value || '').trim().toLowerCase();
 
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i><span> Memverifikasi...</span>';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-1"></i> Memverifikasi...';
             btn.disabled = true;
 
             setTimeout(() => {
                 btn.innerHTML = 'Masuk ke Dashboard';
                 btn.disabled = false;
                 closeLoginModal();
-                showToast(`Login berhasil. Mengalihkan ke Dashboard...`);
+                showToast('Login berhasil! Mengalihkan ke Dashboard...');
 
                 setTimeout(() => {
                     if (usernameInput.includes('admin') || usernameInput.includes('operator')) {
-                        window.location.href = 'dashboard_operator_2.html';
+                        window.location.href = 'dashboard_operator_2_2.html';
                     } else if (usernameInput.includes('guru')) {
                         window.location.href = 'dashboard_guru.html';
                     } else {
                         window.location.href = 'dashboard_siswa.html';
                     }
-                }, 1000);
-            }, 900);
+                }, 900);
+            }, 700);
         }
 
         // ==========================================
-        // 8. DATA PRATINJAU FALLBACK (SESUAI MASTER KATALOG)
+        // 8. DATA DUMMY FALLBACK (UNTUK PREVIEW OFFLINE)
         // ==========================================
         function getDummyData() {
             return [
@@ -1313,12 +1543,12 @@
                     status_b_indo: "Approved",
                     status_ipas: "Approved",
                     status_publikasi: "Live",
-                    kategori: ["Meningkatkan Imunitas", "Meredakan Batuk"],
+                    kategori: ["Imunitas", "Obat Batuk"],
                     khasiatDetail: [
-                        { nama: "Meningkatkan Imunitas", ramuan: "Rebus 2 ruas jahe merah yang telah digeprek dengan 2 gelas air hingga mendidih dan tersisa 1 gelas. Saring dan minum selagi hangat bersama madu." },
-                        { nama: "Meredakan Batuk", ramuan: "Iris tipis 1 ruas jahe merah, seduh dengan secangkir air panas. Tambahkan perasan jeruk nipis dan madu, minum hangat." }
+                        { nama: "Imunitas", ramuan: "Rebus 2 ruas jahe merah yang telah digeprek dengan 2 gelas air hingga mendidih dan tersisa 1 gelas. Saring dan minum selagi hangat bersama madu." },
+                        { nama: "Obat Batuk", ramuan: "Iris tipis 1 ruas jahe merah, seduh dengan secangkir air panas. Tambahkan perasan jeruk nipis dan madu." }
                     ],
-                    image: "https://placehold.co/600x400/15803d/ffffff?text=Jahe+Merah",
+                    image: "https://placehold.co/1280x720/15803d/ffffff?text=Jahe+Merah+(16:9+HD)",
                     morfologi: "Terna berbatang semu, tinggi 30-100 cm. Akar berbentuk rimpang dengan daging akar berwarna merah hingga jingga muda. Daun menyirip memanjang dengan pertulangan sejajar dan aroma hangat khas.",
                     perawatan: {
                         air: "Disiram 1x sehari, hindari genangan air agar rimpang tidak busuk.",
@@ -1329,8 +1559,8 @@
                     kelas: "X RPL 1",
                     anggota: "Andi Bimantara, Budi Suseno, Cici Paramida, Anisah Rahma, Gilang Bahtiar",
                     timeline: [
-                        { tglAsli: "2026-08-10", tglFormatted: "10 Ags 2026", fase: "Penanaman Bibit", foto: "https://placehold.co/150/d1d5db/6b7280?text=Bibit", catatan: "Penanaman rimpang awal pada polybag media kompos.", status_mtk: "Approved" },
-                        { tglAsli: "2026-08-25", tglFormatted: "25 Ags 2026", fase: "Tunas Awal", foto: "https://placehold.co/150/86efac/166534?text=Tunas", catatan: "Tunas hijau pertama muncul setinggi 5.5 cm.", status_mtk: "Approved" }
+                        { tglAsli: "2026-08-10", tglFormatted: "10 Ags 2026", fase: "Penanaman Bibit", foto: "https://placehold.co/640x360/d1d5db/6b7280?text=Bibit", catatan: "Penanaman rimpang awal pada polybag media kompos.", status_mtk: "Approved" },
+                        { tglAsli: "2026-08-25", tglFormatted: "25 Ags 2026", fase: "Tunas Awal", foto: "https://placehold.co/640x360/86efac/166534?text=Tunas", catatan: "Tunas hijau pertama muncul setinggi 5.5 cm.", status_mtk: "Approved" }
                     ]
                 },
                 {
@@ -1346,7 +1576,7 @@
                         { nama: "Peluruh Batu Ginjal", ramuan: "Rebus 15 lembar daun kumis kucing segar dengan 2 gelas air hingga tersisa 1 gelas, minum pagi dan sore." },
                         { nama: "Menurunkan Asam Urat", ramuan: "Keringkan daun kumis kucing lalu seduh seperti teh herbal hangat tanpa gula." }
                     ],
-                    image: "https://placehold.co/600x400/1e3a8a/ffffff?text=Kumis+Kucing",
+                    image: "https://placehold.co/1280x720/1e3a8a/ffffff?text=Kumis+Kucing+(16:9+HD)",
                     morfologi: "Tanaman terna tegak yang dapat tumbuh mencapai tinggi 1,5 meter. Batang bersegi empat agak berbulu pendek, helai daun berbentuk bulat telur lonjong dengan tepi bergerigi dan bunga berwarna putih keunguan menyerupai kumis kucing.",
                     perawatan: {
                         air: "Disiram pagi dan sore hari secara teratur, menyukai tanah lembap.",
@@ -1357,9 +1587,46 @@
                     kelas: "X DPIB",
                     anggota: "Aril Noah, Luna Maya, Paramita Dian, Aprilia Eka",
                     timeline: [
-                        { tglAsli: "2026-08-05", tglFormatted: "5 Ags 2026", fase: "Stek Batang", foto: "https://placehold.co/150/d1d5db/6b7280?text=Stek", catatan: "Penanaman stek batang sepanjang 15 cm.", status_mtk: "Approved" },
-                        { tglAsli: "2026-08-22", tglFormatted: "22 Ags 2026", fase: "Berbunga", foto: "https://placehold.co/150/93c5fd/1e3a8a?text=Bunga", catatan: "Mulai muncul kuncup bunga putih keunguan.", status_mtk: "Approved" }
+                        { tglAsli: "2026-08-05", tglFormatted: "5 Ags 2026", fase: "Stek Batang", foto: "https://placehold.co/640x360/d1d5db/6b7280?text=Stek", catatan: "Penanaman stek batang sepanjang 15 cm.", status_mtk: "Approved" },
+                        { tglAsli: "2026-08-22", tglFormatted: "22 Ags 2026", fase: "Berbunga", foto: "https://placehold.co/640x360/93c5fd/1e3a8a?text=Bunga", catatan: "Mulai muncul kuncup bunga putih keunguan.", status_mtk: "Approved" }
                     ]
+                }
+            ];
+        }
+
+        function getDummyGalleryData() {
+            return [
+                {
+                    id_galeri: 1,
+                    judul: "Penyiapan Media Tanam & Polybag TOGA",
+                    tanggal: "2026-08-05",
+                    kategori: "Kokurikuler IPAS",
+                    deskripsi: "Kelompok siswa menyiapkan campuran tanah subur, sekam bakar, dan pupuk kompos organik di kebun praktik SMKN 2 Tegalsari.",
+                    foto: "https://placehold.co/1280x720/15803d/ffffff?text=Penyiapan+Media+Tanam+TOGA"
+                },
+                {
+                    id_galeri: 2,
+                    judul: "Observasi & Penyusunan Teks Deskripsi Morfologi",
+                    tanggal: "2026-08-14",
+                    kategori: "Kokurikuler B. Indonesia",
+                    deskripsi: "Siswa mengamati secara langsung bentuk daun, batang, dan rimpang tanaman obat untuk menyusun teks deskripsi sesuai kaidah PUEBI.",
+                    foto: "https://placehold.co/1280x720/1e3a8a/ffffff?text=Observasi+Morfologi+Tanaman"
+                },
+                {
+                    id_galeri: 3,
+                    judul: "Pengukuran Tinggi Tunas & Pencatatan Linimasa",
+                    tanggal: "2026-08-24",
+                    kategori: "Kokurikuler Matematika",
+                    deskripsi: "Pengukuran berkala tinggi tanaman dan analisis laju pertumbuhan harian bersama Guru Matematika.",
+                    foto: "https://placehold.co/1280x720/ca8a04/ffffff?text=Pengukuran+Linimasa+Matematika"
+                },
+                {
+                    id_galeri: 4,
+                    judul: "Pengembangan Web & Pemasangan Papan QR Code A5",
+                    tanggal: "2026-09-02",
+                    kategori: "Kokurikuler Informatika",
+                    deskripsi: "Pendampingan Guru Informatika dalam penginputan katalog digital dan pemasangan kartu QR Code tahan cuaca di taman sekolah.",
+                    foto: "https://placehold.co/1280x720/0f766e/ffffff?text=Integrasi+QR+Code+Informatika"
                 }
             ];
         }
