@@ -1848,7 +1848,10 @@
 
         // ================= STATS, CHART, DAN EKSPOR =================
         function updateStats() {
-            const siswaCount = dbUsers.filter(u => u.role === 'Kelompok Siswa').length;
+            const siswaCount = dbUsers.filter(u => {
+                const r = String(u.role || '').toLowerCase();
+                return r === 'kelompok siswa' || r.includes('siswa') || r.includes('kelompok');
+            }).length;
             const liveCount = dbPlants.filter(p => p.status_publikasi === 'Live' && isPlantEligibleForCatalog(p)).length;
             const revisiCount = dbPlants.filter(p => p.status_publikasi === 'Revisi').length;
             const pendingCount = dbPlants.filter(p => needsValidationInCenter(p)).length;
@@ -1859,24 +1862,71 @@
             document.getElementById('statRevisi').innerText = revisiCount;
         }
 
+        function normalizeClassStr(str) {
+            return String(str || '').toLowerCase().replace(/^kelas\s+/i, '').replace(/\s+/g, ' ').trim();
+        }
+
+        function isPlantOwnedByUser(plant, user) {
+            if (!plant || !user) return false;
+            const pUserId = String(plant.pembuat_user_id || plant.id_user || plant.user_id || '').trim();
+            const uId = String(user.user_id || user.id_user || user.id || '').trim();
+            if (pUserId && uId) {
+                return pUserId === uId;
+            }
+            const pName = String(plant.pengelola || plant.perawat || '').toLowerCase().trim();
+            const uName = String(user.nama_lengkap || user.nama || '').toLowerCase().trim();
+            if (!pName || !uName || pName !== uName) return false;
+
+            const pKelas = normalizeClassStr(plant.kelas);
+            const uKelas = normalizeClassStr(user.kelas_jurusan || user.kelas);
+            if (pKelas && pKelas !== '-' && uKelas && uKelas !== '-') {
+                return pKelas === uKelas;
+            }
+            return true;
+        }
+
         function calculateProgressData() {
             const groups = {};
-            const studentUsers = dbUsers.filter(u => u.role === 'Kelompok Siswa');
+            const studentUsers = dbUsers.filter(u => {
+                const r = String(u.role || '').toLowerCase();
+                return r === 'kelompok siswa' || r.includes('siswa') || r.includes('kelompok');
+            });
+
             studentUsers.forEach(u => {
                 const rawKelas = (u.kelas_jurusan || u.kelas || 'Kelas Umum').trim();
                 const kelasKey = rawKelas !== '' && rawKelas !== '-' ? rawKelas : 'Kelas Umum';
-                if (!groups[kelasKey]) groups[kelasKey] = { className: kelasKey, totalGroups: 0, live: 0, val: 0, rev: 0, belumInput: 0 };
+                if (!groups[kelasKey]) groups[kelasKey] = { className: kelasKey, totalGroups: 0, live: 0, val: 0, rev: 0, belumInput: 0, totalPlants: 0 };
                 groups[kelasKey].totalGroups++;
-                const userPlants = dbPlants.filter(p => p.pengelola && u.nama_lengkap && p.pengelola.toLowerCase().trim() === u.nama_lengkap.toLowerCase().trim());
-                if (userPlants.length === 0) groups[kelasKey].belumInput++;
-                else {
-                    userPlants.forEach(p => {
-                        if (p.status_publikasi === 'Live' && isPlantEligibleForCatalog(p)) groups[kelasKey].live++;
-                        else if (p.status_publikasi === 'Revisi') groups[kelasKey].rev++;
-                        else groups[kelasKey].val++;
-                    });
+
+                const userPlants = dbPlants.filter(p => isPlantOwnedByUser(p, u));
+                if (userPlants.length === 0) {
+                    groups[kelasKey].belumInput++;
+                } else {
+                    groups[kelasKey].totalPlants += userPlants.length;
+                    const hasRevisi = userPlants.some(p => p.status_publikasi === 'Revisi' || p.status_b_indo === 'Revisi' || p.status_ipas === 'Revisi');
+                    const allLive = userPlants.every(p => p.status_publikasi === 'Live' && isPlantEligibleForCatalog(p));
+                    if (hasRevisi) groups[kelasKey].rev++;
+                    else if (allLive) groups[kelasKey].live++;
+                    else groups[kelasKey].val++;
                 }
             });
+
+            dbPlants.forEach(p => {
+                const rawKelas = (p.kelas || '').trim();
+                if (!rawKelas || rawKelas === '-') return;
+                const matchedStudent = studentUsers.some(u => isPlantOwnedByUser(p, u));
+                if (!matchedStudent) {
+                    if (!groups[rawKelas]) {
+                        groups[rawKelas] = { className: rawKelas, totalGroups: 0, live: 0, val: 0, rev: 0, belumInput: 0, totalPlants: 0 };
+                    }
+                    groups[rawKelas].totalGroups++;
+                    groups[rawKelas].totalPlants++;
+                    if (p.status_publikasi === 'Live' && isPlantEligibleForCatalog(p)) groups[rawKelas].live++;
+                    else if (p.status_publikasi === 'Revisi') groups[rawKelas].rev++;
+                    else groups[rawKelas].val++;
+                }
+            });
+
             classProgressData = Object.values(groups);
         }
 
@@ -1899,7 +1949,7 @@
                         <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-200/70 pb-2.5">
                             <div>
                                 <span class="text-sm font-extrabold text-navy">${title}</span>
-                                <span class="text-xs text-slate-500 ml-1">(${totalGroups} Kelompok Siswa • ${totalSubmitted} Tanaman Diinput)</span>
+                                <span class="text-xs text-slate-500 ml-1">(${totalGroups} Akun Kelompok Siswa • ${totalSubmitted} Kelompok Menginput)</span>
                             </div>
                             <span class="text-xs font-bold text-navy bg-white border border-slate-200 px-2.5 py-1 rounded-lg">${inputPct}% Kelompok Sudah Input</span>
                         </div>
@@ -1944,9 +1994,12 @@
         }
 
         function getStudentGroupsWithScores() {
-            const studentUsers = dbUsers.filter(u => u.role === 'Kelompok Siswa');
+            const studentUsers = dbUsers.filter(u => {
+                const r = String(u.role || '').toLowerCase();
+                return r === 'kelompok siswa' || r.includes('siswa') || r.includes('kelompok');
+            });
             return studentUsers.map(u => {
-                const matchedPlant = dbPlants.find(p => p.pengelola && u.nama_lengkap && p.pengelola.toLowerCase().trim() === u.nama_lengkap.toLowerCase().trim());
+                const matchedPlant = dbPlants.find(p => isPlantOwnedByUser(p, u));
                 let bIndoStatus = matchedPlant ? (matchedPlant.status_b_indo || 'Pending') : 'Belum Input';
                 let ipasStatus = matchedPlant ? (matchedPlant.status_ipas || 'Pending') : 'Belum Input';
                 let mtkApproved = matchedPlant ? getApprovedMtkTimelineCount(matchedPlant) : 0;
@@ -2054,7 +2107,7 @@
         function getGroupMembersForPlant(plant) {
             if (!plant) return '-';
             if (plant.anggota && plant.anggota !== '-' && String(plant.anggota).trim() !== '') return plant.anggota;
-            const matchedUser = dbUsers.find(u => u.nama_lengkap && plant.pengelola && u.nama_lengkap.toLowerCase().trim() === plant.pengelola.toLowerCase().trim());
+            const matchedUser = dbUsers.find(u => isPlantOwnedByUser(plant, u));
             return matchedUser?.anggota_kelompok || 'Anggota kelompok terdaftar pada sistem';
         }
 
