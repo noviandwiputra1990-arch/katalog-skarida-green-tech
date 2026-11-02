@@ -747,7 +747,10 @@
         document.addEventListener("DOMContentLoaded", loadDatabase);
 
         function populateStudentSelector() {
-            const studentUsers = dbUsers.filter(u => u.role === 'Kelompok Siswa');
+            const studentUsers = dbUsers.filter(u => {
+                const r = String(u.role || '').toLowerCase();
+                return r === 'kelompok siswa' || r.includes('siswa') || r.includes('kelompok');
+            });
             if (studentUsers.length === 0) return;
 
             // Identifikasi akun kelompok siswa yang sedang login dari parameter URL ?user=...
@@ -771,7 +774,10 @@
         }
 
         function onChangeStudentGroup(usernameOrName) {
-            const studentUsers = dbUsers.filter(u => u.role === 'Kelompok Siswa');
+            const studentUsers = dbUsers.filter(u => {
+                const r = String(u.role || '').toLowerCase();
+                return r === 'kelompok siswa' || r.includes('siswa') || r.includes('kelompok');
+            });
             currentStudentUser = studentUsers.find(u => u.username === usernameOrName || u.nama_lengkap === usernameOrName) || studentUsers[0];
             if (!currentStudentUser) return;
 
@@ -784,17 +790,36 @@
             renderStudentDashboard();
         }
 
+        function normalizeClassStr(str) {
+            return String(str || '').toLowerCase().replace(/^kelas\s+/i, '').replace(/\s+/g, ' ').trim();
+        }
+
+        function isPlantOwnedByUser(plant, user) {
+            if (!plant || !user) return false;
+            const pUserId = String(plant.pembuat_user_id || plant.id_user || plant.user_id || '').trim();
+            const uId = String(user.user_id || user.id_user || user.id || '').trim();
+            if (pUserId && uId) {
+                return pUserId === uId;
+            }
+            const pName = String(plant.pengelola || plant.perawat || '').toLowerCase().trim();
+            const uName = String(user.nama_lengkap || user.nama || '').toLowerCase().trim();
+            if (!pName || !uName || pName !== uName) return false;
+
+            const pKelas = normalizeClassStr(plant.kelas);
+            const uKelas = normalizeClassStr(user.kelas_jurusan || user.kelas);
+            if (pKelas && pKelas !== '-' && uKelas && uKelas !== '-') {
+                return pKelas === uKelas;
+            }
+            return true;
+        }
+
         function syncGroupPlantsList(preferredPlantId = null) {
             if (!currentStudentUser) {
                 currentGroupPlants = [];
                 currentStudentPlant = null;
                 return;
             }
-            const userIdVal = currentStudentUser.user_id || currentStudentUser.id_user;
-            currentGroupPlants = dbPlants.filter(p =>
-                (p.pengelola && currentStudentUser.nama_lengkap && p.pengelola.toLowerCase().trim() === currentStudentUser.nama_lengkap.toLowerCase().trim()) ||
-                (p.pembuat_user_id && userIdVal && String(p.pembuat_user_id) === String(userIdVal))
-            );
+            currentGroupPlants = dbPlants.filter(p => isPlantOwnedByUser(p, currentStudentUser));
 
             if (preferredPlantId) {
                 currentStudentPlant = currentGroupPlants.find(p => String(p.id_tanaman || p.tanaman_id) === String(preferredPlantId)) || currentGroupPlants[0] || null;
@@ -1847,11 +1872,11 @@
                             <div class="bg-blue-50/90 border border-blue-200 rounded-xl p-2.5 text-[10px] space-y-1.5 flex-1 flex flex-col justify-center">
                                 <div>
                                     <span class="font-bold text-navy uppercase block text-[9px] tracking-wide">Kelompok & Kelas:</span>
-                                    <p class="font-extrabold text-slate-800 text-[11px] leading-snug">${currentStudentUser.nama_lengkap} • ${currentStudentUser.kelas_jurusan || '-'}</p>
+                                    <p class="font-extrabold text-slate-800 text-[11px] leading-snug">${currentStudentUser?.nama_lengkap || 'Kelompok Siswa'} • ${currentStudentUser?.kelas_jurusan || '-'}</p>
                                 </div>
                                 <div class="border-t border-blue-200/80 pt-1.5">
                                     <span class="font-bold text-navy uppercase block text-[9px] tracking-wide">Anggota Kelompok:</span>
-                                    <p class="text-slate-700 font-medium leading-relaxed text-[10px]">${currentStudentUser.anggota_kelompok || '-'}</p>
+                                    <p class="text-slate-700 font-medium leading-relaxed text-[10px]">${currentStudentUser?.anggota_kelompok || '-'}</p>
                                 </div>
                             </div>
                         </div>
