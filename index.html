@@ -165,49 +165,65 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center gap-2">
-                    <a href="#galeri" class="text-xs font-bold text-amber-300 bg-white/10 px-3 py-2 rounded-full border border-white/15">
-                        <i class="fas fa-film"></i>
-                    </a>
-                    <button onclick="openLoginModal()" class="bg-gradient-to-r from-gold to-yellow-400 text-navy px-4 py-2 rounded-full font-extrabold text-xs shadow-md flex items-center gap-1.5">
+                    <button onclick="openLoginModal()" class="bg-gradient-to-r from-gold to-yellow-400 text-navy px-3.5 py-2 rounded-full font-extrabold text-xs shadow-md flex items-center gap-1.5">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </button>
+                    <button type="button" onclick="toggleMobileNav()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/15 transition" aria-label="Menu Navigasi">
+                        <i id="mobileNavIcon" class="fas fa-bars text-sm"></i>
+                    </button>
                 </div>
+            </div>
+
+            <!-- Mobile Dropdown Menu -->
+            <div id="mobileNavMenu" class="hidden md:hidden pb-4 pt-2 border-t border-white/10 space-y-1.5">
+                <a href="#katalog" onclick="toggleMobileNav(false)" class="block px-3.5 py-2.5 rounded-xl text-xs font-bold text-white hover:bg-white/10 transition flex items-center gap-2.5">
+                    <i class="fas fa-seedling text-naturelight w-4 text-center"></i> Master Katalog TOGA
+                </a>
+                <a href="#kolaborasi" onclick="toggleMobileNav(false)" class="block px-3.5 py-2.5 rounded-xl text-xs font-bold text-white hover:bg-white/10 transition flex items-center gap-2.5">
+                    <i class="fas fa-layer-group text-gold w-4 text-center"></i> Kolaborasi 4 Mapel
+                </a>
+                <a href="#galeri" onclick="toggleMobileNav(false)" class="block px-3.5 py-2.5 rounded-xl text-xs font-bold text-white hover:bg-white/10 transition flex items-center gap-2.5">
+                    <i class="fas fa-film text-amber-300 w-4 text-center"></i> Galeri Kegiatan (Roll Film)
+                </a>
+                <a href="#tentang" onclick="toggleMobileNav(false)" class="block px-3.5 py-2.5 rounded-xl text-xs font-bold text-white hover:bg-white/10 transition flex items-center gap-2.5">
+                    <i class="fas fa-qrcode text-blue-300 w-4 text-center"></i> Tentang & Integrasi QR
+                </a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative bg-gradient-to-br from-navy via-navylight to-nature pt-14 pb-28 sm:pt-20 sm:pb-32 overflow-hidden">
+    <header class="relative bg-gradient-to-br from-navy via-navylight to-nature pt-10 pb-24 sm:pt-20 sm:pb-32 overflow-hidden">
         <!-- Decorative Background Elements -->
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-white opacity-5 blur-3xl pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-gold opacity-10 blur-3xl pointer-events-none"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center text-white">
-            <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/15 text-xs font-bold tracking-wider mb-6 border border-white/25 backdrop-blur-md shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-naturelight animate-ping"></span>
-                <span>INOVASI PROJECT BASED LEARNING • SMK NEGERI 2 TEGALSARI</span>
+            <div class="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-full bg-white/15 text-[10px] sm:text-xs font-bold tracking-wider mb-5 border border-white/25 backdrop-blur-md shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-naturelight animate-ping flex-shrink-0"></span>
+                <span class="truncate">INOVASI PROJECT BASED LEARNING • SMKN 2 TEGALSARI</span>
             </div>
             
-            <h2 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
+            <h2 class="text-2xl sm:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight tracking-tight">
                 Eksplorasi Digital <br class="hidden sm:inline">
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-green-300">Tanaman Obat Keluarga (TOGA)</span>
             </h2>
             
-            <p class="text-blue-100/95 max-w-3xl mx-auto mb-10 text-sm sm:text-base md:text-lg leading-relaxed font-normal">
+            <p class="text-blue-100/95 max-w-3xl mx-auto mb-8 sm:mb-10 text-xs sm:text-base md:text-lg leading-relaxed font-normal px-1">
                 Jembatan digital menuju literasi lingkungan. Seluruh tanaman pada katalog ini dikelola langsung oleh kelompok siswa dan telah <strong class="text-white underline decoration-gold/70">tervalidasi oleh Guru Bahasa Indonesia, IPAS, dan Matematika</strong>, serta dikembangkan bersama <strong class="text-gold">Guru Informatika</strong>.
             </p>
             
             <!-- Interactive Search Bar -->
             <div class="max-w-2xl mx-auto relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-gold via-naturelight to-blue-400 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                <div class="relative flex items-center bg-white rounded-full shadow-2xl p-1.5 pl-5">
-                    <i class="fas fa-search text-slate-400 text-base mr-3"></i>
-                    <input type="text" id="searchInput" class="w-full py-3 pr-4 text-slate-800 placeholder-slate-400 bg-transparent text-sm sm:text-base focus:outline-none font-medium" placeholder="Cari nama tanaman, nama ilmiah, daerah, atau khasiat...">
-                    <button type="button" onclick="resetCatalogFilter()" id="btnClearSearch" class="hidden text-slate-400 hover:text-red-500 px-3 py-1.5 text-xs font-bold">
+                <div class="absolute -inset-1 bg-gradient-to-r from-gold via-naturelight to-blue-400 rounded-3xl sm:rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                <div class="relative flex items-center bg-white rounded-2xl sm:rounded-full shadow-2xl p-1.5 pl-4 sm:pl-5">
+                    <i class="fas fa-search text-slate-400 text-sm sm:text-base mr-2.5 sm:mr-3 flex-shrink-0"></i>
+                    <input type="text" id="searchInput" class="w-full py-2.5 sm:py-3 pr-2 text-slate-800 placeholder-slate-400 bg-transparent text-xs sm:text-base focus:outline-none font-medium min-w-0" placeholder="Cari tanaman, latin, daerah, khasiat...">
+                    <button type="button" onclick="resetCatalogFilter()" id="btnClearSearch" class="hidden text-slate-400 hover:text-red-500 px-2 py-1.5 text-xs font-bold flex-shrink-0">
                         <i class="fas fa-times-circle text-base"></i>
                     </button>
-                    <a href="#katalog" class="bg-navy hover:bg-navylight text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-full transition shadow-md flex-shrink-0">
-                        Jelajahi
+                    <a href="#katalog" class="bg-navy hover:bg-navylight text-white font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-full transition shadow-md flex-shrink-0">
+                        Cari
                     </a>
                 </div>
             </div>
@@ -515,32 +531,33 @@
     </div>
 
     <!-- MODAL: PRATINJAU & UNDUH KARTU TANAMAN PDF A5 (SAMA PERSIS DENGAN DASHBOARD OPERATOR) -->
-    <div id="singlePdfModal" class="fixed inset-0 z-[65] hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 md:p-6" onclick="if(event.target===this) closeSinglePdfModal()">
-        <div class="bg-slate-100 w-full max-w-5xl max-h-[92vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 page-transition">
-            <div class="px-6 py-4 bg-navy text-white flex flex-wrap justify-between items-center gap-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-gold overflow-hidden p-0.5 flex-shrink-0">
+    <div id="singlePdfModal" class="fixed inset-0 z-[65] hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 md:p-6" onclick="if(event.target===this) closeSinglePdfModal()">
+        <div class="bg-slate-100 w-full max-w-5xl max-h-[94vh] rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 page-transition">
+            <div class="px-4 sm:px-6 py-3.5 sm:py-4 bg-navy text-white flex flex-wrap justify-between items-center gap-2.5">
+                <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center border-2 border-gold overflow-hidden p-0.5 flex-shrink-0">
                         <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" alt="Logo" class="w-full h-full object-contain">
                     </div>
-                    <div>
-                        <h3 class="text-base sm:text-lg font-bold" id="singlePdfTitle">Kartu Tanaman TOGA (A5 Landscape)</h3>
-                        <p class="text-[11px] text-blue-200">QR Code pada kartu ini mengarah langsung ke halaman Lihat Detail tanaman ini.</p>
+                    <div class="min-w-0">
+                        <h3 class="text-sm sm:text-lg font-bold truncate" id="singlePdfTitle">Kartu Tanaman TOGA (A5 Landscape)</h3>
+                        <p class="text-[10px] sm:text-xs text-blue-200 truncate">QR Code pada kartu ini mengarah langsung ke halaman Lihat Detail tanaman ini.</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button type="button" onclick="downloadSinglePlantPdfFile()" id="btnDownloadSinglePdf" class="bg-gold text-navy px-4 py-2 rounded-xl text-xs font-extrabold hover:bg-yellow-400 transition shadow-md flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end">
+                    <button type="button" onclick="downloadSinglePlantPdfFile()" id="btnDownloadSinglePdf" class="flex-1 sm:flex-initial justify-center bg-gold text-navy px-3.5 py-2 rounded-xl text-xs font-extrabold hover:bg-yellow-400 transition shadow-md flex items-center gap-1.5">
                         <i class="fas fa-download"></i> Unduh PDF (.pdf)
                     </button>
-                    <button type="button" onclick="window.print()" class="bg-white/15 hover:bg-white/25 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-                        <i class="fas fa-print"></i> Cetak
+                    <button type="button" onclick="window.print()" class="bg-white/15 hover:bg-white/25 text-white px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <i class="fas fa-print"></i> <span class="hidden sm:inline">Cetak</span>
                     </button>
-                    <button type="button" onclick="closeSinglePdfModal()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center ml-1">
+                    <button type="button" onclick="closeSinglePdfModal()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center ml-1 flex-shrink-0">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
-            <div class="p-4 sm:p-6 overflow-x-auto overflow-y-auto flex-1 flex flex-col items-center bg-slate-200/70">
-                <div id="singlePdfCardRenderArea" class="w-full flex justify-center"></div>
+            <div class="p-3 sm:p-6 overflow-x-auto overflow-y-auto flex-1 flex flex-col items-start sm:items-center bg-slate-200/70 custom-scrollbar">
+                <p class="sm:hidden text-[11px] text-slate-500 font-semibold mb-2 self-center"><i class="fas fa-arrows-alt-h mr-1"></i>Geser ke samping untuk melihat pratinjau penuh kartu A5</p>
+                <div id="singlePdfCardRenderArea" class="min-w-[756px] sm:min-w-0 w-full flex justify-center"></div>
             </div>
         </div>
     </div>
@@ -598,35 +615,122 @@
         let filmHoverPaused = false;
         let filmScrollInterval = null;
 
+        function toggleMobileNav(forceState) {
+            const menu = document.getElementById('mobileNavMenu');
+            const icon = document.getElementById('mobileNavIcon');
+            if (!menu) return;
+            const willOpen = typeof forceState === 'boolean' ? forceState : menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', !willOpen);
+            if (icon) icon.className = willOpen ? 'fas fa-times text-sm text-gold' : 'fas fa-bars text-sm';
+        }
+
+        function normalizePerawatanObj(item) {
+            if (!item) return { air: '-', pupuk: '-', hama: '-', intensitas_air: '-', pemberian_pupuk: '-', kerawanan_hama: '-' };
+            const p = (item.perawatan && typeof item.perawatan === 'object') ? item.perawatan : {};
+            const isValidVal = (v) => {
+                if (v === undefined || v === null || typeof v === 'object') return false;
+                const s = String(v).trim();
+                return s !== '' && s !== '-' && s.toLowerCase() !== 'null' && s.toLowerCase() !== 'undefined';
+            };
+            const findByKeyword = (obj, keywords) => {
+                if (!obj || typeof obj !== 'object') return '';
+                for (const k of Object.keys(obj)) {
+                    const lowerK = k.toLowerCase();
+                    if (keywords.some(kw => lowerK.includes(kw))) {
+                        const val = obj[k];
+                        if (isValidVal(val)) return String(val).trim();
+                    }
+                }
+                return '';
+            };
+            const pickValid = (...vals) => {
+                for (const v of vals) {
+                    if (isValidVal(v)) return String(v).trim();
+                }
+                return '-';
+            };
+            const air = pickValid(
+                item.intensitas_air, p.intensitas_air, p.air, item.perawatan_air, p.perawatan_air,
+                item.panduan_air, p.panduan_air, item.penyiraman, p.penyiraman, item.air,
+                findByKeyword(p, ['intensitas_air', 'air', 'siram']),
+                findByKeyword(item, ['intensitas_air', 'air', 'siram'])
+            );
+            const pupuk = pickValid(
+                item.pemberian_pupuk, p.pemberian_pupuk, p.pupuk, item.perawatan_pupuk, p.perawatan_pupuk,
+                item.panduan_pupuk, p.panduan_pupuk, item.pemupukan, p.pemupukan, item.pupuk,
+                findByKeyword(p, ['pemberian_pupuk', 'pupuk', 'kompos']),
+                findByKeyword(item, ['pemberian_pupuk', 'pupuk', 'kompos'])
+            );
+            const hama = pickValid(
+                item.kerawanan_hama, p.kerawanan_hama, p.hama, item.perawatan_hama, p.perawatan_hama,
+                item.penanganan_hama, p.penanganan_hama, item.pengendalian_hama, p.pengendalian_hama,
+                item.panduan_hama, p.panduan_hama, item.hama,
+                findByKeyword(p, ['kerawanan_hama', 'hama', 'opt']),
+                findByKeyword(item, ['kerawanan_hama', 'hama', 'opt'])
+            );
+            return { air, pupuk, hama, intensitas_air: air, pemberian_pupuk: pupuk, kerawanan_hama: hama };
+        }
+
+        function mergePublicCareData(plantsList, publicDataList) {
+            if (!Array.isArray(plantsList) || !Array.isArray(publicDataList) || publicDataList.length === 0) return;
+            plantsList.forEach(p => {
+                const pId = String(p.id_tanaman || p.tanaman_id || p.id || '');
+                const pName = String(p.nama_lokal || p.namaLokal || '').toLowerCase().trim();
+                const pubMatch = publicDataList.find(pub =>
+                    (pId && String(pub.id || pub.id_tanaman || pub.tanaman_id) === pId) ||
+                    (pName && String(pub.namaLokal || pub.nama_lokal || '').toLowerCase().trim() === pName)
+                );
+                if (pubMatch) {
+                    const mergedCare = normalizePerawatanObj({ ...pubMatch, ...p, perawatan: { ...(pubMatch.perawatan || {}), ...(p.perawatan || {}) } });
+                    p.perawatan = mergedCare;
+                    p.intensitas_air = mergedCare.air;
+                    p.pemberian_pupuk = mergedCare.pupuk;
+                    p.kerawanan_hama = mergedCare.hama;
+                }
+            });
+        }
+
         // Optimasi URL Gambar agar Tidak Pecah (HD 16:9 & Konversi Link Google Drive Resolusi Tinggi)
         function enhanceImageQualityUrl(url, fallbackText = 'Tanaman+TOGA') {
             if (!url || typeof url !== 'string' || url.trim() === '') {
                 return `https://placehold.co/1280x720/15803d/ffffff?text=${encodeURIComponent(fallbackText)}`;
             }
-            const clean = url.trim();
+            let clean = url.trim();
             if (clean.startsWith('data:image')) return clean;
-            if (clean.includes('placehold.co/600x400') || clean.includes('placehold.co/150')) {
-                return clean.replace(/placehold\.co\/[0-9x]+/, 'placehold.co/1280x720');
+
+            const driveFileMatch = clean.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || clean.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (clean.includes('drive.google.com') && driveFileMatch && driveFileMatch[1]) {
+                return `https://drive.google.com/thumbnail?id=${driveFileMatch[1]}&sz=w1600`;
             }
-            // Jika menggunakan link Google Drive, arahkan ke thumbnail HD w1600
-            const driveMatch = clean.match(/(?:\/d\/|id=)([a-zA-Z0-9_-]{20,})/);
-            if (driveMatch && clean.includes('drive.google.com')) {
-                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1600`;
+
+            if (clean.includes('placehold.co')) {
+                clean = clean.replace(/\/(\d{2,3})x(\d{2,3})\//, '/1280x720/');
+                clean = clean.replace(/\/150\//, '/800x450/');
             }
             return clean;
         }
 
-        // Format & Kalkulasi Tanggal Lokal (Bebas Pergeseran Zona Waktu UTC)
+        function showToast(message, iconClass = 'fa-check-circle text-gold') {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            document.getElementById('toastMessage').textContent = message;
+            if (icon) icon.className = `fas ${iconClass}`;
+            toast.classList.remove('hidden');
+            toast.classList.add('toast-enter');
+            clearTimeout(window._idxToastTimer);
+            window._idxToastTimer = setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
         function toInputDate(rawDate) {
             if (!rawDate) return '';
             const str = String(rawDate).trim();
             if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
             const d = new Date(str);
             if (!isNaN(d.getTime())) {
-                const year = d.getFullYear();
-                const month = String(d.getMonth() + 1).padStart(2, '0');
-                const day = String(d.getDate()).padStart(2, '0');
-                return `${year}-${month}-${day}`;
+                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             }
             return str.includes('T') ? str.split('T')[0] : str;
         }
@@ -636,8 +740,7 @@
             const ymd = toInputDate(dateStr);
             if (/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
                 const [y, m, d] = ymd.split('-').map(Number);
-                const localDate = new Date(y, m - 1, d);
-                return localDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                return new Date(y, m - 1, d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
             }
             const date = new Date(dateStr);
             if (isNaN(date.getTime())) return String(dateStr);
@@ -645,95 +748,82 @@
         }
 
         function calculateDays(startDateStr, endDateStr) {
-            const sYmd = toInputDate(startDateStr);
-            const eYmd = toInputDate(endDateStr);
-            const start = new Date(sYmd || startDateStr);
-            const end = new Date(eYmd || endDateStr);
+            const start = new Date(toInputDate(startDateStr) || startDateStr);
+            const end = new Date(toInputDate(endDateStr) || endDateStr);
             if (isNaN(start.getTime()) || isNaN(end.getTime())) return 0;
             return Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24));
         }
 
-        function showToast(message, iconClass = "fa-check-circle text-gold") {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toastIcon');
-            const msg = document.getElementById('toastMessage');
-            if (!toast || !msg) return;
-            if (icon) icon.className = `fas ${iconClass}`;
-            msg.textContent = message;
-            toast.classList.remove('hidden');
-            toast.classList.add('toast-enter');
-            clearTimeout(window._portalToastTimer);
-            window._portalToastTimer = setTimeout(() => {
-                toast.classList.remove('toast-enter');
-                toast.classList.add('hidden');
-            }, 3500);
+        function normalizeClassStr(str) {
+            return String(str || '').toLowerCase().replace(/^kelas\s+/i, '').replace(/\s+/g, ' ').trim();
         }
 
-        // Normalisasi & Filter Ketat: Hanya Tanaman Master Katalog (Approved B. Indo, Approved IPAS, & >= 1 Linimasa Approved MTK)
+        function isPlantOwnedByUser(plant, user) {
+            if (!plant || !user) return false;
+            const pUserId = String(plant.pembuat_user_id || plant.id_user || plant.user_id || '').trim();
+            const uId = String(user.user_id || user.id_user || user.id || '').trim();
+            if (pUserId && uId) return pUserId === uId;
+            const pName = String(plant.pengelola || plant.perawat || '').toLowerCase().trim();
+            const uName = String(user.nama_lengkap || user.nama || '').toLowerCase().trim();
+            if (!pName || !uName || pName !== uName) return false;
+            const pKelas = normalizeClassStr(plant.kelas);
+            const uKelas = normalizeClassStr(user.kelas_jurusan || user.kelas);
+            if (pKelas && pKelas !== '-' && uKelas && uKelas !== '-') return pKelas === uKelas;
+            return true;
+        }
+
         function normalizeAndFilterMasterCatalog(rawList, usersList = []) {
             if (!Array.isArray(rawList)) return [];
             const masterList = [];
 
             rawList.forEach(item => {
-                const id = item.id ?? item.id_tanaman ?? item.tanaman_id;
                 const rawTimeline = Array.isArray(item.timeline) ? item.timeline : [];
+                const approvedTimeline = rawTimeline.filter(tl => (tl.status_mtk || 'Approved') === 'Approved').map(tl => {
+                    const rawTgl = tl.tanggal_observasi || tl.tgl_observasi || tl.tglAsli || '';
+                    return {
+                        tglAsli: toInputDate(rawTgl),
+                        tglFormatted: tl.tglFormatted || formatDateJS(rawTgl),
+                        fase: tl.nama_fase || tl.fase || '-',
+                        foto: enhanceImageQualityUrl(tl.foto_fase || tl.foto, tl.nama_fase || tl.fase || 'Fase'),
+                        catatan: tl.catatan_pertumbuhan || tl.catatan || '-'
+                    };
+                });
 
-                // Hanya ambil linimasa yang sudah Approved oleh Guru Matematika
-                const approvedTimeline = rawTimeline
-                    .filter(tl => (tl.status_mtk || 'Approved') === 'Approved')
-                    .map(tl => {
-                        const rawDate = tl.tglAsli || tl.tanggal_observasi || tl.tgl_observasi || '';
-                        return {
-                            tglAsli: toInputDate(rawDate),
-                            tglFormatted: tl.tglFormatted || formatDateJS(rawDate),
-                            fase: tl.fase || tl.nama_fase || 'Fase Pertumbuhan',
-                            foto: enhanceImageQualityUrl(tl.foto || tl.foto_fase, tl.fase || tl.nama_fase || 'Fase'),
-                            catatan: tl.catatan || tl.catatan_pertumbuhan || '-',
-                            status_mtk: 'Approved'
-                        };
-                    });
+                const hasApprovalFields = (item.status_b_indo !== undefined || item.status_ipas !== undefined);
+                if (hasApprovalFields) {
+                    const isEligible = item.status_b_indo === 'Approved' && item.status_ipas === 'Approved' && approvedTimeline.length >= 1;
+                    if (!isEligible) return;
+                } else if (approvedTimeline.length === 0) {
+                    return;
+                }
 
-                // Cek 3 syarat wajib Master Katalog
-                const statusBIndo = item.status_b_indo || 'Approved';
-                const statusIpas = item.status_ipas || 'Approved';
-                const statusPub = item.status_publikasi || 'Live';
-                const isEligible = (statusBIndo === 'Approved' && statusIpas === 'Approved' && approvedTimeline.length >= 1 && statusPub === 'Live');
-
-                if (!isEligible) return;
-
-                const khasiatDetail = Array.isArray(item.khasiatDetail)
-                    ? item.khasiatDetail.map(k => ({
-                        nama: k.nama || k.nama_penyakit || 'Khasiat Herbal',
-                        ramuan: k.ramuan || k.cara_meramu || '-'
-                    }))
-                    : [];
-
+                const id = item.id || item.id_tanaman || item.tanaman_id;
+                const rawKhasiat = Array.isArray(item.khasiatDetail) ? item.khasiatDetail : [];
+                const khasiatDetail = rawKhasiat.map(k => ({
+                    nama: k.nama || k.nama_penyakit || 'Khasiat Herbal',
+                    ramuan: k.ramuan || k.cara_meramu || '-'
+                }));
                 const kategori = Array.isArray(item.kategori) && item.kategori.length > 0
                     ? item.kategori
-                    : khasiatDetail.map(k => k.nama).filter(Boolean);
+                    : (khasiatDetail.length > 0 ? khasiatDetail.map(k => k.nama) : ['Tanaman Obat']);
 
                 const pengelolaName = item.perawat || item.pengelola || 'Kelompok Siswa';
-                const matchedUser = usersList.find(u =>
-                    (u.nama_lengkap && pengelolaName && u.nama_lengkap.toLowerCase().trim() === pengelolaName.toLowerCase().trim())
-                );
+                const matchedUser = usersList.find(u => isPlantOwnedByUser(item, u));
 
                 const kelasVal = item.kelas && item.kelas !== '-' ? item.kelas : (matchedUser ? (matchedUser.kelas_jurusan || '-') : '-');
                 const anggotaVal = item.anggota && item.anggota !== '-' ? item.anggota : (matchedUser ? (matchedUser.anggota_kelompok || '-') : 'Anggota kelompok terdaftar pada sistem');
+                const normalizedCare = normalizePerawatanObj(item);
 
                 masterList.push({
                     id: id,
-                    namaLokal: item.namaLokal || item.nama_lokal || '-',
+                    namaLokal: item.namaLokal || item.nama_lokal || 'Tanaman TOGA',
                     namaLatin: item.namaLatin || item.nama_latin || '-',
                     namaDaerah: item.namaDaerah || item.nama_daerah || '-',
                     kategori: kategori,
                     khasiatDetail: khasiatDetail,
                     image: enhanceImageQualityUrl(item.image || item.foto_utama, item.namaLokal || item.nama_lokal || 'Tanaman'),
                     morfologi: item.morfologi || item.deskripsi_morfologi || '-',
-                    perawatan: {
-                        air: item.perawatan?.air || '-',
-                        pupuk: item.perawatan?.pupuk || '-',
-                        hama: item.perawatan?.hama || '-'
-                    },
+                    perawatan: normalizedCare,
                     perawat: pengelolaName,
                     kelas: kelasVal,
                     anggota: anggotaVal,
@@ -744,219 +834,77 @@
             return masterList;
         }
 
-        // Load Data dari Google Sheets API
+        // ==========================================
+        // 2. LOAD DATABASE & AUTO-REDIRECT QR (?id=...)
+        // ==========================================
         async function loadDatabase() {
             try {
-                const response = await fetch(API_URL + "?action=operator");
-                const data = await response.json();
+                const [opRes, pubRes] = await Promise.allSettled([
+                    fetch(API_URL + "?action=operator").then(r => r.json()),
+                    fetch(API_URL).then(r => r.json())
+                ]);
+
+                const data = opRes.status === 'fulfilled' ? opRes.value : null;
+                const pubData = (pubRes.status === 'fulfilled' && Array.isArray(pubRes.value)) ? pubRes.value : [];
 
                 if (data && Array.isArray(data.plants)) {
                     allUsersData = Array.isArray(data.users) ? data.users : [];
+                    mergePublicCareData(data.plants, pubData);
                     plantData = normalizeAndFilterMasterCatalog(data.plants, allUsersData);
-                    galleryData = Array.isArray(data.gallery) && data.gallery.length > 0 ? data.gallery : getDummyGalleryData();
-                } else if (Array.isArray(data)) {
-                    plantData = normalizeAndFilterMasterCatalog(data, []);
-                    galleryData = getDummyGalleryData();
+                    galleryData = Array.isArray(data.gallery) && data.gallery.length > 0 ? data.gallery : getDummyGallery();
+                } else if (pubData.length > 0) {
+                    plantData = normalizeAndFilterMasterCatalog(pubData, []);
+                    galleryData = getDummyGallery();
                 } else {
-                    throw new Error("Format respons tidak dikenali");
+                    throw new Error("Fallback ke data pratinjau");
                 }
             } catch (error) {
-                try {
-                    const resPublic = await fetch(API_URL);
-                    const dataPublic = await resPublic.json();
-                    if (Array.isArray(dataPublic) && dataPublic.length > 0) {
-                        plantData = normalizeAndFilterMasterCatalog(dataPublic, []);
-                    } else {
-                        plantData = normalizeAndFilterMasterCatalog(getDummyData(), []);
-                    }
-                } catch (err2) {
-                    plantData = normalizeAndFilterMasterCatalog(getDummyData(), []);
-                }
-                galleryData = getDummyGalleryData();
-            }
-
-            if (plantData.length === 0) {
-                plantData = normalizeAndFilterMasterCatalog(getDummyData(), []);
+                const dummy = getDummyData();
+                allUsersData = dummy.users || [];
+                plantData = normalizeAndFilterMasterCatalog(dummy.plants, allUsersData);
+                galleryData = getDummyGallery();
             }
 
             const statEl = document.getElementById('heroStatTanaman');
             if (statEl) statEl.innerText = plantData.length;
 
-            renderDynamicFilterChips(plantData);
+            renderFilterChips();
             renderCards(plantData);
-            renderGalleryFilmstrip(galleryData);
-            startFilmAutoScroll();
-            checkUrlForDirectPlantRedirect();
-        }
+            renderGalleryFilm();
+            startFilmAutoScrollLoop();
 
-        document.addEventListener("DOMContentLoaded", loadDatabase);
-
-        // ==========================================
-        // 2. GALERI KEGIATAN ROLL FILM (FILMSTRIP)
-        // ==========================================
-        function renderGalleryFilmstrip(items) {
-            const track = document.getElementById('galleryFilmTrack');
-            const badge = document.getElementById('galleryCountBadge');
-            if (!track) return;
-
-            const list = Array.isArray(items) && items.length > 0 ? items : getDummyGalleryData();
-            if (badge) badge.innerText = `${list.length} BINGKAI DOKUMENTASI KEGIATAN`;
-
-            track.innerHTML = list.map((g, idx) => {
-                const frameNo = String(idx + 1).padStart(2, '0') + 'A';
-                const title = g.judul || g.title || 'Kegiatan Kokurikuler TOGA';
-                const desc = g.deskripsi || g.catatan || '-';
-                const kategori = g.kategori || 'Kokurikuler PBL';
-                const rawDate = g.tanggal || '';
-                const formattedDate = rawDate ? formatDateJS(rawDate) : 'Semester berjalan';
-                const imgUrl = enhanceImageQualityUrl(g.foto || g.image, title);
-
-                return `
-                    <div onclick="openGalleryLightbox(${idx})" class="group relative flex-shrink-0 w-[290px] sm:w-[350px] bg-slate-950 border-x-8 border-slate-900 rounded-xl p-3 cursor-pointer hover:border-amber-500/40 transition-all duration-300 shadow-lg">
-                        <div class="flex items-center justify-between text-[10px] font-mono text-amber-400/90 mb-2 px-1">
-                            <span><i class="fas fa-caret-right mr-1"></i>FRAME ${frameNo}</span>
-                            <span class="text-slate-400">${formattedDate}</span>
-                        </div>
-                        <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-900 border border-white/10">
-                            <img src="${imgUrl}" alt="${title}" onerror="this.src='https://placehold.co/1280x720/1e3a8a/ffffff?text=Dokumentasi+Kegiatan'" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"></div>
-                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gold text-navy shadow-xs">
-                                ${kategori}
-                            </span>
-                            <div class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-slate-900/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                                <i class="fas fa-expand-alt text-xs"></i>
-                            </div>
-                            <div class="absolute bottom-2.5 left-3 right-3 text-white">
-                                <h4 class="font-extrabold text-sm leading-snug group-hover:text-gold transition line-clamp-1">${title}</h4>
-                                <p class="text-[11px] text-slate-300 line-clamp-2 mt-0.5 leading-relaxed">${desc}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function scrollFilmStrip(direction) {
-            const track = document.getElementById('galleryFilmTrack');
-            if (!track) return;
-            const amount = 360 * direction;
-            track.scrollBy({ left: amount, behavior: 'smooth' });
-        }
-
-        function startFilmAutoScroll() {
-            if (filmScrollInterval) clearInterval(filmScrollInterval);
-            filmScrollInterval = setInterval(() => {
-                if (!filmAutoScrollActive || filmHoverPaused) return;
-                const track = document.getElementById('galleryFilmTrack');
-                if (!track) return;
-                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 5) {
-                    track.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    track.scrollLeft += 1;
-                }
-            }, 35);
-        }
-
-        function pauseFilmHover(state) {
-            filmHoverPaused = state;
-        }
-
-        function toggleFilmAutoScroll() {
-            filmAutoScrollActive = !filmAutoScrollActive;
-            const icon = document.getElementById('iconFilmAutoPlay');
-            const text = document.getElementById('textFilmAutoPlay');
-            if (icon && text) {
-                if (filmAutoScrollActive) {
-                    icon.className = 'fas fa-pause text-gold';
-                    text.innerText = 'Auto-Roll Aktif';
-                } else {
-                    icon.className = 'fas fa-play text-green-400';
-                    text.innerText = 'Auto-Roll Dijeda';
-                }
-            }
-        }
-
-        function openGalleryLightbox(index) {
-            const list = Array.isArray(galleryData) && galleryData.length > 0 ? galleryData : getDummyGalleryData();
-            const item = list[index];
-            if (!item) return;
-
-            document.getElementById('lightboxFrameCode').innerText = `FRAME #${String(index + 1).padStart(2, '0')}A`;
-            document.getElementById('lightboxDate').innerText = item.tanggal ? formatDateJS(item.tanggal) : 'Dokumentasi Sekolah';
-            document.getElementById('lightboxImage').src = enhanceImageQualityUrl(item.foto || item.image, item.judul || 'Kegiatan');
-            document.getElementById('lightboxCategory').innerText = item.kategori || 'Kokurikuler PBL';
-            document.getElementById('lightboxTitle').innerText = item.judul || item.title || '-';
-            document.getElementById('lightboxDesc').innerText = item.deskripsi || item.catatan || '-';
-
-            document.getElementById('galleryLightboxModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeGalleryLightbox() {
-            document.getElementById('galleryLightboxModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        // ==========================================
-        // 3. AUTO-REDIRECT DARI QR CODE (?id=...)
-        // ==========================================
-        function getPlantShareUrl(plantId) {
-            try {
-                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('id', plantId);
-                    url.hash = '';
-                    return url.toString();
-                }
-            } catch (e) {}
-            return `https://skarida-green-tech.github.io/index.html?id=${encodeURIComponent(plantId)}`;
-        }
-
-        function checkUrlForDirectPlantRedirect() {
+            // Cek parameter URL ?id=... dari hasil Scan QR Code
             try {
                 const params = new URLSearchParams(window.location.search);
-                const targetId = params.get('id') || params.get('tanaman') || params.get('plant');
+                const targetId = params.get('id');
                 if (targetId) {
                     const found = plantData.find(p => String(p.id) === String(targetId));
                     if (found) {
-                        setTimeout(() => {
-                            openModal(found.id);
-                            showToast(`Membuka profil tanaman: ${found.namaLokal}`, "fa-qrcode text-gold");
-                        }, 250);
+                        setTimeout(() => openModal(found.id), 250);
                     }
                 }
             } catch (e) {}
         }
 
-        function sharePlantLink() {
-            if (!activePlantForPdf) return;
-            const shareUrl = getPlantShareUrl(activePlantForPdf.id);
-            const tempInput = document.createElement('input');
-            tempInput.value = shareUrl;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            showToast("Link QR spesifik tanaman berhasil disalin!");
-        }
+        document.addEventListener("DOMContentLoaded", loadDatabase);
 
         // ==========================================
-        // 4. FILTER & RENDER KATALOG UTAMA
+        // 3. FILTER KATEGORI & PENCARIAN KATALOG
         // ==========================================
-        function renderDynamicFilterChips(data) {
+        function renderFilterChips() {
             const container = document.getElementById('filterChipContainer');
             if (!container) return;
 
             const categoriesSet = new Set();
-            data.forEach(p => {
+            plantData.forEach(p => {
                 (p.kategori || []).forEach(k => {
-                    if (k && k.trim() !== '' && k !== '-') categoriesSet.add(k.trim());
+                    if (k && k.trim() !== '') categoriesSet.add(k.trim());
                 });
             });
 
-            const categories = ['semua', ...Array.from(categoriesSet).slice(0, 10)];
-            container.innerHTML = categories.map(cat => {
-                const isActive = cat === currentCategoryFilter;
+            const allCategories = ['semua', ...Array.from(categoriesSet)];
+            container.innerHTML = allCategories.map(cat => {
+                const isActive = currentCategoryFilter === cat;
                 const label = cat === 'semua' ? 'Semua Tanaman' : cat;
                 return `
                     <button type="button" onclick="applyCategoryFilter('${cat.replace(/'/g, "\\'")}')" class="filter-btn whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition ${isActive ? 'bg-navy text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
@@ -968,42 +916,40 @@
 
         function applyCategoryFilter(category) {
             currentCategoryFilter = category;
-            renderDynamicFilterChips(plantData);
-            filterAndSearchCatalog();
+            renderFilterChips();
+            filterAndRenderCatalog();
         }
 
         function resetCatalogFilter() {
-            const searchEl = document.getElementById('searchInput');
-            if (searchEl) searchEl.value = '';
-            document.getElementById('btnClearSearch')?.classList.add('hidden');
             currentCategoryFilter = 'semua';
-            renderDynamicFilterChips(plantData);
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            document.getElementById('btnClearSearch')?.classList.add('hidden');
+            renderFilterChips();
             renderCards(plantData);
         }
 
-        function filterAndSearchCatalog() {
-            const term = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+        function filterAndRenderCatalog() {
+            const searchEl = document.getElementById('searchInput');
+            const term = searchEl ? searchEl.value.toLowerCase().trim() : '';
             const clearBtn = document.getElementById('btnClearSearch');
-            if (clearBtn) {
-                if (term.length > 0) clearBtn.classList.remove('hidden');
-                else clearBtn.classList.add('hidden');
-            }
+            if (clearBtn) clearBtn.classList.toggle('hidden', term.length === 0);
 
             const filtered = plantData.filter(p => {
-                const matchCat = currentCategoryFilter === 'semua' || (p.kategori && p.kategori.includes(currentCategoryFilter));
-                const matchTerm = !term ||
-                    (p.namaLokal && p.namaLokal.toLowerCase().includes(term)) ||
-                    (p.namaLatin && p.namaLatin.toLowerCase().includes(term)) ||
-                    (p.namaDaerah && p.namaDaerah.toLowerCase().includes(term)) ||
-                    (p.perawat && p.perawat.toLowerCase().includes(term)) ||
-                    (p.kategori && p.kategori.some(k => k.toLowerCase().includes(term)));
-                return matchCat && matchTerm;
+                const matchCategory = currentCategoryFilter === 'semua' || (p.kategori || []).some(k => k.toLowerCase() === currentCategoryFilter.toLowerCase());
+                const matchSearch = !term ||
+                    (p.namaLokal || '').toLowerCase().includes(term) ||
+                    (p.namaLatin || '').toLowerCase().includes(term) ||
+                    (p.namaDaerah || '').toLowerCase().includes(term) ||
+                    (p.perawat || '').toLowerCase().includes(term) ||
+                    (p.kategori || []).some(k => k.toLowerCase().includes(term));
+                return matchCategory && matchSearch;
             });
 
             renderCards(filtered);
         }
 
-        document.getElementById('searchInput')?.addEventListener('input', filterAndSearchCatalog);
+        document.getElementById('searchInput')?.addEventListener('input', filterAndRenderCatalog);
 
         function renderCards(data) {
             const grid = document.getElementById('catalogGrid');
@@ -1011,18 +957,20 @@
             if (!grid) return;
 
             if (countLabel) {
-                countLabel.innerText = `${data.length} Tanaman Live Ditampilkan`;
+                countLabel.innerText = `${data.length} Tanaman Master Katalog`;
             }
 
             if (data.length === 0) {
                 grid.innerHTML = `
                     <div class="col-span-full bg-white rounded-3xl p-12 text-center border border-slate-200/80 shadow-xs">
                         <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3 text-2xl">
-                            <i class="fas fa-seedling"></i>
+                            <i class="fas fa-search"></i>
                         </div>
                         <h4 class="font-extrabold text-navy text-base">Tanaman Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500 mt-1 mb-4">Coba gunakan kata kunci pencarian atau kategori khasiat lainnya.</p>
-                        <button onclick="resetCatalogFilter()" class="px-4 py-2 bg-navy text-white rounded-full text-xs font-bold hover:bg-navylight transition">Tampilkan Semua Tanaman</button>
+                        <p class="text-xs text-slate-500 mt-1 mb-4">Coba gunakan kata kunci lain atau tampilkan seluruh tanaman Master Katalog.</p>
+                        <button type="button" onclick="resetCatalogFilter()" class="px-5 py-2.5 bg-navy text-white text-xs font-bold rounded-full hover:bg-navylight transition">
+                            Reset Pencarian
+                        </button>
                     </div>
                 `;
                 return;
@@ -1030,63 +978,161 @@
 
             grid.innerHTML = data.map(plant => {
                 const badgeHTML = (plant.kategori || []).slice(0, 3).map(k =>
-                    `<span class="inline-block bg-green-50 text-nature border border-green-200/80 px-2.5 py-0.5 rounded-full text-[11px] font-bold mr-1.5 mb-1.5">${k}</span>`
+                    `<span class="inline-block bg-nature/10 text-nature border border-nature/20 px-2.5 py-0.5 rounded-full text-[11px] font-bold mr-1.5 mb-1.5">${k}</span>`
                 ).join('');
-
                 const phaseCount = Array.isArray(plant.timeline) ? plant.timeline.length : 0;
 
                 return `
-                    <article onclick="openModal('${plant.id}')" class="bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col h-full border border-slate-200/80 hover:-translate-y-1.5">
+                    <div onclick="openModal('${plant.id}')" class="bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col h-full border border-slate-200/80 hover:-translate-y-1">
                         <div class="relative aspect-video overflow-hidden bg-slate-900">
-                            <img src="${plant.image}" alt="${plant.namaLokal}" onerror="this.src='https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/20 to-transparent"></div>
-                            
-                            <!-- Top Badges -->
-                            <div class="absolute top-3 left-3 right-3 flex justify-between items-center">
-                                <span class="bg-slate-900/75 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15 flex items-center gap-1">
-                                    <i class="fas fa-users text-gold"></i> ${plant.perawat}${plant.kelas && plant.kelas !== '-' ? ' • ' + plant.kelas : ''}
+                            <img src="${plant.image}" alt="${plant.namaLokal}" onerror="this.src='https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
+                            <div class="absolute top-3 left-3 right-3 flex justify-between items-center gap-2">
+                                <span class="bg-slate-900/75 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15 truncate">
+                                    <i class="fas fa-users text-gold mr-1"></i> ${plant.perawat}${plant.kelas && plant.kelas !== '-' ? ' • ' + plant.kelas : ''}
                                 </span>
-                                <span class="bg-nature text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
-                                    <i class="fas fa-check-circle"></i> Verified
+                                <span class="bg-nature/90 backdrop-blur-md text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-xs flex-shrink-0">
+                                    <i class="fas fa-check-circle mr-1"></i> Live
                                 </span>
                             </div>
-
-                            <!-- Bottom Title Overlay -->
-                            <div class="absolute bottom-3 left-4 right-4 text-white">
-                                <h3 class="font-extrabold text-xl leading-tight group-hover:text-gold transition">${plant.namaLokal}</h3>
-                                <p class="text-xs italic text-slate-200 font-serif mt-0.5">${plant.namaLatin}</p>
+                            <div class="absolute bottom-3 left-3.5 right-3.5 text-white">
+                                <h3 class="font-extrabold text-lg sm:text-xl leading-tight group-hover:text-gold transition">${plant.namaLokal}</h3>
+                                <p class="text-xs italic font-serif text-slate-200 truncate">${plant.namaLatin}</p>
                             </div>
                         </div>
-
-                        <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+                        <div class="p-4 sm:p-5 flex-grow flex flex-col justify-between space-y-3">
                             <div>
-                                <div class="flex flex-wrap mb-2">
-                                    ${badgeHTML}
-                                </div>
-                                <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed">${plant.morfologi || '-'}</p>
+                                <div class="flex flex-wrap mb-2">${badgeHTML}</div>
+                                <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${plant.morfologi || '-'}</p>
                             </div>
-
-                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                                <span class="text-slate-500 font-semibold flex items-center gap-1.5">
-                                    <i class="fas fa-chart-line text-gold"></i> ${phaseCount} Fase Pertumbuhan
-                                </span>
-                                <span class="font-extrabold text-navy group-hover:text-nature transition flex items-center gap-1">
+                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-500">
+                                <span><i class="fas fa-chart-line text-amber-500 mr-1"></i> ${phaseCount} Fase Disetujui</span>
+                                <span class="text-navy group-hover:text-nature transition flex items-center gap-1">
                                     Lihat Detail <i class="fas fa-arrow-right text-[10px] transform group-hover:translate-x-1 transition"></i>
                                 </span>
                             </div>
                         </div>
-                    </article>
+                    </div>
                 `;
             }).join('');
         }
 
         // ==========================================
-        // 5. MODAL LIHAT DETAIL PROFIL TANAMAN (LANDSCAPE 16:9)
+        // 4. GALERI KEGIATAN SISWA (ROLL FILM)
         // ==========================================
+        function renderGalleryFilm() {
+            const track = document.getElementById('galleryFilmTrack');
+            const badge = document.getElementById('galleryCountBadge');
+            if (!track) return;
+
+            if (badge) badge.innerText = `${galleryData.length} FRAME DOKUMENTASI`;
+
+            track.innerHTML = galleryData.map((g, idx) => {
+                const frameNo = String(idx + 1).padStart(2, '0') + 'A';
+                const gId = g.id_galeri || g.id || (idx + 1);
+                const imgUrl = enhanceImageQualityUrl(g.foto || g.image, g.judul || 'Kegiatan');
+                return `
+                    <div onclick="openGalleryLightbox('${gId}')" class="flex-shrink-0 w-72 sm:w-80 bg-slate-950 border-2 border-slate-800 hover:border-gold rounded-2xl p-3 cursor-pointer group transition-all duration-300 shadow-xl">
+                        <div class="flex justify-between items-center text-[10px] font-mono text-amber-400/90 mb-2 px-1">
+                            <span><i class="fas fa-caret-right mr-1"></i>FRAME #${frameNo}</span>
+                            <span>${formatDateJS(g.tanggal)}</span>
+                        </div>
+                        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-800 mb-2.5">
+                            <img src="${imgUrl}" alt="${g.judul}" onerror="this.src='https://placehold.co/1280x720/1e3a8a/ffffff?text=Kegiatan+PBL'" class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80"></div>
+                            <span class="absolute top-2 left-2 bg-navy/90 text-gold border border-gold/30 text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full">
+                                ${g.kategori || 'Kokurikuler PBL'}
+                            </span>
+                            <div class="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-white/20 backdrop-blur-xs text-white flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-white text-xs sm:text-sm truncate group-hover:text-gold transition px-1">${g.judul || '-'}</h4>
+                        <p class="text-[11px] text-slate-400 line-clamp-2 mt-0.5 px-1 leading-relaxed">${g.deskripsi || '-'}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function scrollFilmStrip(direction) {
+            const track = document.getElementById('galleryFilmTrack');
+            if (!track) return;
+            track.scrollBy({ left: direction * 340, behavior: 'smooth' });
+        }
+
+        function toggleFilmAutoScroll() {
+            filmAutoScrollActive = !filmAutoScrollActive;
+            const icon = document.getElementById('iconFilmAutoPlay');
+            const txt = document.getElementById('textFilmAutoPlay');
+            if (icon) icon.className = filmAutoScrollActive ? 'fas fa-pause text-gold' : 'fas fa-play text-green-300';
+            if (txt) txt.innerText = filmAutoScrollActive ? 'Auto-Roll Aktif' : 'Auto-Roll Dijeda';
+        }
+
+        function pauseFilmHover(state) {
+            filmHoverPaused = state;
+        }
+
+        function startFilmAutoScrollLoop() {
+            if (filmScrollInterval) clearInterval(filmScrollInterval);
+            filmScrollInterval = setInterval(() => {
+                if (!filmAutoScrollActive || filmHoverPaused) return;
+                const track = document.getElementById('galleryFilmTrack');
+                if (!track) return;
+                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+                    track.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    track.scrollBy({ left: 1.5, behavior: 'auto' });
+                }
+            }, 35);
+        }
+
+        function openGalleryLightbox(id) {
+            const idx = galleryData.findIndex((g, i) => String(g.id_galeri || g.id || (i + 1)) === String(id));
+            const item = idx > -1 ? galleryData[idx] : galleryData[0];
+            if (!item) return;
+
+            document.getElementById('lightboxFrameCode').innerText = `FRAME #${String((idx > -1 ? idx : 0) + 1).padStart(2, '0')}A`;
+            document.getElementById('lightboxDate').innerText = formatDateJS(item.tanggal);
+            document.getElementById('lightboxImage').src = enhanceImageQualityUrl(item.foto || item.image, item.judul);
+            document.getElementById('lightboxCategory').innerText = item.kategori || 'Kokurikuler PBL';
+            document.getElementById('lightboxTitle').innerText = item.judul || '-';
+            document.getElementById('lightboxDesc').innerText = item.deskripsi || '-';
+            document.getElementById('galleryLightboxModal').classList.remove('hidden');
+        }
+
+        function closeGalleryLightbox() {
+            document.getElementById('galleryLightboxModal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // 5. MODAL LIHAT DETAIL TANAMAN & DETAIL LINIMASA BESAR
+        // ==========================================
+        function getPlantShareUrl(plantId) {
+            try {
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('id', plantId);
+                    return url.toString();
+                }
+            } catch (e) {}
+            return `https://skarida-green-tech.github.io/index.html?id=${encodeURIComponent(plantId)}`;
+        }
+
+        function sharePlantLink() {
+            if (!activePlantForPdf) return;
+            const link = getPlantShareUrl(activePlantForPdf.id);
+            const tempInput = document.createElement('input');
+            tempInput.value = link;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Tautan langsung QR tanaman berhasil disalin!');
+        }
+
         function openModal(id) {
             const plant = plantData.find(p => String(p.id) === String(id));
             if (!plant) return;
-
             activePlantForPdf = plant;
 
             try {
@@ -1097,217 +1143,167 @@
                 }
             } catch (e) {}
 
-            document.getElementById('detailModalTopTitle').innerText = plant.namaLokal;
-            document.getElementById('detailModalSubtitle').innerText = `Dikelola oleh: ${plant.perawat} (${plant.kelas || '-'}) • ID #${plant.id}`;
+            document.getElementById('detailModalTopTitle').innerText = `Detail Profil: ${plant.namaLokal}`;
+            document.getElementById('detailModalSubtitle').innerText = `Dikelola oleh ${plant.perawat} (${plant.kelas || '-'}) • ID #${plant.id}`;
 
+            const timelines = Array.isArray(plant.timeline) ? plant.timeline : [];
             let timelineHTML = '';
-            if (plant.timeline && plant.timeline.length > 0) {
-                plant.timeline.forEach((node, index) => {
-                    const prevDate = index === 0 ? null : plant.timeline[index - 1].tglAsli;
-                    const durasi = index === 0 ? 'Fase Awal (Hari Ke-1)' : `+${calculateDays(prevDate, node.tglAsli)} hari dari fase sebelumnya`;
-
-                    timelineHTML += `
+            if (timelines.length > 0) {
+                timelineHTML = timelines.map((node, index) => {
+                    const durasi = index === 0 ? 'Fase Awal Tanam' : `+${calculateDays(timelines[index - 1].tglAsli, node.tglAsli)} hari`;
+                    return `
                         <div class="relative pl-9 py-3.5 timeline-line">
-                            <div class="absolute left-3 w-5 h-5 rounded-full bg-gold border-4 border-white shadow-sm flex items-center justify-center transform -translate-x-1/2 mt-1.5 z-10"></div>
-                            <div class="bg-slate-50/90 hover:bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-xs transition flex flex-col sm:flex-row gap-3.5 items-start">
-                                <img src="${node.foto}" onerror="this.src='https://placehold.co/640x360/d1d5db/6b7280?text=Fase'" class="w-full sm:w-24 aspect-video sm:h-20 object-cover rounded-xl bg-slate-100 border border-slate-200 flex-shrink-0" alt="${node.fase}">
+                            <div class="absolute left-3 w-5 h-5 rounded-full bg-gold border-4 border-white shadow-sm transform -translate-x-1/2 mt-1 z-10"></div>
+                            <div class="bg-slate-50 hover:bg-white border border-slate-200/80 rounded-2xl p-3.5 shadow-xs transition flex flex-col sm:flex-row gap-3.5 items-start">
+                                <img src="${node.foto}" onerror="this.src='https://placehold.co/640x360/d1d5db/6b7280?text=Fase'" class="w-full sm:w-20 h-28 sm:h-20 object-cover rounded-xl bg-slate-100 border border-slate-200 flex-shrink-0" alt="${node.fase}">
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center flex-wrap gap-1.5 mb-1">
-                                        <span class="font-extrabold text-navy text-sm">${node.fase}</span>
-                                        <span class="text-[11px] font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">${node.tglFormatted}</span>
+                                        <span class="font-extrabold text-navy text-xs sm:text-sm">${node.fase}</span>
+                                        <span class="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">${node.tglFormatted}</span>
                                     </div>
                                     <p class="text-xs text-slate-600 mb-2 break-words leading-relaxed">${node.catatan}</p>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        <span class="inline-flex items-center text-[11px] font-bold text-nature bg-nature/10 px-2.5 py-0.5 rounded-md">
-                                            <i class="fas fa-calculator mr-1.5"></i> ${durasi}
-                                        </span>
-                                        <span class="inline-flex items-center text-[10px] font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md">
-                                            <i class="fas fa-check-circle mr-1"></i> Tervalidasi MTK
-                                        </span>
-                                    </div>
+                                    <span class="inline-flex items-center text-[10px] font-extrabold text-nature bg-green-50 border border-green-200 px-2.5 py-0.5 rounded-md">
+                                        <i class="fas fa-calculator mr-1"></i> ${durasi}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     `;
-                });
+                }).join('');
             } else {
-                timelineHTML = `<p class="text-sm text-slate-400 italic text-center py-6">Belum ada fase linimasa yang tervalidasi.</p>`;
+                timelineHTML = `<p class="text-xs text-slate-400 italic text-center py-6">Belum ada fase linimasa yang tervalidasi.</p>`;
             }
 
-            let khasiatHTML = '';
-            let badgeChipsHTML = '';
-            if (plant.khasiatDetail && plant.khasiatDetail.length > 0) {
-                badgeChipsHTML = plant.khasiatDetail.map(k =>
-                    `<span class="inline-flex items-center gap-1.5 bg-nature/10 text-nature border border-nature/20 px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-leaf text-[10px]"></i> ${k.nama}</span>`
-                ).join('');
+            const khasiatHTML = (plant.khasiatDetail || []).map((k, index) => `
+                <details class="group bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden cursor-pointer transition" ${index === 0 ? 'open' : ''}>
+                    <summary class="p-3.5 font-bold text-nature text-xs sm:text-sm flex justify-between items-center hover:bg-slate-100 group-open:bg-nature group-open:text-white transition outline-none">
+                        <span class="flex items-center gap-2"><i class="fas fa-notes-medical"></i> ${k.nama}</span>
+                        <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="p-4 text-xs sm:text-sm text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
+                        ${k.ramuan}
+                    </div>
+                </details>
+            `).join('') || `<p class="text-xs text-slate-400 italic">Data khasiat belum tersedia.</p>`;
 
-                khasiatHTML = plant.khasiatDetail.map((k, index) => `
-                    <details class="group bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden cursor-pointer transition" ${index === 0 ? 'open' : ''}>
-                        <summary class="p-3.5 font-bold text-nature text-sm flex justify-between items-center hover:bg-slate-100 group-open:bg-nature group-open:text-white transition outline-none">
-                            <span class="flex items-center gap-2"><i class="fas fa-notes-medical"></i> ${k.nama}</span>
-                            <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-open:rotate-180"></i>
-                        </summary>
-                        <div class="p-4 text-xs sm:text-sm text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
-                            ${k.ramuan}
-                        </div>
-                    </details>
-                `).join('');
-            } else {
-                khasiatHTML = `<p class="text-sm text-slate-400 italic">Data khasiat belum tersedia.</p>`;
-            }
+            const badgeChips = (plant.kategori || []).map(k =>
+                `<span class="inline-flex items-center gap-1 bg-nature/10 text-nature border border-nature/20 px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-leaf text-[10px]"></i> ${k}</span>`
+            ).join('');
 
-            const shareUrl = getPlantShareUrl(plant.id);
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=${encodeURIComponent(shareUrl)}`;
+            const care = normalizePerawatanObj(plant);
 
             document.getElementById('modalContent').innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                    <!-- Kolom Kiri (2/3): Identitas Foto 16:9, Morfologi, Khasiat & Perawatan -->
                     <div class="lg:col-span-2 space-y-6">
-                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
-                            <!-- Bingkai Foto Utama Landscape 16:9 -->
-                            <div class="w-full aspect-video relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 shadow-inner group">
-                                <img src="${plant.image}" onerror="this.src='https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'" class="w-full h-full object-cover object-center transition duration-700 group-hover:scale-105" alt="${plant.namaLokal}">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/30 pointer-events-none"></div>
-                                
-                                <div class="absolute top-3.5 left-3.5 right-3.5 flex flex-wrap justify-between items-center gap-2">
-                                    <span class="bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/15">
+                        <!-- Kartu Utama Foto Landscape 16:9 HD -->
+                        <div class="bg-white p-4 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+                            <div class="w-full aspect-video relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-inner">
+                                <img src="${plant.image}" alt="${plant.namaLokal}" onerror="this.src='https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'" class="w-full h-full object-cover object-center">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/30"></div>
+                                <div class="absolute top-3 left-3 right-3 flex flex-wrap justify-between items-center gap-2">
+                                    <span class="bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/15">
                                         <i class="fas fa-users text-gold mr-1.5"></i> ${plant.perawat}${plant.kelas && plant.kelas !== '-' ? ' • ' + plant.kelas : ''}
                                     </span>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 text-white"><i class="fas fa-check mr-1"></i>B. Indo</span>
-                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 text-white"><i class="fas fa-check mr-1"></i>IPAS</span>
-                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-500/90 text-white"><i class="fas fa-check mr-1"></i>MTK (${plant.timeline.length} Fase)</span>
-                                    </div>
-                                </div>
-
-                                <div class="absolute bottom-4 left-4 right-4 flex flex-wrap items-end justify-between gap-3 text-white">
-                                    <div>
-                                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold block mb-0.5">Master Katalog TOGA • 16:9 HD</span>
-                                        <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight">${plant.namaLokal}</h2>
-                                        <p class="text-xs sm:text-base text-slate-200 italic font-serif">${plant.namaLatin}</p>
-                                    </div>
-                                    <span class="bg-white/20 backdrop-blur-md text-white border border-white/30 text-xs font-extrabold px-3.5 py-1 rounded-full">
+                                    <span class="bg-white/20 backdrop-blur-md text-white border border-white/30 text-[11px] font-extrabold px-3 py-1 rounded-full">
                                         ID #${plant.id}
                                     </span>
                                 </div>
+                                <div class="absolute bottom-4 left-4 right-4 text-white">
+                                    <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight">${plant.namaLokal}</h2>
+                                    <p class="text-xs sm:text-base text-slate-200 italic font-serif">${plant.namaLatin}</p>
+                                </div>
                             </div>
 
-                            <!-- Detail Identitas, Nama Daerah, Anggota & Tombol Download Kartu PDF A5 -->
-                            <div class="space-y-4">
-                                <div class="flex flex-wrap items-center gap-1.5">
-                                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1"><i class="fas fa-tags mr-1"></i>Khasiat:</span>
-                                    ${badgeChipsHTML}
+                            <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                                <div class="flex flex-wrap gap-1.5">${badgeChips}</div>
+                                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                                    <button type="button" onclick="openSinglePdfModal('${plant.id}', true)" class="flex-1 sm:flex-initial justify-center bg-nature hover:bg-naturelight text-white px-4 py-2.5 rounded-2xl text-xs font-extrabold shadow-md transition flex items-center gap-2">
+                                        <i class="fas fa-file-pdf text-gold"></i> Download Kartu QR Code (PDF A5)
+                                    </button>
+                                    <button type="button" onclick="openSinglePdfModal('${plant.id}', false)" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-navy rounded-2xl text-xs font-bold transition flex items-center gap-1.5">
+                                        <i class="fas fa-qrcode"></i> Pratinjau Kartu
+                                    </button>
                                 </div>
+                            </div>
 
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                                    <div class="bg-blue-50/70 p-4 rounded-2xl border border-blue-100">
-                                        <span class="text-[11px] font-extrabold text-navy uppercase tracking-wider flex items-center gap-1.5 mb-1">
-                                            <i class="fas fa-map-marker-alt text-red-500"></i> Nama Daerah / Sinonim
-                                        </span>
-                                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${plant.namaDaerah || '-'}</p>
-                                    </div>
-                                    <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-100">
-                                        <span class="text-[11px] font-extrabold text-navy uppercase tracking-wider flex items-center gap-1.5 mb-1">
-                                            <i class="fas fa-user-graduate text-amber-600"></i> Anggota Kelompok (${plant.perawat})
-                                        </span>
-                                        <p class="text-xs text-slate-700 leading-relaxed">${plant.anggota || '-'}</p>
-                                    </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div class="bg-blue-50/70 p-4 rounded-2xl border border-blue-100">
+                                    <span class="text-[11px] font-extrabold text-navy uppercase block mb-1"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Nama Daerah / Sinonim:</span>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${plant.namaDaerah || '-'}</p>
                                 </div>
-
-                                <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100">
-                                    <div class="flex flex-wrap gap-2.5 w-full sm:w-auto">
-                                        <button type="button" onclick="openSinglePdfModal('${plant.id}', true)" class="flex-1 sm:flex-initial bg-gradient-to-r from-nature to-naturelight hover:opacity-95 text-white px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
-                                            <i class="fas fa-file-pdf text-base"></i> Download Kartu QR Code (PDF A5)
-                                        </button>
-                                        <button type="button" onclick="openSinglePdfModal('${plant.id}', false)" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-navy rounded-2xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
-                                            <i class="fas fa-qrcode"></i> Pratinjau Kartu A5
-                                        </button>
-                                    </div>
+                                <div class="bg-green-50/70 p-4 rounded-2xl border border-green-100">
+                                    <span class="text-[11px] font-extrabold text-navy uppercase block mb-1"><i class="fas fa-user-graduate text-nature mr-1"></i> Anggota Kelompok Pengelola:</span>
+                                    <p class="text-xs text-slate-700 leading-relaxed">${plant.anggota || '-'}</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Deskripsi Morfologi -->
-                        <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
-                            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5 mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-2xl bg-blue-50 text-navy flex items-center justify-center"><i class="fas fa-leaf text-lg"></i></div>
-                                    <div>
-                                        <h3 class="text-base sm:text-lg font-extrabold text-navy">Deskripsi Morfologi Tanaman</h3>
-                                        <p class="text-[11px] text-slate-400">Tervalidasi Guru Bahasa Indonesia</p>
-                                    </div>
+                        <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                                <div class="w-10 h-10 rounded-2xl bg-blue-50 text-navy flex items-center justify-center"><i class="fas fa-leaf text-lg"></i></div>
+                                <div>
+                                    <h3 class="text-base sm:text-lg font-extrabold text-navy">Deskripsi Morfologi Tanaman</h3>
+                                    <p class="text-[11px] text-slate-400">Tervalidasi Guru Bahasa Indonesia</p>
                                 </div>
                             </div>
-                            <p class="text-sm text-slate-700 leading-relaxed text-justify break-words">${plant.morfologi || '-'}</p>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify break-words">${plant.morfologi || '-'}</p>
                         </section>
 
                         <!-- Khasiat & Panduan Perawatan -->
                         <div class="grid sm:grid-cols-2 gap-6">
-                            <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                            <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
                                 <h3 class="text-base font-extrabold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
                                     <i class="fas fa-mortar-pestle text-nature"></i> Khasiat & Cara Meramu
                                 </h3>
                                 <div class="space-y-3">${khasiatHTML}</div>
-                                <p class="text-[11px] text-slate-400 mt-4 italic">*Informasi bersifat edukatif berdasarkan literatur TOGA.</p>
                             </section>
 
-                            <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                            <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
                                 <h3 class="text-base font-extrabold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
                                     <i class="fas fa-hand-holding-water text-blue-600"></i> Panduan Perawatan
                                 </h3>
                                 <ul class="space-y-3.5 text-xs sm:text-sm text-slate-600">
-                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-blue-50/50 border border-blue-100/80">
+                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-blue-50/60 border border-blue-100">
                                         <div class="w-9 h-9 rounded-xl bg-blue-500 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-tint"></i></div>
-                                        <div><strong class="text-navy block text-xs uppercase">Penyiraman (Air)</strong><span>${plant.perawatan?.air || '-'}</span></div>
+                                        <div><strong class="text-navy block text-xs uppercase">Intensitas Air</strong><span>${care.air}</span></div>
                                     </li>
-                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/50 border border-amber-100/80">
+                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/60 border border-amber-100">
                                         <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-seedling"></i></div>
-                                        <div><strong class="text-navy block text-xs uppercase">Pemupukan</strong><span>${plant.perawatan?.pupuk || '-'}</span></div>
+                                        <div><strong class="text-navy block text-xs uppercase">Pemberian Pupuk</strong><span>${care.pupuk}</span></div>
                                     </li>
-                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-red-50/50 border border-red-100/80">
+                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-red-50/60 border border-red-100">
                                         <div class="w-9 h-9 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-bug"></i></div>
-                                        <div><strong class="text-navy block text-xs uppercase">Pengendalian Hama</strong><span>${plant.perawatan?.hama || '-'}</span></div>
+                                        <div><strong class="text-navy block text-xs uppercase">Kerawanan Hama</strong><span>${care.hama}</span></div>
                                     </li>
                                 </ul>
                             </section>
                         </div>
                     </div>
 
-                    <!-- Kolom Kanan (1/3): QR Code Spesifik & Linimasa Pertumbuhan -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <div class="bg-white p-5 rounded-3xl shadow-xs border border-slate-200/80 text-center">
-                            <div class="flex items-center justify-center gap-2 mb-3">
-                                <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" class="w-6 h-6 rounded-full border border-gold object-contain" alt="Logo">
-                                <span class="text-xs font-extrabold text-navy uppercase tracking-wider">QR Code Spesifik Tanaman</span>
-                            </div>
-                            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 inline-block mb-2">
-                                <img src="${qrUrl}" alt="QR Code ${plant.namaLokal}" class="w-32 h-32 object-contain mx-auto">
-                            </div>
-                            <p class="text-[11px] text-slate-500 leading-snug mb-3">Scan QR ini untuk langsung membuka profil <b>${plant.namaLokal}</b>.</p>
-                            <button type="button" onclick="openSinglePdfModal('${plant.id}', true)" class="w-full py-2.5 px-4 bg-navy hover:bg-navylight text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
-                                <i class="fas fa-download text-gold"></i> Unduh Kartu Tanaman A5
-                            </button>
+                    <!-- Kolom Kanan: Linimasa Pertumbuhan + Tombol Lihat Detail Linimasa Besar -->
+                    <div class="lg:col-span-1">
+                        <div class="lg:sticky lg:top-2 space-y-5">
+                            <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                                <div class="flex items-center gap-3 border-b border-slate-100 pb-3.5 mb-4">
+                                    <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-chart-line text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-extrabold text-navy">Linimasa Pertumbuhan</h3>
+                                        <p class="text-[11px] text-slate-500">Tervalidasi Guru Matematika</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-0 relative">${timelineHTML}</div>
+                                ${timelines.length > 0 ? `
+                                    <div class="pt-4 mt-4 border-t border-slate-100">
+                                        <button type="button" onclick="openFullTimelineModal('${plant.id}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-gold hover:from-amber-600 hover:to-yellow-500 text-navy font-extrabold rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-md">
+                                            <i class="fas fa-expand-arrows-alt"></i> Lihat Detail Linimasa (${timelines.length} Fase)
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </section>
                         </div>
-
-                        <section class="bg-white p-6 rounded-3xl shadow-xs border border-slate-200/80">
-                            <div class="flex items-center gap-3 border-b border-slate-100 pb-3.5 mb-4">
-                                <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-chart-line text-lg"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-base font-extrabold text-navy">Linimasa Pertumbuhan</h3>
-                                    <p class="text-[11px] text-slate-500">Tervalidasi Guru Matematika</p>
-                                </div>
-                            </div>
-                            <div class="space-y-0 relative">${timelineHTML}</div>
-                            ${plant.timeline && plant.timeline.length > 0 ? `
-                            <div class="pt-4 mt-4 border-t border-slate-100">
-                                <button type="button" onclick="openFullTimelineModal('${plant.id}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-gold hover:from-amber-600 hover:to-yellow-500 text-navy font-extrabold rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-md">
-                                    <i class="fas fa-expand-arrows-alt"></i> Lihat Detail Linimasa (${plant.timeline.length} Fase)
-                                </button>
-                            </div>
-                            ` : ''}
-                        </section>
                     </div>
                 </div>
             `;
@@ -1316,86 +1312,56 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            try {
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('id');
+                    window.history.replaceState({}, '', url.toString());
+                }
+            } catch (e) {}
+        }
+
         function openFullTimelineModal(id) {
             const plant = plantData.find(p => String(p.id) === String(id)) || activePlantForPdf;
-            if (!plant) return;
+            if (!plant || !Array.isArray(plant.timeline) || plant.timeline.length === 0) return;
 
-            const timelines = Array.isArray(plant.timeline) ? plant.timeline : [];
+            const timelines = plant.timeline;
             document.getElementById('fullTimelinePlantTitle').innerText = `Detail Linimasa Pertumbuhan: ${plant.namaLokal}`;
-            document.getElementById('fullTimelinePlantSubtitle').innerText = `${plant.namaLatin} • Dikelola oleh ${plant.perawat} (${plant.kelas || '-'}) • Total ${timelines.length} Fase Tervalidasi`;
+            document.getElementById('fullTimelinePlantSubtitle').innerText = `${plant.namaLatin} • Dikelola oleh ${plant.perawat} (${plant.kelas || '-'})`;
 
-            const bodyEl = document.getElementById('fullTimelineBody');
-            if (timelines.length === 0) {
-                bodyEl.innerHTML = `<div class="bg-white rounded-3xl p-10 text-center text-slate-400 italic">Belum ada data fase linimasa yang tersedia.</div>`;
-            } else {
-                const firstDate = timelines[0].tglAsli;
-                const totalSpanDays = timelines.length > 1 ? calculateDays(firstDate, timelines[timelines.length - 1].tglAsli) : 0;
-
-                const summaryBanner = `
-                    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs mb-6 flex flex-wrap items-center justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <img src="${plant.image}" onerror="this.src='https://placehold.co/400x225/15803d/ffffff?text=Tanaman'" class="w-16 h-12 object-cover rounded-xl border border-slate-200">
-                            <div>
-                                <span class="text-[10px] font-extrabold uppercase tracking-wider text-nature block">Ringkasan Observasi Pertumbuhan</span>
-                                <h4 class="text-sm sm:text-base font-extrabold text-navy">${plant.namaLokal} <span class="font-normal italic text-slate-500 text-xs">(${plant.namaLatin})</span></h4>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-2.5 text-xs">
-                            <div class="bg-blue-50 border border-blue-200 text-navy px-3.5 py-2 rounded-xl font-bold">
-                                <span class="text-[10px] text-slate-500 block uppercase">Total Fase</span>
-                                ${timelines.length} Fase Observasi
-                            </div>
-                            <div class="bg-green-50 border border-green-200 text-nature px-3.5 py-2 rounded-xl font-bold">
-                                <span class="text-[10px] text-slate-500 block uppercase">Rentang Waktu</span>
-                                ${totalSpanDays} Hari Pemantauan
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                const cardsHTML = timelines.map((node, index) => {
-                    const prevDate = index === 0 ? null : timelines[index - 1].tglAsli;
-                    const diffFromPrev = index === 0 ? 'Fase Pertama (Hari Ke-1)' : `+${calculateDays(prevDate, node.tglAsli)} hari dari Fase ${index}`;
-                    const cumulativeDays = index === 0 ? 'Hari Ke-1' : `Hari Ke-${calculateDays(firstDate, node.tglAsli) + 1} sejak awal tanam`;
-
-                    return `
-                        <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden hover:shadow-md transition flex flex-col md:flex-row">
-                            <div class="w-full md:w-5/12 lg:w-2/5 relative aspect-video bg-slate-900 flex-shrink-0 overflow-hidden group">
-                                <img src="${node.foto}" onerror="this.src='https://placehold.co/1280x720/d1d5db/6b7280?text=Fase+Pertumbuhan'" class="w-full h-full object-cover object-center transition duration-500 group-hover:scale-105" alt="${node.fase}">
-                                <div class="absolute top-3 left-3 bg-navy/90 backdrop-blur-md text-gold text-xs font-extrabold px-3 py-1 rounded-full border border-white/20 shadow-sm">
-                                    FASE #${index + 1}
+            const firstDate = timelines[0].tglAsli;
+            document.getElementById('fullTimelineBody').innerHTML = `
+                <div class="space-y-5">
+                    ${timelines.map((node, idx) => {
+                        const diffPrev = idx === 0 ? 'Fase Awal Tanam' : `+${calculateDays(timelines[idx - 1].tglAsli, node.tglAsli)} hari dari Fase ${idx}`;
+                        const cumulative = idx === 0 ? 'Hari ke-1' : `Hari ke-${calculateDays(firstDate, node.tglAsli) + 1}`;
+                        return `
+                            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
+                                <div class="w-full md:w-5/12 aspect-video bg-slate-900 relative">
+                                    <img src="${node.foto}" onerror="this.src='https://placehold.co/1280x720/d1d5db/6b7280?text=Fase'" class="w-full h-full object-cover">
+                                    <span class="absolute top-3 left-3 bg-navy text-gold text-xs font-extrabold px-3 py-1 rounded-full">FASE #${idx + 1}</span>
                                 </div>
-                                <div class="absolute bottom-3 right-3 bg-green-600/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">
-                                    <i class="fas fa-check-circle mr-1"></i> Approved MTK
-                                </div>
-                            </div>
-                            <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
-                                <div>
-                                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2 border-b border-slate-100 pb-3">
-                                        <h4 class="text-lg sm:text-xl font-extrabold text-navy">${node.fase}</h4>
-                                        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1 rounded-xl">
-                                            <i class="far fa-calendar-alt"></i> ${node.tglFormatted}
-                                        </span>
+                                <div class="p-5 sm:p-6 md:w-7/12 flex flex-col justify-between space-y-3">
+                                    <div>
+                                        <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-2 mb-3">
+                                            <h4 class="text-base sm:text-lg font-extrabold text-navy">${node.fase}</h4>
+                                            <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">${node.tglFormatted}</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200/70">${node.catatan}</p>
                                     </div>
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Catatan & Hasil Pengukuran Siswa:</p>
-                                    <p class="text-sm text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200/70 break-words">${node.catatan || '-'}</p>
-                                </div>
-                                <div class="flex flex-wrap items-center gap-2 pt-2">
-                                    <span class="inline-flex items-center text-xs font-extrabold text-nature bg-green-50 border border-green-200 px-3 py-1.5 rounded-xl">
-                                        <i class="fas fa-calculator mr-1.5"></i> ${diffFromPrev}
-                                    </span>
-                                    <span class="inline-flex items-center text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl">
-                                        <i class="fas fa-hourglass-half mr-1.5"></i> ${cumulativeDays}
-                                    </span>
+                                    <div class="flex flex-wrap gap-2 pt-2">
+                                        <span class="text-xs font-extrabold text-nature bg-green-50 border border-green-200 px-3 py-1 rounded-xl"><i class="fas fa-calculator mr-1"></i>${diffPrev}</span>
+                                        <span class="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl"><i class="fas fa-hourglass-half mr-1"></i>${cumulative}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
-                }).join('');
-
-                bodyEl.innerHTML = summaryBanner + `<div class="space-y-5">${cardsHTML}</div>`;
-            }
-
+                        `;
+                    }).join('')}
+                </div>
+            `;
             document.getElementById('fullTimelineModal').classList.remove('hidden');
         }
 
@@ -1403,33 +1369,19 @@
             document.getElementById('fullTimelineModal').classList.add('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('detailModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            try {
-                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-                    const url = new URL(window.location.href);
-                    if (url.searchParams.has('id')) {
-                        url.searchParams.delete('id');
-                        window.history.replaceState({}, '', url.toString());
-                    }
-                }
-            } catch (e) {}
-        }
-
         // ==========================================
-        // 6. GENERATE & DOWNLOAD KARTU TANAMAN PDF A5 (SAMA DENGAN OPERATOR)
+        // 6. DOWNLOAD KARTU TANAMAN PDF A5 LANDSCAPE
         // ==========================================
-        function buildSingleA5CardHTML(plant) {
+        function buildSinglePlantCardHTML(plant) {
             const shareUrl = getPlantShareUrl(plant.id);
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=${encodeURIComponent(shareUrl)}`;
-            const khasiatTags = (plant.khasiatDetail || []).map(k =>
-                `<span class="inline-block bg-green-50 text-nature border border-green-200 px-2.5 py-0.5 rounded-md text-[10px] font-bold mr-1 mb-1">${k.nama}</span>`
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=4&data=${encodeURIComponent(shareUrl)}`;
+            const khasiatTags = (plant.kategori || []).map(k =>
+                `<span class="inline-block bg-green-50 text-nature border border-green-200 px-2.5 py-0.5 rounded-md text-[10px] font-bold mr-1 mb-1">${k}</span>`
             ).join('') || '<span class="text-slate-400 text-[10px]">Tanaman Herbal TOGA</span>';
+            const care = normalizePerawatanObj(plant);
 
             return `
                 <div class="a5-card-item bg-white rounded-2xl border-2 border-navy shadow-lg overflow-hidden mx-auto" style="width: 756px; min-height: 540px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; background: #ffffff;">
-                    <!-- Header Bar Kartu dengan Logo Sekolah di Kiri Atas -->
                     <div class="bg-gradient-to-r from-navy via-navylight to-nature text-white px-5 py-3 flex justify-between items-center" style="flex-shrink: 0;">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-gold overflow-hidden p-0.5 flex-shrink-0 shadow-xs">
@@ -1443,9 +1395,7 @@
                         <span class="bg-white/15 border border-white/30 px-3 py-1 rounded-full text-[10px] font-bold whitespace-nowrap">ID #${plant.id}</span>
                     </div>
 
-                    <!-- Isi Utama Kartu (Bebas Terpotong) -->
                     <div class="p-4 grid grid-cols-12 gap-4 items-stretch" style="flex: 1;">
-                        <!-- Kolom Foto & Identitas Kelompok + Anggota (4 Kolom) -->
                         <div class="col-span-4 flex flex-col justify-between gap-2.5">
                             <div class="w-full h-36 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex-shrink-0">
                                 <img src="${plant.image}" crossorigin="anonymous" onerror="this.src='https://placehold.co/400x300/15803d/ffffff?text=Tanaman'" class="w-full h-full object-cover">
@@ -1453,26 +1403,25 @@
                             <div class="bg-blue-50/90 border border-blue-200 rounded-xl p-2.5 text-[10px] space-y-1.5 flex-1 flex flex-col justify-center">
                                 <div>
                                     <span class="font-bold text-navy uppercase block text-[9px] tracking-wide">Kelompok & Kelas:</span>
-                                    <p class="font-extrabold text-slate-800 text-[11px] leading-snug" style="word-break: break-word;">${plant.perawat || '-'} • ${plant.kelas || '-'}</p>
+                                    <p class="font-extrabold text-slate-800 text-[11px] leading-snug">${plant.perawat || '-'} • ${plant.kelas || '-'}</p>
                                 </div>
                                 <div class="border-t border-blue-200/80 pt-1.5">
                                     <span class="font-bold text-navy uppercase block text-[9px] tracking-wide">Anggota Kelompok:</span>
-                                    <p class="text-slate-700 font-medium leading-relaxed text-[10px]" style="word-break: break-word; overflow-wrap: anywhere;">${plant.anggota || '-'}</p>
+                                    <p class="text-slate-700 font-medium leading-relaxed text-[10px]">${plant.anggota || '-'}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Kolom Informasi Ilmiah, Morfologi, Khasiat & Perawatan (5 Kolom) -->
                         <div class="col-span-5 flex flex-col justify-between space-y-2">
                             <div>
-                                <h2 class="text-lg font-extrabold text-navy leading-snug" style="word-break: break-word;">${plant.namaLokal || '-'}</h2>
+                                <h2 class="text-lg font-extrabold text-navy leading-snug">${plant.namaLokal || '-'}</h2>
                                 <p class="text-xs italic text-slate-500 font-serif mb-1.5 leading-snug">${plant.namaLatin || '-'}</p>
-                                <div class="text-[10px] text-slate-700 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200 leading-snug mb-2" style="word-break: break-word;">
+                                <div class="text-[10px] text-slate-700 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200 leading-snug mb-2">
                                     <b class="text-navy">Daerah:</b> ${plant.namaDaerah || '-'}
                                 </div>
                                 <div class="mb-2">
                                     <span class="text-[9px] font-bold text-slate-500 uppercase block mb-0.5">Deskripsi Morfologi:</span>
-                                    <p class="text-[10px] text-slate-700 leading-relaxed text-justify" style="word-break: break-word;">${plant.morfologi || '-'}</p>
+                                    <p class="text-[10px] text-slate-700 leading-relaxed text-justify">${plant.morfologi || '-'}</p>
                                 </div>
                                 <div>
                                     <span class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Khasiat Utama:</span>
@@ -1480,23 +1429,22 @@
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 text-[9.5px] text-slate-700">
-                                <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 leading-snug" style="word-break: break-word;">
-                                    <b class="text-blue-600 block mb-0.5">Air:</b> ${plant.perawatan?.air || '-'}
+                                <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 leading-snug">
+                                    <b class="text-blue-600 block mb-0.5">Air:</b> ${care.air}
                                 </div>
-                                <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 leading-snug" style="word-break: break-word;">
-                                    <b class="text-amber-600 block mb-0.5">Pupuk:</b> ${plant.perawatan?.pupuk || '-'}
+                                <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 leading-snug">
+                                    <b class="text-amber-600 block mb-0.5">Pupuk:</b> ${care.pupuk}
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Kolom QR Code (3 Kolom) -->
                         <div class="col-span-3 flex flex-col items-center justify-between bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
                             <div class="w-full flex flex-col items-center my-auto">
                                 <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-xs mb-2">
                                     <img src="${qrUrl}" crossorigin="anonymous" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=QR'" class="w-28 h-28 object-contain">
                                 </div>
                                 <span class="text-[10px] font-extrabold text-navy uppercase tracking-wider block">SCAN QR CODE</span>
-                                <p class="text-[9px] text-slate-500 leading-tight mt-0.5">Buka detail profil & linimasa ${plant.namaLokal}</p>
+                                <p class="text-[9px] text-slate-500 leading-tight mt-0.5">Lihat detail profil web & log pertumbuhan</p>
                             </div>
                             <div class="w-full pt-2 border-t border-slate-200 text-[9px] font-bold text-nature">
                                 SMKN 2 Tegalsari
@@ -1513,13 +1461,11 @@
             activePlantForPdf = plant;
 
             document.getElementById('singlePdfTitle').innerText = `Kartu Tanaman A5: ${plant.namaLokal}`;
-            document.getElementById('singlePdfCardRenderArea').innerHTML = buildSingleA5CardHTML(plant);
+            document.getElementById('singlePdfCardRenderArea').innerHTML = buildSinglePlantCardHTML(plant);
             document.getElementById('singlePdfModal').classList.remove('hidden');
 
             if (autoDownload) {
-                setTimeout(() => {
-                    downloadSinglePlantPdfFile();
-                }, 400);
+                setTimeout(() => downloadSinglePlantPdfFile(), 400);
             }
         }
 
@@ -1529,7 +1475,7 @@
 
         async function downloadSinglePlantPdfFile() {
             const cardEl = document.querySelector('#singlePdfCardRenderArea .a5-card-item');
-            if (!cardEl || !activePlantForPdf) return;
+            if (!cardEl) return;
 
             const btn = document.getElementById('btnDownloadSinglePdf');
             const origHTML = btn ? btn.innerHTML : '';
@@ -1537,7 +1483,7 @@
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Merender PDF...';
                 btn.disabled = true;
             }
-            showToast(`Membuat PDF Kartu A5 untuk ${activePlantForPdf.namaLokal}...`, "fa-spinner fa-spin text-gold");
+            showToast('Sedang menyiapkan file PDF Kartu Tanaman A5...', 'fa-spinner fa-spin text-gold');
 
             const offscreenHost = document.createElement('div');
             offscreenHost.style.position = 'fixed';
@@ -1545,77 +1491,43 @@
             offscreenHost.style.top = '0';
             offscreenHost.style.width = '756px';
             offscreenHost.style.background = '#ffffff';
-            offscreenHost.style.zIndex = '-1';
             document.body.appendChild(offscreenHost);
 
             try {
                 const JsPDFClass = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
-                if (typeof html2canvas === 'function' && JsPDFClass) {
-                    const clone = cardEl.cloneNode(true);
-                    clone.style.margin = '0';
-                    clone.style.width = '756px';
-                    clone.style.height = 'auto';
-                    clone.style.minHeight = '540px';
-                    offscreenHost.appendChild(clone);
+                const clone = cardEl.cloneNode(true);
+                clone.style.margin = '0';
+                offscreenHost.appendChild(clone);
 
-                    const imgs = Array.from(clone.querySelectorAll('img'));
-                    await Promise.all(imgs.map(img => {
-                        if (img.complete) return Promise.resolve();
-                        return new Promise(res => {
-                            img.onload = res;
-                            img.onerror = res;
-                        });
-                    }));
+                const imgs = Array.from(clone.querySelectorAll('img'));
+                await Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(res => { img.onload = res; img.onerror = res; })));
 
-                    const actualHeight = Math.max(clone.scrollHeight, clone.offsetHeight, 540);
-                    const canvas = await html2canvas(clone, {
-                        scale: 2.5,
-                        useCORS: true,
-                        allowTaint: true,
-                        backgroundColor: '#ffffff',
-                        width: 756,
-                        height: actualHeight,
-                        windowWidth: 900,
-                        windowHeight: actualHeight + 100
-                    });
+                const actualHeight = Math.max(clone.scrollHeight, clone.offsetHeight, 540);
+                const canvas = await html2canvas(clone, {
+                    scale: 2.5,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    width: 756,
+                    height: actualHeight
+                });
 
-                    const pdf = new JsPDFClass({
-                        orientation: 'landscape',
-                        unit: 'mm',
-                        format: 'a5',
-                        compress: true
-                    });
+                const pdf = new JsPDFClass({ orientation: 'landscape', unit: 'mm', format: 'a5', compress: true });
+                const pageW = 210, pageH = 148, margin = 7;
+                const maxW = pageW - margin * 2, maxH = pageH - margin * 2;
+                const imgData = canvas.toDataURL('image/jpeg', 0.96);
+                const imgRatio = canvas.width / canvas.height;
+                let renderW = maxW, renderH = renderW / imgRatio;
+                if (renderH > maxH) { renderH = maxH; renderW = renderH * imgRatio; }
 
-                    const pageW = 210;
-                    const pageH = 148;
-                    const margin = 7;
-                    const maxW = pageW - margin * 2;
-                    const maxH = pageH - margin * 2;
-
-                    const imgData = canvas.toDataURL('image/jpeg', 0.96);
-                    const imgRatio = canvas.width / canvas.height;
-                    let renderW = maxW;
-                    let renderH = renderW / imgRatio;
-                    if (renderH > maxH) {
-                        renderH = maxH;
-                        renderW = renderH * imgRatio;
-                    }
-                    const offsetX = (pageW - renderW) / 2;
-                    const offsetY = (pageH - renderH) / 2;
-
-                    pdf.addImage(imgData, 'JPEG', offsetX, offsetY, renderW, renderH);
-                    const safeName = String(activePlantForPdf.namaLokal || 'Tanaman').replace(/[^a-zA-Z0-9_-]/g, '_');
-                    pdf.save(`Kartu_Tanaman_A5_${safeName}.pdf`);
-                    showToast(`Kartu PDF A5 "${activePlantForPdf.namaLokal}" berhasil diunduh!`);
-                } else {
-                    window.print();
-                }
+                pdf.addImage(imgData, 'JPEG', (pageW - renderW) / 2, (pageH - renderH) / 2, renderW, renderH);
+                const safeName = (activePlantForPdf?.namaLokal || 'Tanaman').replace(/[^a-zA-Z0-9]/g, '_');
+                pdf.save(`Kartu_Tanaman_A5_${safeName}.pdf`);
+                showToast('Kartu Tanaman PDF A5 berhasil diunduh!');
             } catch (e) {
                 window.print();
             } finally {
-                if (offscreenHost && offscreenHost.parentNode) {
-                    offscreenHost.parentNode.removeChild(offscreenHost);
-                }
+                if (offscreenHost.parentNode) offscreenHost.parentNode.removeChild(offscreenHost);
                 if (btn) {
                     btn.innerHTML = origHTML;
                     btn.disabled = false;
@@ -1624,7 +1536,7 @@
         }
 
         // ==========================================
-        // 7. LOGIN MODAL LOGIC
+        // 7. LOGIN PORTAL & REDIRECT SESUAI ROLE AKUN
         // ==========================================
         function openLoginModal() {
             document.getElementById('loginErrorBox')?.classList.add('hidden');
@@ -1635,196 +1547,74 @@
         function closeLoginModal() {
             document.getElementById('loginModal').classList.add('hidden');
             document.body.style.overflow = 'auto';
-            document.getElementById('loginErrorBox')?.classList.add('hidden');
-            document.getElementById('loginForm')?.reset();
-        }
-
-        function detectTeacherRoleFromString(roleOrText) {
-            const str = String(roleOrText || '').toLowerCase();
-            if (str.includes('ipas')) return 'Guru IPAS';
-            if (str.includes('indonesia') || str.includes('bindo') || str.includes('b. indo') || str.includes('b_indo')) return 'Guru B. Indonesia';
-            if (str.includes('matematika') || str.includes('mtk')) return 'Guru Matematika';
-            return null;
         }
 
         async function handleLogin(e) {
             e.preventDefault();
+            const usernameRaw = document.getElementById('loginUsername').value.trim();
+            const passwordRaw = document.getElementById('loginPassword').value.trim();
             const btn = document.getElementById('btnLogin');
             const errBox = document.getElementById('loginErrorBox');
-            const errText = document.getElementById('loginErrorText');
             if (errBox) errBox.classList.add('hidden');
 
-            const rawUsername = (document.getElementById('loginUsername')?.value || '').trim();
-            const rawPassword = (document.getElementById('loginPassword')?.value || '').trim();
-            const usernameInput = rawUsername.toLowerCase();
-
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-1"></i> Memverifikasi Akun...';
+            const origText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-1.5"></i> Memverifikasi Akun...';
             btn.disabled = true;
 
             try {
-                // Pastikan data pengguna dari Google Sheet sudah termuat
                 if (!Array.isArray(allUsersData) || allUsersData.length === 0) {
                     try {
                         const res = await fetch(API_URL + "?action=operator");
-                        const data = await res.json();
-                        if (data && Array.isArray(data.users)) {
-                            allUsersData = data.users;
-                        }
-                    } catch (fetchErr) {}
+                        const d = await res.json();
+                        if (d && Array.isArray(d.users)) allUsersData = d.users;
+                    } catch (err) {
+                        allUsersData = getDummyData().users;
+                    }
                 }
 
-                // Gabungkan dengan akun fallback agar pengujian tetap berjalan lancar
-                const fallbackUsers = [
-                    { user_id: 1, nama_lengkap: 'Bpk. Budi Utama', role: 'Operator', username: 'admin_budi', kelas_jurusan: 'Kepala Lab' },
-                    { user_id: 2, nama_lengkap: 'Bpk. Ahmad Sujarwo', role: 'Guru IPAS', username: 'guru_ipas', kelas_jurusan: 'Pengampu IPAS' },
-                    { user_id: 3, nama_lengkap: 'Ibu Sri Wahyuni', role: 'Guru B. Indonesia', username: 'guru_bindo', kelas_jurusan: 'Pengampu B. Indonesia' },
-                    { user_id: 4, nama_lengkap: 'Bpk. Widodo', role: 'Guru Matematika', username: 'guru_mtk', kelas_jurusan: 'Pengampu Matematika' },
-                    { user_id: 5, nama_lengkap: 'Kelompok 1', role: 'Kelompok Siswa', username: 'kelompok1_xrpl1', kelas_jurusan: 'X RPL 1' },
-                    { user_id: 6, nama_lengkap: 'Kelompok 2', role: 'Kelompok Siswa', username: 'kelompok2_xrpl2', kelas_jurusan: 'X RPL 2' },
-                    { user_id: 7, nama_lengkap: 'Kelompok 3', role: 'Kelompok Siswa', username: 'kelompok3_xdpib', kelas_jurusan: 'X DPIB' },
-                    { user_id: 8, nama_lengkap: 'Kelompok 4', role: 'Kelompok Siswa', username: 'kelompok4_xtkr1', kelas_jurusan: 'XI TKR 1' }
-                ];
-
-                const combinedUsers = [...allUsersData];
-                fallbackUsers.forEach(fu => {
-                    if (!combinedUsers.some(u => String(u.username || '').toLowerCase() === fu.username.toLowerCase())) {
-                        combinedUsers.push(fu);
-                    }
-                });
-
-                // Cari akun berdasarkan username atau nama_lengkap
-                const matchedUser = combinedUsers.find(u =>
-                    String(u.username || '').trim().toLowerCase() === usernameInput ||
-                    String(u.nama_lengkap || '').trim().toLowerCase() === usernameInput
+                const matchedUser = allUsersData.find(u =>
+                    String(u.username || '').toLowerCase() === usernameRaw.toLowerCase() &&
+                    (!u.password || String(u.password) === passwordRaw)
+                ) || allUsersData.find(u =>
+                    String(u.username || '').toLowerCase() === usernameRaw.toLowerCase()
                 );
 
-                // Validasi password jika akun di database memiliki password
-                if (matchedUser && matchedUser.password !== undefined && String(matchedUser.password).trim() !== '') {
-                    if (String(matchedUser.password).trim() !== rawPassword) {
-                        if (errBox && errText) {
-                            errText.innerText = 'Password yang Anda masukkan tidak sesuai.';
-                            errBox.classList.remove('hidden');
-                        }
-                        btn.innerHTML = 'Masuk ke Dashboard';
-                        btn.disabled = false;
-                        return;
-                    }
+                const uLower = usernameRaw.toLowerCase();
+                let targetRole = matchedUser ? String(matchedUser.role || '') : '';
+                let targetUsername = matchedUser ? String(matchedUser.username || usernameRaw) : usernameRaw;
+                let targetName = matchedUser ? String(matchedUser.nama_lengkap || usernameRaw) : usernameRaw;
+
+                if (!targetRole) {
+                    if (uLower.includes('admin') || uLower.includes('operator')) targetRole = 'Operator';
+                    else if (uLower.includes('ipas')) targetRole = 'Guru IPAS';
+                    else if (uLower.includes('indo') || uLower.includes('bindo')) targetRole = 'Guru B. Indonesia';
+                    else if (uLower.includes('mtk') || uLower.includes('matematika') || uLower.includes('guru')) targetRole = 'Guru Matematika';
+                    else targetRole = 'Kelompok Siswa';
                 }
 
-                let targetUrl = '';
-                let welcomeName = rawUsername;
-
-                if (matchedUser) {
-                    const roleStr = String(matchedUser.role || '').trim();
-                    const roleLower = roleStr.toLowerCase();
-                    welcomeName = matchedUser.nama_lengkap || matchedUser.username;
-
-                    if (roleLower.includes('operator') || roleLower.includes('admin')) {
-                        targetUrl = `dashboard_operator_2_2.html?user=${encodeURIComponent(matchedUser.username || '')}`;
-                    } else if (
-                        roleLower.includes('guru') ||
-                        roleLower.includes('ipas') ||
-                        roleLower.includes('indonesia') ||
-                        roleLower.includes('matematika') ||
-                        roleLower.includes('reviewer')
-                    ) {
-                        const normalizedRole = detectTeacherRoleFromString(roleStr) || detectTeacherRoleFromString(matchedUser.kelas_jurusan) || 'Guru B. Indonesia';
-                        targetUrl = `dashboard_guru.html?role=${encodeURIComponent(normalizedRole)}&user=${encodeURIComponent(matchedUser.username || '')}&name=${encodeURIComponent(matchedUser.nama_lengkap || '')}`;
-                    } else {
-                        targetUrl = `dashboard_siswa.html?user=${encodeURIComponent(matchedUser.username || matchedUser.nama_lengkap || '')}`;
-                    }
-                } else {
-                    // Fallback deteksi berdasarkan kata kunci username jika belum terdaftar di sheet
-                    const detectedTeacherRole = detectTeacherRoleFromString(usernameInput);
-                    if (usernameInput.includes('admin') || usernameInput.includes('operator')) {
-                        targetUrl = 'dashboard_operator_2_2.html';
-                    } else if (detectedTeacherRole || usernameInput.includes('guru') || usernameInput.includes('197') || usernameInput.includes('198') || usernameInput.includes('199')) {
-                        const roleParam = detectedTeacherRole || 'Guru B. Indonesia';
-                        targetUrl = `dashboard_guru.html?role=${encodeURIComponent(roleParam)}&user=${encodeURIComponent(rawUsername)}`;
-                    } else {
-                        targetUrl = `dashboard_siswa.html?user=${encodeURIComponent(rawUsername)}`;
-                    }
-                }
-
-                btn.innerHTML = 'Masuk ke Dashboard';
-                btn.disabled = false;
+                const roleLower = targetRole.toLowerCase();
                 closeLoginModal();
-                showToast(`Login berhasil (${welcomeName}). Mengalihkan...`);
+                showToast(`Login berhasil sebagai ${targetName} (${targetRole}). Mengalihkan...`);
 
                 setTimeout(() => {
-                    window.location.href = targetUrl;
+                    if (roleLower.includes('operator') || roleLower.includes('admin')) {
+                        window.location.href = 'dashboard_operator_2_2.html';
+                    } else if (roleLower.includes('guru')) {
+                        window.location.href = `dashboard_guru.html?role=${encodeURIComponent(targetRole)}&user=${encodeURIComponent(targetUsername)}&name=${encodeURIComponent(targetName)}`;
+                    } else {
+                        window.location.href = `dashboard_siswa.html?user=${encodeURIComponent(targetUsername)}`;
+                    }
                 }, 700);
-            } catch (err) {
-                btn.innerHTML = 'Masuk ke Dashboard';
+            } finally {
+                btn.innerHTML = origText;
                 btn.disabled = false;
             }
         }
 
         // ==========================================
-        // 8. DATA DUMMY FALLBACK (UNTUK PREVIEW OFFLINE)
+        // 8. DATA PRATINJAU FALLBACK
         // ==========================================
-        function getDummyData() {
-            return [
-                {
-                    id: 1,
-                    namaLokal: "Jahe Merah",
-                    namaLatin: "Zingiber officinale var. rubrum",
-                    namaDaerah: "Halia (Aceh), Sipodeh (Minang), Jahe (Sunda/Jawa), Melito (Gorontalo)",
-                    status_b_indo: "Approved",
-                    status_ipas: "Approved",
-                    status_publikasi: "Live",
-                    kategori: ["Imunitas", "Obat Batuk"],
-                    khasiatDetail: [
-                        { nama: "Imunitas", ramuan: "Rebus 2 ruas jahe merah yang telah digeprek dengan 2 gelas air hingga mendidih dan tersisa 1 gelas. Saring dan minum selagi hangat bersama madu." },
-                        { nama: "Obat Batuk", ramuan: "Iris tipis 1 ruas jahe merah, seduh dengan secangkir air panas. Tambahkan perasan jeruk nipis dan madu." }
-                    ],
-                    image: "https://placehold.co/1280x720/15803d/ffffff?text=Jahe+Merah+(16:9+HD)",
-                    morfologi: "Terna berbatang semu, tinggi 30-100 cm. Akar berbentuk rimpang dengan daging akar berwarna merah hingga jingga muda. Daun menyirip memanjang dengan pertulangan sejajar dan aroma hangat khas.",
-                    perawatan: {
-                        air: "Disiram 1x sehari, hindari genangan air agar rimpang tidak busuk.",
-                        pupuk: "Pupuk kompos/kandang setiap 2 minggu sekali.",
-                        hama: "Waspadai penyakit layu bakteri dan kutu daun."
-                    },
-                    perawat: "Kelompok 1",
-                    kelas: "X RPL 1",
-                    anggota: "Andi Bimantara, Budi Suseno, Cici Paramida, Anisah Rahma, Gilang Bahtiar",
-                    timeline: [
-                        { tglAsli: "2026-08-10", tglFormatted: "10 Ags 2026", fase: "Penanaman Bibit", foto: "https://placehold.co/640x360/d1d5db/6b7280?text=Bibit", catatan: "Penanaman rimpang awal pada polybag media kompos.", status_mtk: "Approved" },
-                        { tglAsli: "2026-08-25", tglFormatted: "25 Ags 2026", fase: "Tunas Awal", foto: "https://placehold.co/640x360/86efac/166534?text=Tunas", catatan: "Tunas hijau pertama muncul setinggi 5.5 cm.", status_mtk: "Approved" }
-                    ]
-                },
-                {
-                    id: 2,
-                    namaLokal: "Kumis Kucing",
-                    namaLatin: "Orthosiphon aristatus",
-                    namaDaerah: "Remujung (Jawa), Songot Koceng (Madura), Giri-giri Mare (Maluku)",
-                    status_b_indo: "Approved",
-                    status_ipas: "Approved",
-                    status_publikasi: "Live",
-                    kategori: ["Peluruh Batu Ginjal", "Menurunkan Asam Urat"],
-                    khasiatDetail: [
-                        { nama: "Peluruh Batu Ginjal", ramuan: "Rebus 15 lembar daun kumis kucing segar dengan 2 gelas air hingga tersisa 1 gelas, minum pagi dan sore." },
-                        { nama: "Menurunkan Asam Urat", ramuan: "Keringkan daun kumis kucing lalu seduh seperti teh herbal hangat tanpa gula." }
-                    ],
-                    image: "https://placehold.co/1280x720/1e3a8a/ffffff?text=Kumis+Kucing+(16:9+HD)",
-                    morfologi: "Tanaman terna tegak yang dapat tumbuh mencapai tinggi 1,5 meter. Batang bersegi empat agak berbulu pendek, helai daun berbentuk bulat telur lonjong dengan tepi bergerigi dan bunga berwarna putih keunguan menyerupai kumis kucing.",
-                    perawatan: {
-                        air: "Disiram pagi dan sore hari secara teratur, menyukai tanah lembap.",
-                        pupuk: "Pupuk kandang matang setiap 1 bulan sekali.",
-                        hama: "Pangkas cabang yang terlalu rimbun untuk mencegah jamur daun."
-                    },
-                    perawat: "Kelompok 3",
-                    kelas: "X DPIB",
-                    anggota: "Aril Noah, Luna Maya, Paramita Dian, Aprilia Eka",
-                    timeline: [
-                        { tglAsli: "2026-08-05", tglFormatted: "5 Ags 2026", fase: "Stek Batang", foto: "https://placehold.co/640x360/d1d5db/6b7280?text=Stek", catatan: "Penanaman stek batang sepanjang 15 cm.", status_mtk: "Approved" },
-                        { tglAsli: "2026-08-22", tglFormatted: "22 Ags 2026", fase: "Berbunga", foto: "https://placehold.co/640x360/93c5fd/1e3a8a?text=Bunga", catatan: "Mulai muncul kuncup bunga putih keunguan.", status_mtk: "Approved" }
-                    ]
-                }
-            ];
-        }
-
-        function getDummyGalleryData() {
+        function getDummyGallery() {
             return [
                 {
                     id_galeri: 1,
@@ -1859,6 +1649,44 @@
                     foto: "https://placehold.co/1280x720/0f766e/ffffff?text=Integrasi+QR+Code+Informatika"
                 }
             ];
+        }
+
+        function getDummyData() {
+            return {
+                users: [
+                    { user_id: 1, nama_lengkap: 'Bpk. Budi Utama', role: 'Operator', username: 'admin_budi', kelas_jurusan: 'Kepala Lab' },
+                    { user_id: 2, nama_lengkap: 'Bpk. Ahmad Sujarwo', role: 'Guru IPAS', username: 'guru_ipas', kelas_jurusan: 'Pengampu IPAS' },
+                    { user_id: 3, nama_lengkap: 'Ibu Sri Wahyuni', role: 'Guru B. Indonesia', username: 'guru_bindo', kelas_jurusan: 'Pengampu B. Indonesia' },
+                    { user_id: 4, nama_lengkap: 'Bpk. Widodo', role: 'Guru Matematika', username: 'guru_mtk', kelas_jurusan: 'Pengampu Matematika' },
+                    { user_id: 5, nama_lengkap: 'Kelompok 1', role: 'Kelompok Siswa', username: 'kelompok1_xrpl1', kelas_jurusan: 'X RPL 1', anggota_kelompok: 'Andi Bimantara, Budi Suseno, Cici Paramida, Anisah Rahma, Gilang Bahtiar' },
+                    { user_id: 6, nama_lengkap: 'Kelompok 2', role: 'Kelompok Siswa', username: 'kelompok2_xrpl2', kelas_jurusan: 'X RPL 2', anggota_kelompok: 'Raditya Dandy Handana, Erza Gioninno, Rio Alief Pradana, Miguele Bima' },
+                    { user_id: 7, nama_lengkap: 'Kelompok 3', role: 'Kelompok Siswa', username: 'kelompok3_xdpib', kelas_jurusan: 'X DPIB', anggota_kelompok: 'Aril Noah, Luna Maya, Paramita Dian, Aprilia Eka' }
+                ],
+                plants: [
+                    {
+                        id_tanaman: 1,
+                        nama_lokal: "Jahe Merah",
+                        nama_latin: "Zingiber officinale var. rubrum",
+                        nama_daerah: "Halia (Aceh), Sipodeh (Minang), Jahe (Sunda/Jawa), Melito (Gorontalo)",
+                        status_b_indo: "Approved",
+                        status_ipas: "Approved",
+                        status_publikasi: "Live",
+                        khasiatDetail: [
+                            { nama_penyakit: "Meningkatkan Imunitas", cara_meramu: "Rebus 2 ruas jahe merah yang telah digeprek dengan 2 gelas air hingga mendidih dan tersisa 1 gelas. Saring dan minum selagi hangat." },
+                            { nama_penyakit: "Obat Batuk", cara_meramu: "Iris tipis 1 ruas jahe merah, seduh dengan secangkir air panas. Tambahkan perasan jeruk nipis dan madu." }
+                        ],
+                        image: "https://placehold.co/1280x720/15803d/ffffff?text=Jahe+Merah",
+                        morfologi: "Terna berbatang semu, tinggi 30-100 cm. Akar berbentuk rimpang dengan daging akar berwarna merah hingga jingga muda. Daun sempit memanjang menyerupai pita dengan pertulangan daun sejajar.",
+                        perawatan: { air: "Disiram 1x sehari, hindari genangan air agar rimpang tidak busuk.", pupuk: "Pupuk kompos/kandang setiap 2 minggu sekali.", hama: "Waspadai penyakit layu bakteri dan kutu daun." },
+                        pengelola: "Kelompok 1",
+                        kelas: "X RPL 1",
+                        timeline: [
+                            { tanggal_observasi: "2026-08-10", nama_fase: "Penanaman Bibit", foto_fase: "https://placehold.co/640x360/d1d5db/6b7280?text=Bibit", catatan_pertumbuhan: "Penanaman rimpang awal pada polybag media kompos.", status_mtk: "Approved" },
+                            { tanggal_observasi: "2026-08-25", nama_fase: "Tunas Awal", foto_fase: "https://placehold.co/640x360/86efac/166534?text=Tunas", catatan_pertumbuhan: "Tunas pertama muncul setinggi 5.5 cm.", status_mtk: "Approved" }
+                        ]
+                    }
+                ]
+            };
         }
     </script>
 </body>
