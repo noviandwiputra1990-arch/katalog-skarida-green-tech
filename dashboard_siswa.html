@@ -292,55 +292,93 @@
                 <!-- Panduan Perawatan & Khasiat (IPAS) -->
                 <div class="border-t border-slate-200 pt-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between">
+                        <div class="flex justify-between items-center border-b pb-2">
                             <h4 class="text-xs font-extrabold text-navy uppercase">Panduan Perawatan Tanaman (IPAS)</h4>
                             <span class="text-[10px] font-bold bg-amber-50 text-amber-700 px-2 py-0.5 rounded">Dinilai Guru IPAS</span>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1"><i class="fas fa-tint text-blue-500 mr-1"></i> Intensitas Air</label>
-                            <input type="text" id="studentAir" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none" placeholder="Contoh: Disiram 1x sehari pagi/sore, hindari genangan air">
+                            <input type="text" id="studentAir" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-navy" placeholder="Contoh: Disiram 1x sehari pagi/sore, hindari genangan air">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1"><i class="fas fa-seedling text-amber-600 mr-1"></i> Pemberian Pupuk</label>
-                            <input type="text" id="studentPupuk" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none" placeholder="Contoh: Pupuk kompos organik setiap 2 minggu sekali">
+                            <input type="text" id="studentPupuk" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-navy" placeholder="Contoh: Pupuk kompos organik setiap 2 minggu sekali">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1"><i class="fas fa-bug text-red-500 mr-1"></i> Kerawanan Hama</label>
-                            <input type="text" id="studentHama" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none" placeholder="Contoh: Waspadai kutu daun dan busuk rimpang">
+                            <input type="text" id="studentHama" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-navy" placeholder="Contoh: Waspadai kutu daun dan penyakit layu bakteri">
                         </div>
                     </div>
 
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between">
+                        <div class="flex justify-between items-center border-b pb-2">
                             <h4 class="text-xs font-extrabold text-navy uppercase">Khasiat & Cara Meramu (IPAS)</h4>
-                            <button type="button" onclick="addStudentKhasiatRow()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-navy px-3 py-1 rounded-lg transition">
-                                <i class="fas fa-plus mr-1"></i> Tambah Khasiat
-                            </button>
+                            <button type="button" onclick="addStudentKhasiatRow()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-navy px-3 py-1 rounded-lg">+ Tambah Khasiat</button>
                         </div>
-                        <div id="studentKhasiatContainer" class="space-y-2.5 max-h-60 overflow-y-auto pr-1 custom-scrollbar"></div>
+                        <div id="studentKhasiatContainer" class="space-y-2.5 max-h-56 overflow-y-auto pr-1 custom-scrollbar"></div>
                     </div>
                 </div>
             </div>
 
             <div class="px-5 sm:px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-2.5 flex-shrink-0">
-                <button type="button" onclick="closeStudentPlantModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-600 text-xs font-bold hover:bg-white">Batal</button>
+                <button type="button" onclick="closeStudentPlantModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-600 text-xs font-bold">Batal</button>
                 <button type="button" onclick="saveStudentPlantData()" id="btnSaveStudentPlant" class="px-5 py-2.5 rounded-xl bg-navy hover:bg-navylight text-white text-xs font-extrabold shadow-md flex items-center gap-2">
-                    <i class="fas fa-save"></i> Simpan & Ajukan Validasi
+                    <i class="fas fa-save"></i> Simpan Data Tanaman
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: REVIEW DETAIL TANAMAN SISWA -->
-    <div id="studentReviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this) closeStudentReviewModal()">
-        <div class="bg-slate-50 w-full max-w-4xl max-h-[92vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-slate-200 page-transition">
-            <div class="px-5 sm:px-6 py-4 bg-gradient-to-r from-navy to-nature text-white flex justify-between items-center">
-                <h3 class="text-sm sm:text-base font-extrabold" id="studentReviewTitle">Review Detail Tanaman</h3>
-                <button type="button" onclick="closeStudentReviewModal()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center">
-                    <i class="fas fa-times"></i>
+    <!-- MODAL: REVIEW DETAIL TANAMAN SISWA (DESAIN IDENTIK FRONTEND INDEX) -->
+    <div id="studentReviewModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 md:p-6" onclick="if(event.target===this) closeStudentReviewModal()">
+        <div class="bg-slate-50 w-full max-w-6xl max-h-[93vh] text-left rounded-3xl shadow-2xl overflow-hidden relative flex flex-col border border-white/20 page-transition">
+            <div class="px-5 sm:px-7 py-4 bg-gradient-to-r from-navy via-navylight to-nature text-white flex justify-between items-center flex-shrink-0 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white p-0.5 border-2 border-gold flex items-center justify-center flex-shrink-0">
+                        <img src="big_logo_2.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/1e3a8a?text=SMK'" class="w-full h-full object-contain rounded-full" alt="Logo">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm sm:text-base md:text-lg font-extrabold tracking-wide text-white" id="studentReviewTitle">Detail Profil Tanaman TOGA</h3>
+                            <span id="studentReviewStatusBadge" class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-naturelight text-white shadow-xs">
+                                <i class="fas fa-seedling mr-1"></i> Pratinjau Katalog
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-blue-100" id="studentReviewSubtitle">Pratinjau Tampilan Katalog Publik Skarida Green Tech</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeStudentReviewModal()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center transition">
+                    <i class="fas fa-times text-base"></i>
                 </button>
             </div>
-            <div id="studentReviewBody" class="p-5 sm:p-6 overflow-y-auto flex-1 custom-scrollbar"></div>
+            <div id="studentReviewBody" class="p-4 sm:p-6 md:p-8 overflow-y-auto flex-1 custom-scrollbar"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: LIHAT DETAIL LINIMASA BESAR (SISWA) -->
+    <div id="fullTimelineModal" class="fixed inset-0 z-[65] hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 md:p-6" onclick="if(event.target===this) closeFullTimelineModal()">
+        <div class="bg-slate-100 w-full max-w-5xl max-h-[93vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/20 page-transition">
+            <div class="px-5 sm:px-7 py-4 bg-gradient-to-r from-navy via-navylight to-amber-600 text-white flex justify-between items-center flex-shrink-0 shadow-md">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center text-gold text-lg flex-shrink-0">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm sm:text-base md:text-lg font-extrabold text-white" id="fullTimelineTitle">Detail Linimasa Pertumbuhan Tanaman</h3>
+                        <p class="text-[11px] text-amber-100" id="fullTimelineSubtitle">Rekam jejak observasi fase pertumbuhan tanaman kelompok Anda</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeFullTimelineModal()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-red-500 text-white flex items-center justify-center transition">
+                    <i class="fas fa-times text-base"></i>
+                </button>
+            </div>
+            <div id="fullTimelineBody" class="p-4 sm:p-6 md:p-8 overflow-y-auto flex-1 custom-scrollbar space-y-5"></div>
+            <div class="px-6 py-3.5 bg-white border-t border-slate-200 flex justify-between items-center flex-shrink-0">
+                <span class="text-xs text-slate-500 font-medium"><i class="fas fa-check-circle text-nature mr-1"></i> Dokumentasi progres pertumbuhan tanaman kelompok</span>
+                <button type="button" onclick="closeFullTimelineModal()" class="px-5 py-2 bg-navy hover:bg-navylight text-white font-bold rounded-xl text-xs transition shadow-sm">
+                    Tutup Detail Linimasa
+                </button>
+            </div>
         </div>
     </div>
 
@@ -985,40 +1023,195 @@
             plant.perawatan = care;
             currentStudentPlant = plant;
 
-            document.getElementById('studentReviewTitle').innerText = `Review Detail: ${plant.nama_lokal}`;
-            const khasiatHTML = (plant.khasiatDetail || []).map(k => `
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
-                    <p class="text-xs font-extrabold text-nature">${k.nama_penyakit || k.nama || '-'}</p>
-                    <p class="text-xs text-slate-600 mt-1">${k.cara_meramu || k.ramuan || '-'}</p>
-                </div>
+            const pid = plant.id_tanaman || plant.tanaman_id || 1;
+            const pengelolaLabel = currentStudentUser?.nama_lengkap || plant.pengelola || 'Kelompok Siswa';
+            const kelasLabel = currentStudentUser?.kelas_jurusan || plant.kelas || '-';
+            const anggotaLabel = currentStudentUser?.anggota_kelompok || plant.anggota || '-';
+
+            document.getElementById('studentReviewTitle').innerText = `Detail Profil: ${plant.nama_lokal}`;
+            document.getElementById('studentReviewSubtitle').innerText = `Dikelola oleh ${pengelolaLabel} (${kelasLabel}) • ID #${pid}`;
+
+            const toYmd = (raw) => {
+                if (!raw) return '';
+                const s = String(raw).trim();
+                if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+                const d = new Date(s);
+                if (!isNaN(d.getTime())) return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                return s.includes('T') ? s.split('T')[0] : s;
+            };
+            const fmtDate = (raw) => {
+                const ymd = toYmd(raw);
+                if (/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+                    const [y, m, d] = ymd.split('-').map(Number);
+                    return new Date(y, m - 1, d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                }
+                return String(raw || '-');
+            };
+            const calcDays = (s1, s2) => {
+                const d1 = new Date(toYmd(s1) || s1);
+                const d2 = new Date(toYmd(s2) || s2);
+                if (isNaN(d1.getTime()) || isNaN(d2.getTime())) return 0;
+                return Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24));
+            };
+
+            const timelines = Array.isArray(plant.timeline) ? plant.timeline : [];
+            const timelineHTML = timelines.map((node, index) => {
+                const rawDate = node.tanggal_observasi || node.tgl_observasi || node.tglAsli;
+                const prevDate = index === 0 ? null : (timelines[index - 1].tanggal_observasi || timelines[index - 1].tglAsli);
+                const durasi = index === 0 ? 'Fase Awal Tanam' : `+${calcDays(prevDate, rawDate)} hari`;
+                const st = node.status_mtk || 'Pending';
+                return `
+                    <div class="relative pl-9 py-3.5 timeline-line">
+                        <div class="absolute left-3 w-5 h-5 rounded-full bg-gold border-4 border-white shadow-sm transform -translate-x-1/2 mt-1 z-10"></div>
+                        <div class="bg-slate-50 hover:bg-white border border-slate-200/80 rounded-2xl p-3.5 shadow-xs transition flex flex-col sm:flex-row gap-3.5 items-start">
+                            <img src="${node.foto_fase || node.foto || 'https://placehold.co/640x360/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/640x360/d1d5db/6b7280?text=Fase'" class="w-full sm:w-20 h-28 sm:h-20 object-cover rounded-xl bg-slate-100 border border-slate-200 flex-shrink-0" alt="${node.nama_fase || node.fase}">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center flex-wrap gap-1.5 mb-1">
+                                    <span class="font-extrabold text-navy text-xs sm:text-sm">${node.nama_fase || node.fase}</span>
+                                    <span class="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">${fmtDate(rawDate)}</span>
+                                    <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full ${st === 'Approved' ? 'bg-green-100 text-nature' : (st === 'Revisi' ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-700')}">${st}</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mb-2 break-words leading-relaxed">${node.catatan_pertumbuhan || node.catatan || '-'}</p>
+                                <span class="inline-flex items-center text-[10px] font-extrabold text-nature bg-green-50 border border-green-200 px-2.5 py-0.5 rounded-md">
+                                    <i class="fas fa-calculator mr-1"></i> ${durasi}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('') || '<p class="text-xs text-slate-400 italic text-center py-6">Belum ada fase linimasa yang dicatat.</p>';
+
+            const khasiatHTML = (plant.khasiatDetail || []).map((k, index) => `
+                <details class="group bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden cursor-pointer transition" ${index === 0 ? 'open' : ''}>
+                    <summary class="p-3.5 font-bold text-nature text-xs sm:text-sm flex justify-between items-center hover:bg-slate-100 group-open:bg-nature group-open:text-white transition outline-none">
+                        <span class="flex items-center gap-2"><i class="fas fa-notes-medical"></i> ${k.nama_penyakit || k.nama || '-'}</span>
+                        <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="p-4 text-xs sm:text-sm text-slate-600 bg-white border-t border-slate-100 leading-relaxed text-justify">
+                        ${k.cara_meramu || k.ramuan || '-'}
+                    </div>
+                </details>
             `).join('') || '<p class="text-xs text-slate-400 italic">Belum ada data khasiat.</p>';
 
+            const kategoriList = (plant.khasiatDetail || []).map(k => k.nama_penyakit || k.nama).filter(Boolean);
+            const badgeChips = (kategoriList.length > 0 ? kategoriList : ['Tanaman Obat']).map(k =>
+                `<span class="inline-flex items-center gap-1 bg-nature/10 text-nature border border-nature/20 px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-leaf text-[10px]"></i> ${k}</span>`
+            ).join('');
+
             document.getElementById('studentReviewBody').innerHTML = `
-                <div class="space-y-5">
-                    <div class="bg-white p-4 rounded-3xl border border-slate-200">
-                        <div class="w-full aspect-video rounded-2xl overflow-hidden bg-slate-900 mb-4">
-                            <img src="${plant.image}" class="w-full h-full object-cover">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Kartu Utama Foto Landscape 16:9 HD -->
+                        <div class="bg-white p-4 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+                            <div class="w-full aspect-video relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-inner">
+                                <img src="${plant.image || 'https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'}" alt="${plant.nama_lokal}" onerror="this.src='https://placehold.co/1280x720/15803d/ffffff?text=Tanaman+TOGA'" class="w-full h-full object-cover object-center">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/30"></div>
+                                <div class="absolute top-3 left-3 right-3 flex flex-wrap justify-between items-center gap-2">
+                                    <span class="bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/15">
+                                        <i class="fas fa-users text-gold mr-1.5"></i> ${pengelolaLabel}${kelasLabel && kelasLabel !== '-' ? ' • ' + kelasLabel : ''}
+                                    </span>
+                                    <span class="bg-white/20 backdrop-blur-md text-white border border-white/30 text-[11px] font-extrabold px-3 py-1 rounded-full">
+                                        ID #${pid}
+                                    </span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4 text-white">
+                                    <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight">${plant.nama_lokal}</h2>
+                                    <p class="text-xs sm:text-base text-slate-200 italic font-serif">${plant.nama_latin}</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                                <div class="flex flex-wrap gap-1.5">${badgeChips}</div>
+                                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                                    <button type="button" onclick="closeStudentReviewModal(); switchPage('kartu'); setTimeout(() => downloadStudentCardPdf(), 300);" class="flex-1 sm:flex-initial justify-center bg-nature hover:bg-naturelight text-white px-4 py-2.5 rounded-2xl text-xs font-extrabold shadow-md transition flex items-center gap-2">
+                                        <i class="fas fa-file-pdf text-gold"></i> Download Kartu QR Code (PDF A5)
+                                    </button>
+                                    <button type="button" onclick="closeStudentReviewModal(); switchPage('kartu');" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-navy rounded-2xl text-xs font-bold transition flex items-center gap-1.5">
+                                        <i class="fas fa-qrcode"></i> Pratinjau Kartu
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div class="bg-blue-50/70 p-4 rounded-2xl border border-blue-100">
+                                    <span class="text-[11px] font-extrabold text-navy uppercase block mb-1"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Nama Daerah / Sinonim:</span>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${plant.nama_daerah || '-'}</p>
+                                </div>
+                                <div class="bg-green-50/70 p-4 rounded-2xl border border-green-100">
+                                    <span class="text-[11px] font-extrabold text-navy uppercase block mb-1"><i class="fas fa-user-graduate text-nature mr-1"></i> Anggota Kelompok Pengelola:</span>
+                                    <p class="text-xs text-slate-700 leading-relaxed">${anggotaLabel}</p>
+                                </div>
+                            </div>
                         </div>
-                        <h2 class="text-xl font-extrabold text-navy">${plant.nama_lokal}</h2>
-                        <p class="text-xs italic text-slate-500 mb-2">${plant.nama_latin}</p>
-                        <p class="text-xs text-slate-600"><b>Nama Daerah:</b> ${plant.nama_daerah || '-'}</p>
-                    </div>
-                    <div class="bg-white p-5 rounded-3xl border border-slate-200">
-                        <h4 class="text-sm font-extrabold text-navy mb-2">Deskripsi Morfologi (B. Indonesia)</h4>
-                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">${plant.morfologi || '-'}</p>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-white p-5 rounded-3xl border border-slate-200">
-                            <h4 class="text-sm font-extrabold text-navy mb-3 border-b pb-2">Khasiat & Cara Meramu (IPAS)</h4>
-                            <div class="space-y-2">${khasiatHTML}</div>
+
+                        <!-- Deskripsi Morfologi -->
+                        <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                            <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-blue-50 text-navy flex items-center justify-center"><i class="fas fa-leaf text-lg"></i></div>
+                                    <div>
+                                        <h3 class="text-base sm:text-lg font-extrabold text-navy">Deskripsi Morfologi Tanaman</h3>
+                                        <p class="text-[11px] text-slate-400">Bidang Studi Bahasa Indonesia</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${plant.status_b_indo === 'Approved' ? 'bg-green-100 text-nature' : (plant.status_b_indo === 'Revisi' ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-700')}">B.Indo: ${plant.status_b_indo || 'Pending'}</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify break-words">${plant.morfologi || '-'}</p>
+                        </section>
+
+                        <!-- Khasiat & Panduan Perawatan -->
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                                <h3 class="text-base font-extrabold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+                                    <i class="fas fa-mortar-pestle text-nature"></i> Khasiat & Cara Meramu
+                                </h3>
+                                <div class="space-y-3">${khasiatHTML}</div>
+                            </section>
+
+                            <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                                <h3 class="text-base font-extrabold text-navy mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+                                    <i class="fas fa-hand-holding-water text-blue-600"></i> Panduan Perawatan
+                                </h3>
+                                <ul class="space-y-3.5 text-xs sm:text-sm text-slate-600">
+                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-blue-50/60 border border-blue-100">
+                                        <div class="w-9 h-9 rounded-xl bg-blue-500 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-tint"></i></div>
+                                        <div><strong class="text-navy block text-xs uppercase">Intensitas Air</strong><span>${care.air}</span></div>
+                                    </li>
+                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/60 border border-amber-100">
+                                        <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-seedling"></i></div>
+                                        <div><strong class="text-navy block text-xs uppercase">Pemberian Pupuk</strong><span>${care.pupuk}</span></div>
+                                    </li>
+                                    <li class="flex items-start gap-3.5 p-3 rounded-2xl bg-red-50/60 border border-red-100">
+                                        <div class="w-9 h-9 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-bug"></i></div>
+                                        <div><strong class="text-navy block text-xs uppercase">Kerawanan Hama</strong><span>${care.hama}</span></div>
+                                    </li>
+                                </ul>
+                            </section>
                         </div>
-                        <div class="bg-white p-5 rounded-3xl border border-slate-200">
-                            <h4 class="text-sm font-extrabold text-navy mb-3 border-b pb-2">Panduan Perawatan (IPAS)</h4>
-                            <ul class="space-y-2.5 text-xs text-slate-600">
-                                <li class="p-2.5 rounded-xl bg-blue-50/60 border border-blue-100"><b>Intensitas Air:</b> ${care.air}</li>
-                                <li class="p-2.5 rounded-xl bg-amber-50/60 border border-amber-100"><b>Pemberian Pupuk:</b> ${care.pupuk}</li>
-                                <li class="p-2.5 rounded-xl bg-red-50/60 border border-red-100"><b>Kerawanan Hama:</b> ${care.hama}</li>
-                            </ul>
+                    </div>
+
+                    <!-- Kolom Kanan: Linimasa Pertumbuhan + Tombol Lihat Detail Linimasa Besar -->
+                    <div class="lg:col-span-1">
+                        <div class="lg:sticky lg:top-2 space-y-5">
+                            <section class="bg-white p-5 sm:p-6 rounded-3xl shadow-xs border border-slate-200/80">
+                                <div class="flex items-center gap-3 border-b border-slate-100 pb-3.5 mb-4">
+                                    <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-chart-line text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-extrabold text-navy">Linimasa Pertumbuhan</h3>
+                                        <p class="text-[11px] text-slate-500">Bidang Studi Matematika</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-0 relative">${timelineHTML}</div>
+                                ${timelines.length > 0 ? `
+                                    <div class="pt-4 mt-4 border-t border-slate-100">
+                                        <button type="button" onclick="openFullTimelineModal('${pid}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-gold hover:from-amber-600 hover:to-yellow-500 text-navy font-extrabold rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-md">
+                                            <i class="fas fa-expand-arrows-alt"></i> Lihat Detail Linimasa (${timelines.length} Fase)
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </section>
                         </div>
                     </div>
                 </div>
@@ -1028,6 +1221,75 @@
 
         function closeStudentReviewModal() {
             document.getElementById('studentReviewModal').classList.add('hidden');
+        }
+
+        function openFullTimelineModal(plantId) {
+            const plant = currentGroupPlants.find(p => String(p.id_tanaman || p.tanaman_id) === String(plantId)) || currentStudentPlant;
+            if (!plant) return;
+            const timelines = Array.isArray(plant.timeline) ? plant.timeline : [];
+            if (timelines.length === 0) return;
+
+            const pengelolaLabel = currentStudentUser?.nama_lengkap || plant.pengelola || 'Kelompok Siswa';
+            const kelasLabel = currentStudentUser?.kelas_jurusan || plant.kelas || '-';
+            document.getElementById('fullTimelineTitle').innerText = `Detail Linimasa Pertumbuhan: ${plant.nama_lokal}`;
+            document.getElementById('fullTimelineSubtitle').innerText = `${plant.nama_latin} • Dikelola oleh ${pengelolaLabel} (${kelasLabel})`;
+
+            const toYmd = (raw) => {
+                if (!raw) return '';
+                const s = String(raw).trim();
+                if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+                const d = new Date(s);
+                if (!isNaN(d.getTime())) return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                return s.includes('T') ? s.split('T')[0] : s;
+            };
+            const fmtDate = (raw) => {
+                const ymd = toYmd(raw);
+                if (/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+                    const [y, m, d] = ymd.split('-').map(Number);
+                    return new Date(y, m - 1, d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                }
+                return String(raw || '-');
+            };
+            const calcDays = (s1, s2) => {
+                const d1 = new Date(toYmd(s1) || s1);
+                const d2 = new Date(toYmd(s2) || s2);
+                if (isNaN(d1.getTime()) || isNaN(d2.getTime())) return 0;
+                return Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24));
+            };
+
+            const firstDate = timelines[0]?.tanggal_observasi || timelines[0]?.tglAsli;
+            document.getElementById('fullTimelineBody').innerHTML = timelines.map((node, idx) => {
+                const rawDate = node.tanggal_observasi || node.tglAsli;
+                const prevDate = idx === 0 ? null : (timelines[idx - 1].tanggal_observasi || timelines[idx - 1].tglAsli);
+                const diffPrev = idx === 0 ? 'Fase Awal Tanam' : `+${calcDays(prevDate, rawDate)} hari dari Fase ${idx}`;
+                const cumulative = idx === 0 ? 'Hari ke-1' : `Hari ke-${calcDays(firstDate, rawDate) + 1}`;
+                return `
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
+                        <div class="w-full md:w-5/12 aspect-video bg-slate-900 relative">
+                            <img src="${node.foto_fase || node.foto || 'https://placehold.co/1280x720/d1d5db/6b7280?text=Fase'}" onerror="this.src='https://placehold.co/1280x720/d1d5db/6b7280?text=Fase'" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-navy text-gold text-xs font-extrabold px-3 py-1 rounded-full">FASE #${idx + 1}</span>
+                        </div>
+                        <div class="p-5 sm:p-6 md:w-7/12 flex flex-col justify-between space-y-3">
+                            <div>
+                                <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-2 mb-3">
+                                    <h4 class="text-base sm:text-lg font-extrabold text-navy">${node.nama_fase || node.fase}</h4>
+                                    <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">${fmtDate(rawDate)}</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200/70">${node.catatan_pertumbuhan || node.catatan || '-'}</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2 pt-2">
+                                <span class="text-xs font-extrabold text-nature bg-green-50 border border-green-200 px-3 py-1 rounded-xl"><i class="fas fa-calculator mr-1"></i>${diffPrev}</span>
+                                <span class="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl"><i class="fas fa-hourglass-half mr-1"></i>${cumulative}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('fullTimelineModal').classList.remove('hidden');
+        }
+
+        function closeFullTimelineModal() {
+            document.getElementById('fullTimelineModal').classList.add('hidden');
         }
 
         function openDeletePlantModal(plantId) {
